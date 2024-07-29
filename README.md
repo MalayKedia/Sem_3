@@ -49,14 +49,30 @@ Grading
 - Midsem:25%
 - Endsem:35%
 - Programming and Written Homeworks: 25%
-- Attendance Mandatory
-- Contact : cs215@googlegroups.com
+- Attendance Mandatory (**DX GRADE below 80%**)
+- Contact : cs215-ta@googlegroups.com
 
 ### CS 213 / CS 293 : Data Structures and Algorithms
 
 Venue : TBA
 
-Grading
+Grading: CS 213
+
+- Attendance quiz: 5% (half marks for attempt and half marks for 3+ options correct)
+- Quizzes: 25% (2 quizzes)
+- Midterm: 30% (2 hours)
+- Final: 40% (3 hours)
+
+Grading: CS 293
+
+- Attendance quiz: 5%
+- Lab exams: 25% (best 3 out of 4 lab exams)
+- Project: 20% (take home)
+
+Quiz Dates (As of now)
+- Quiz 1 : Wednesday Aug 28 08.30 am 
+- Quiz 2 : Wednesday Oct 23 08.30am 
+
 - Lab exam 1: 2024-08-23 (Week 4)
 - Lab exam 2: 2024-09-(14-22) (Midsem week; Exact date will be decided!)
 - Lab exam 3: 2024-10-18 (Week 11)
@@ -72,6 +88,16 @@ Venue : LH 102
 
 Bodhi Tree Link : https://robin.bodhi.cse.iitb.ac.in/courseware/course/59/content/multimedia/coursecontent/
 
+Grading: CS 230
 
+- SAFE quizzes: every tutorial, 15%
+- 30-min quizzes: (best 3 of 4) x 5% = 15%
+- MidSem: 30%
+- EndSem: 40%
+-  Negative marks for not being regular in watching videos, tutorials
 
+Grading: CS 231
 
+- In-Lab: 50%
+- Midsem: 20%
+- Endsem: 30%
