@@ -1,8 +1,19 @@
 # Welcome to Semester3!
 
-# TIMETABLE
+## Contents
+
+- [TIMETABLE](#timetable)
+- [Course Policies](#course-policies)
+    - [CS 228 - Logic for Computer Science](#cs-228---logic-for-computer-science)
+    - [CS 215 : Data Analysis and Interpretation](#cs-215--data-analysis-and-interpretation)
+    - [CS 213 / CS 293 : Data Structures and Algorithms](#cs-213--cs-293--data-structures-and-algorithms)
+    - [CS 230 / CS 231 : Digital Logic Design and Computer Architecture](#cs-230--cs-231--digital-logic-design-and-computer-architecture)
+
+## TIMETABLE
 [Only core courses mentioned]
-<br>
+> [!NOTE]
+> You will not be referring to this hopefully and will not blame any of the contributor for missing your extra course
+
 | Time          | 8:30 - 9:25  | 9:30 - 10:25 | 10:35 - 11:30 | 11:35 - 12:30 | 9:30 - 10:55 | 11:05 - 12:30 | 2:00 - 5:00 | 2:00 - 3:25 | 3:30 - 4:55 |
 |---------------|--------------|--------------|---------------|---------------|--------------|---------------|-------------|-------------|-------------|
 | Monday        |              | DLDCA        | DAI           | Logic         |              |               |             |             | Economics   |
@@ -11,9 +22,11 @@
 | Thursday      | DAI          | Logic        |               | DLDCA         |              |               |             |             | Economics   |
 | Friday        |              |              |               |               |              | DSA           | DSA Lab     |             |             |
 
-# Course Policies
+## Course Policies
 
-## CS228
+### CS 228 - Logic for Computer Science
+
+Venue : LA 002
 
 Grading
 - Quizzes:30%
@@ -25,7 +38,11 @@ Quiz Dates (As of now)
 - Quiz 2 : Wednesday Oct 16 08.30am 
 - Quiz  3: Wednesday Nov 6 08.30 am
 
-## CS215
+Piazza Link : https://piazza.com/iit_bombay/fall2024/cs228
+
+### CS 215 : Data Analysis and Interpretation
+
+Venue : LA 001
 
 Grading
 - In Class Quizzes:15%
@@ -33,3 +50,28 @@ Grading
 - Endsem:35%
 - Programming and Written Homeworks: 25%
 - Attendance Mandatory
+- Contact : cs215@googlegroups.com
+
+### CS 213 / CS 293 : Data Structures and Algorithms
+
+Venue : TBA
+
+Grading
+- Lab exam 1: 2024-08-23 (Week 4)
+- Lab exam 2: 2024-09-(14-22) (Midsem week; Exact date will be decided!)
+- Lab exam 3: 2024-10-18 (Week 11)
+- Lab exam 4: 2024-11-08 (Week 14)
+- Project description declared: 2024-10-13 (Week 12)
+- Project submission deadline: 2024-11-10 (Week 14)
+
+Link for all you need to know (Trust me, presently it is better than this repo for this course) : https://www.cse.iitb.ac.in/~akg/courses/2024-ds/
+
+### CS 230 / CS 231 : Digital Logic Design and Computer Architecture
+
+Venue : LH 102
+
+Bodhi Tree Link : https://robin.bodhi.cse.iitb.ac.in/courseware/course/59/content/multimedia/coursecontent/
+
+
+
+
