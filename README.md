@@ -54,7 +54,7 @@ Grading
 
 ### CS 213 / CS 293 : Data Structures and Algorithms
 
-Venue : TBA
+Venue : LA 001
 
 Grading: CS 213
 
