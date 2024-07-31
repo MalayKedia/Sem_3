@@ -103,6 +103,10 @@ Grading: CS 231
 - Midsem: 20%
 - Endsem: 30%
 
+Quiz Dates
+
+- Quiz 1 ( Digital Logic ) : Friday Aug 16 8:30 AM - 9:30 AM 
+
 
 ### SI 427 : Probability - I
 
