@@ -8,8 +8,7 @@
     - [CS 215 : Data Analysis and Interpretation](#cs-215--data-analysis-and-interpretation)
     - [CS 213 / CS 293 : Data Structures and Algorithms](#cs-213--cs-293--data-structures-and-algorithms)
     - [CS 230 / CS 231 : Digital Logic Design and Computer Architecture](#cs-230--cs-231--digital-logic-design-and-computer-architecture)
-    - [SI 427 : Probability - I](#si-427--probability---i)
-
+    
 ## TIMETABLE
 [Only core courses mentioned]
 > [!NOTE]
@@ -107,18 +106,5 @@ Quiz Dates
 
 - Quiz 1 ( Digital Logic ) : Friday Aug 16 8:30 AM - 9:30 AM 
 
-
-### SI 427 : Probability - I
-
-Venue : Math Department Room No: 114
-
-
-Grading: 
-
-- Quiz 1: 10%
-- Midsem: 30%
-- Quiz 2: 10%
-- Endsem: 50%
-- Attendance Mandatory (**DX GRADE below 80%**)
 
 
