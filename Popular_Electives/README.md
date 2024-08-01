@@ -28,3 +28,15 @@ Grading:
 - Midsem : 30%
 - Quiz 2 (25 Oct) : 20%
 - Endsem : 30%
+
+### MA 403 : Real Analysis
+
+Venue : MA 113
+
+Grading Scheme
+
+- Quiz 1 : 10 marks
+- Midsem : 25 marks
+- Quiz 2 : 10 marks
+- Endsem : 45 marks
+- Attendance : 10 marks
