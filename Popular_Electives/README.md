@@ -29,6 +29,8 @@ Grading:
 - Quiz 2 (25 Oct) : 20%
 - Endsem : 30%
 
+Course Website (Contains video lectures) : https://www.cse.iitb.ac.in/~swaprava/cs6001_07_2024.html
+
 ### MA 403 : Real Analysis
 
 Venue : MA 113
