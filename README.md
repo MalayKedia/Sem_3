@@ -86,7 +86,6 @@
 
 - Quiz 1 : Wednesday Aug 28 08.30 am
 - Quiz 2 : Wednesday Oct 23 08.30am
-
 - Lab exam 1: 2024-08-23 (Week 4)
 - Lab exam 2: 2024-09-(14-22) (Midsem week; Exact date will be decided!)
 - Lab exam 3: 2024-10-18 (Week 11)
