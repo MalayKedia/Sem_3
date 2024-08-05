@@ -52,11 +52,11 @@
 
 **Grading**:
 
-- In Class Quizzes: 15%
+- In-class quizzes: 15%
 - Midsem: 25%
 - Endsem: 35%
-- Programming and Written Homeworks: 25%
-- Attendance Mandatory (**DX GRADE below 80%**)
+- Programming and written homeworks: 25%
+- Attendance mandatory (**DX GRADE below 80%**)
 - Contact : cs215-ta@googlegroups.com
 
 **Quiz Dates**:
@@ -76,7 +76,7 @@
 - Midterm: 30% (2 hours)
 - Final: 40% (3 hours)
 
-**Grading**: [**CS 293**](CS293)
+**Grading**: **CS 293**
 
 - Attendance quiz: 5%
 - Lab exams: 25% (best 3 out of 4 lab exams)
@@ -101,7 +101,7 @@
 
 **Venue**: LH 102
 
-**Grading**: [CS 230]
+**Grading**: **CS 230**
 
 - SAFE quizzes: every lecture (for digital logic part)
 - SAFE quizzes: every tutorial, 15%
@@ -110,7 +110,7 @@
 - Endsem: 40%
 - Negative marks for not being regular in watching videos, tutorials
 
-**Grading**: CS 231
+**Grading**: **CS 231**
 
 - In-Lab: 50%
 - Midsem: 20%

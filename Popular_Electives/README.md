@@ -16,7 +16,7 @@
 - Midsem: 30%
 - Quiz 2: 10%
 - Endsem: 50%
-- Attendance Mandatory (**DX GRADE below 80%**)
+- Attendance mandatory (**DX GRADE below 80%**)
 
 ### [CS 405 : Game Theory and Algorithmic Mechanism Design](CS405)
 
