@@ -52,6 +52,10 @@ Grading
 - Attendance Mandatory (**DX GRADE below 80%**)
 - Contact : cs215-ta@googlegroups.com
 
+Quiz Dates:
+
+- Quiz 1 : Thursday Aug 8 8.30 AM (20 min)
+
 ### CS 213 / CS 293 : Data Structures and Algorithms
 
 Venue : LA 001
