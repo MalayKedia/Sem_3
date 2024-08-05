@@ -29,6 +29,7 @@
 ### [CS 228 : Logic for Computer Science](CS228)
 
 **Venue**: LA 002
+
 **Grading**:
 
 - Quizzes: 30%
