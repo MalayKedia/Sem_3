@@ -14,6 +14,7 @@
 [Only core courses mentioned]
 
 > [!NOTE]
+>
 > You will not be referring to this hopefully and will not blame any of the contributor for missing your extra course
 
 | Day       | 8:30 - 9:25 | 9:30 - 10:25 | 10:35 - 10:55 | 11:05 - 11:30 | 11:35 - 12:30 | Lunch | 2:00 - 3:25   | 3:30 - 4:55   |
@@ -30,6 +31,8 @@
 
 **Venue**: LA 002
 
+**Tutorial**: Monday 9:30 PM to 10:30 PM
+
 **Grading**:
 
 - Quizzes: 30%
@@ -38,9 +41,9 @@
 
 **Quiz Dates (As of now)**:
 
-- Quiz 1: Wednesday Aug 21 08.30 AM
-- Quiz 2: Wednesday Oct 16 08.30 AM
-- Quiz 3: Wednesday Nov 6 08.30 AM
+- Quiz 1: Wednesday Aug 21 08:30 AM
+- Quiz 2: Wednesday Oct 16 08:30 AM
+- Quiz 3: Wednesday Nov 6 08:30 AM
 
 **Course Website(s)**:
 
@@ -50,6 +53,8 @@
 
 **Venue**: LA 001
 
+**Tutorial**:
+
 **Grading**:
 
 - In-class quizzes: 15%
@@ -57,13 +62,16 @@
 - Endsem: 35%
 - Programming and written homeworks: 25%
 - Attendance mandatory (**DX GRADE below 80%**)
-- Contact : cs215-ta@googlegroups.com
+- Contact : cs215-ta@googlegroups.com or **Moodle**
 
 **Quiz Dates**:
 
-- Quiz 1 : Thursday Aug 8 8.30 AM (20 min)
+- Quiz 1 : Thursday Aug 8 8:30 AM (20 min)
 
 **Course Website(s)**:
+
+- [**Course webpage**](https://docs.google.com/document/d/1hJsh_aPXoxw60PqZGtcri7NGXg4RPfQXIgstBEEuYc4)
+- [**Moodle**](https://moodle.iitb.ac.in/course/view.php?id=3946) - All materials will be uploaded on **Moodle**, announcements via **Moodle**.
 
 ### [CS 213](CS213) / [CS 293](CS293) : Data Structures and Algorithms
 
