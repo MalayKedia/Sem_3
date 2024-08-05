@@ -93,7 +93,7 @@ Venue : LH 102
 Bodhi Tree Link : https://robin.bodhi.cse.iitb.ac.in/courseware/course/59/content/multimedia/coursecontent/
 
 Grading: CS 230
-
+- SAFE quizzes: every lecture (for digital logic part)
 - SAFE quizzes: every tutorial, 15%
 - 30-min quizzes: (best 3 of 4) x 5% = 15%
 - MidSem: 30%
