@@ -130,4 +130,4 @@
 
 **Course Website(s)**:
 
-- [**Bodhi Tree**](https://robin.bodhi.cse.iitb.ac.in/courseware/course/59)
+- [**BodhiTree**](https://robin.bodhi.cse.iitb.ac.in/courseware/course/59)
