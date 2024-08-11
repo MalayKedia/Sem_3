@@ -2,9 +2,9 @@
 
 ## Contents
 
-- [SI 427 : Probability - I](#si-427--probability---i)
-- [CS 405 : Game Theory and Algorithmic Mechanism Design](#cs-405--game-theory-and-algorithmic-mechanism-design)
-- [MA 403 : Real Analysis](#ma-403--real-analysis)
+- [**SI 427 : Probability - I**](#si-427--probability---i)
+- [**CS 405 : Game Theory and Algorithmic Mechanism Design**](#cs-405--game-theory-and-algorithmic-mechanism-design)
+- [**MA 403 : Real Analysis**](#ma-403--real-analysis)
 
 ### [SI 427 : Probability - I](SI427)
 
@@ -31,7 +31,8 @@
 
 **Course Website(s)**:
 
-- [**Instructor's Website**](https://www.cse.iitb.ac.in/~swaprava/cs6001_07_2024.html)
+- [**Instructor's Website**](https://www.cse.iitb.ac.in/~swaprava/cs6001_07_2024.html) - **EVERYTHING** can be found here.
+- [**Piazza**](https://piazza.com/iit_bombay/fall2024/cs6001cs405)
 
 ### [MA 403 : Real Analysis](MA403)
 
