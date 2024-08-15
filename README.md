@@ -1,8 +1,8 @@
 # Welcome to Semester 3!
 
-> [! CAUTION]
+> [!CAUTION]
 >
-> ## Disclaimer
+> ### Disclaimer
 >
 > This repository contains educational materials for personal and academic use only.
 > **The textbooks included are intended for study and review purposes.**
