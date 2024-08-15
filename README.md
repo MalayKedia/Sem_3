@@ -1,5 +1,16 @@
 # Welcome to Semester 3!
 
+> [! CAUTION]
+>
+> ## Disclaimer
+>
+> This repository contains educational materials for personal and academic use only.
+> **The textbooks included are intended for study and review purposes.**
+> Users are responsible for ensuring that their use of this content complies with applicable copyright laws.
+>
+> If you own the copyright to any material in this repository and believe it should not be available here,
+> please [**raise an issue**](https://github.com/MalayKedia/Sem_3/issues), and we will promptly address the issue.
+
 ## Contents
 
 - [**TIMETABLE**](#timetable)
@@ -8,6 +19,7 @@
   - [**CS 215 : Data Analysis and Interpretation**](#cs-215--data-analysis-and-interpretation)
   - [**CS 213 / CS 293 : Data Structures and Algorithms**](#cs-213--cs-293--data-structures-and-algorithms)
   - [**CS 230 / CS 231 : Digital Logic Design and Computer Architecture**](#cs-230--cs-231--digital-logic-design-and-computer-architecture)
+- [**Popular Electives**](#popular-electives)
 
 ## TIMETABLE
 
@@ -131,3 +143,10 @@
 **Course Website(s)**:
 
 - [**BodhiTree**](https://robin.bodhi.cse.iitb.ac.in/courseware/course/59)
+
+## [Popular Electives](Popular_Electives)
+
+- **CS405**
+- **SI427**
+- **MA403**
+- **SI423**
