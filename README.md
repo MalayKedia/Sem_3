@@ -123,9 +123,8 @@
 
 **Grading**: **CS 230**
 
-- SAFE quizzes: every lecture (for digital logic part)
-- SAFE quizzes: every tutorial, 15%
-- 30-min quizzes: (best 3 of 4) x 5% = 15%
+- SAFE quizzes: every lecture/tutorial, 15%
+- Quizzes: (best 3 of 4) x 5% = 15% . Note: This is for actual quizzes (not safe attendance quizzes)
 - Midsem: 30%
 - Endsem: 40%
 - Negative marks for not being regular in watching videos, tutorials
