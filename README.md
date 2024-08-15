@@ -27,7 +27,7 @@
 
 > [!NOTE]
 >
-> You will not be referring to this hopefully and will not blame any of the contributors for missing your extra course
+> You will not be referring to this, hopefully and will not blame any of the contributors for missing your extra course
 
 | Day       | 8:30 - 9:25 | 9:30 - 10:25 | 10:35 - 10:55 | 11:05 - 11:30 | 11:35 - 12:30 | Lunch | 2:00 - 3:25   | 3:30 - 4:55   |
 | --------- | ----------- | ------------ | ------------- | ------------- | ------------- | ----- | ------------- | ------------- |
@@ -143,6 +143,7 @@
 **Course Website(s)**:
 
 - [**BodhiTree**](https://robin.bodhi.cse.iitb.ac.in/courseware/course/59)
+- [**Prof. Sayandeep's Website**](https://sites.google.com/view/sayandeepsaha/home)
 
 ## [Popular Electives](Popular_Electives)
 
