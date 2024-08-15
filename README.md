@@ -142,7 +142,7 @@
 **Course Website(s)**:
 
 - [**BodhiTree**](https://robin.bodhi.cse.iitb.ac.in/courseware/course/59)
-- [**Prof. Sayandeep's Website**](https://sites.google.com/view/sayandeepsaha/home)
+- [**Prof. Sayandeep's Website**](https://sites.google.com/view/sayandeepsaha/digital-logic-and-computer-architecture-theory-lab)
 
 ## [Popular Electives](Popular_Electives)
 
