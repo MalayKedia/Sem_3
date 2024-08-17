@@ -1,0 +1,28 @@
+There are three problems in the lab:
+
+1. avg-binary/binary.cpp
+2. performance/performance.cpp
+3. alloc/alloc.cpp
+
+Read problem instructions within the files.
+
+There is a Makefile in each folder. Please read the file.
+You may use make to compile and run your code.
+
+1. For avg-binary use the following commmand
+
+$make binary
+
+2. For performance use the following commmand
+
+   $make o0
+   $make o1
+   $make o2
+   $make o3
+  
+3. For alloc use the following command
+
+  $make alloc
+
+
+This is an ungraded lab. No submission is required!

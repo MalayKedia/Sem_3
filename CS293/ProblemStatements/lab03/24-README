@@ -1,0 +1,13 @@
+Introduction
+------------
+
+In this lab, you will be playing around with the art of hashing.
+This lab is divided into two parts - the first involves implementing
+and analysing the dictionary data structure, while the second is for
+storing dictionary if there is only limited space available.
+
+Please find both the problems in folder dictionary and limited-space.
+
+Read
+- dictionary/dictionary.h
+- limited-space/limited-space.pdf
