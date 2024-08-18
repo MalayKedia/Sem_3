@@ -1,0 +1,153 @@
+$date
+	Fri Aug 16 20:23:14 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module tb_simple_counter $end
+$var wire 1 ! out $end
+$var reg 1 " clk $end
+$var reg 1 # enable $end
+$var reg 1 $ rst $end
+$scope module dut $end
+$var wire 1 " clk $end
+$var wire 1 # enable $end
+$var wire 1 $ rst $end
+$var reg 2 % nxt_state [1:0] $end
+$var reg 1 ! out $end
+$var reg 2 & state [1:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+bx &
+bx %
+0$
+x#
+1"
+x!
+$end
+#5000
+0"
+#10000
+0!
+b1 %
+b0 &
+1"
+1$
+#15000
+0"
+#20000
+1"
+0$
+#25000
+0"
+#30000
+b10 %
+b1 &
+1"
+1#
+#35000
+0"
+#40000
+b11 %
+b10 &
+1"
+#45000
+0"
+#50000
+1!
+b0 %
+b11 &
+1"
+#55000
+0"
+#60000
+0!
+b1 %
+b0 &
+1"
+#65000
+0"
+#70000
+b10 %
+b1 &
+1"
+#75000
+0"
+#80000
+b11 %
+b10 &
+1"
+#85000
+0"
+#90000
+1!
+b0 %
+b11 &
+1"
+#95000
+0"
+#100000
+0!
+b1 %
+b0 &
+1"
+#105000
+0"
+#110000
+b10 %
+b1 &
+1"
+#115000
+0"
+#120000
+b11 %
+b10 &
+1"
+#125000
+0"
+#130000
+1!
+b0 %
+b11 &
+1"
+#135000
+0"
+#140000
+0!
+b1 %
+b0 &
+1"
+#145000
+0"
+#150000
+b10 %
+b1 &
+1"
+#155000
+0"
+#160000
+b11 %
+b10 &
+1"
+#165000
+0"
+#170000
+1!
+b0 %
+b11 &
+1"
+#175000
+0"
+#180000
+0!
+b1 %
+b0 &
+1"
+#185000
+0"

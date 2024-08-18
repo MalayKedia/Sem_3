@@ -1,0 +1,24 @@
+#! /usr/bin/vvp
+:ivl_version "11.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/system.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2005_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/va_math.vpi";
+S_0x56f6fb1991c0 .scope module, "test" "test" 2 1;
+ .timescale 0 0;
+    .port_info 0 /INPUT 64 "X";
+    .port_info 1 /OUTPUT 16 "Z";
+P_0x56f6fb1bd540 .param/l "M" 0 2 1, +C4<00000000000000000000000000000100>;
+P_0x56f6fb1bd580 .param/l "N" 0 2 1, +C4<00000000000000000000000000010000>;
+o0x797ecb891018 .functor BUFZ 64, C4<zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz>; HiZ drive
+v0x56f6fb199420_0 .net "X", 63 0, o0x797ecb891018;  0 drivers
+L_0x797ecb5b7018 .functor BUFT 1, C4<0000000000000000>, C4<0>, C4<0>, C4<0>;
+v0x56f6fb1dffb0_0 .net "Z", 15 0, L_0x797ecb5b7018;  1 drivers
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "test.v";
