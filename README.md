@@ -146,6 +146,7 @@
 
 ## [Popular Electives](Popular_Electives)
 
+- **IE501**
 - **CS405**
 - **SI427**
 - **MA403**
