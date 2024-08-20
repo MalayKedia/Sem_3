@@ -1,0 +1,19 @@
+Choose capacity: 1 2 3 4 5 
+Size: 5
+Capacity: 8
+1 2 3 4 5 
+Size: 5
+Capacity: 8
+1 2 3 4 5 6 
+capacity: 8
+capacity: 8
+Popped: 1
+Peek: 2
+Popped: 2
+Peek: 3
+Popped: 3
+Peek: 4
+Popped: 4
+Peek: 5
+Popped: 5
+Peek: 6

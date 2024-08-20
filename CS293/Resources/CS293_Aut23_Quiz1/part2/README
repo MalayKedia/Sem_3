@@ -1,0 +1,42 @@
+In part two, we have a single problem. 
+
+Problem 3:
+----------
+
+1. Objective:
+
+Given a string containing just the characters '(' and ')',
+return the length of the longest valid (well-formed) parentheses
+substring.
+
+Example 1:
+  Input: s = "(()"
+  Output: 2
+Explanation: The longest valid parentheses substring is "()".
+
+Example 2:
+  Input: s = ")()())"
+  Output: 4
+
+Explanation: The longest valid parentheses substring is "()()".
+
+
+2. File and Function Name:
+Modify C++ source file named `long.cpp` to implement the solution.
+
+3. Efficient Implementation: Your implementation should be efficient,
+with both time and space complexity linear in the size of the loaded tree.
+
+4. Test Compilation: Compile your solution and run it on a test suite
+using the provided command.
+
+$make longtest
+
+Evaluation
+----------
+
+We will copy the following file to separate folders to test. We will
+ignore changes to any other file. We will also delete all include
+files other than the ones we placed in the files. 
+
+- long.cpp

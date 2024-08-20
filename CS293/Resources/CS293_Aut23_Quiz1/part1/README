@@ -1,0 +1,118 @@
+There are two problmes in part 1 of lab exam.
+
+
+Problem 1: Determine if a Tree is a Binary Search Tree (BST)
+-------------------------------------------
+
+Instructions:
+
+1. Objective: The goal of this problem is to write a function that
+checks whether a given binary tree is a binary search tree (BST) or not.
+
+2. File and Function Name: Modify C++ source file named `isbst.cpp`
+to implement the solution.
+
+3. Efficient Implementation: Your implementation of the `isBST` function
+should be efficient, with both time and space complexity linear in the
+size of the loaded tree.
+
+4. Provided Files: You are provided with four files:
+   - bst.h     : Defines the structure of a BST.
+   - bst.cpp   : Provides utilities for creating and manipulating binary trees.
+   - isbst.cpp : You will write your solution in this file.
+   - rotate.cpp: You will write your solution in this file [next problem].
+
+5. Function to Implement: Implement the `isBST` member function that returns
+a Boolean value indicating whether the tree is a valid BST.
+
+6. Test Compilation: Compile your solution and run it on a test suite using the provided command.
+
+$make isbst
+
+7. Interactive and Automated Mode: Your code should be capable of being
+ driven by both interactive and automated modes as needed by `main.cpp`.
+
+Problem 2: Implement Tree Rotation in a Binary Search Tree (BST)
+-------------------------------------------------
+
+Tree Rotation:
+
+In a Binary Search Tree (BST), a rotation transformation can be applied
+to maintain the BST property.
+
+The transformation works as follows:
+
+- Given a node 'y' and its parent 'x' in the BST:
+
+    /
+   x
+  / \
+ a   y    
+    / \
+   b   c
+   
+- The transformation rotates the tree so that 'y' becomes the parent of 'x':
+     /
+    y
+   / \
+  x   c    
+ / \
+a   b
+
+- It's important to note that 'y' can also be the left child of 'x'. In that
+case, a symmetric transformation is applied.
+
+
+Instructions:
+
+1. Objective: The objective of this problem is to implement a rotation
+transformation on a node with key 'y' in a Binary Search Tree (BST).
+
+NOTE:
+Your implementation should apply a rotation to the BST only if the following holds:
+(height of y->parent in the original tree) < (height of y in the transformed tree).
+
+For the notation given above, this translates to a rotation if (ORIGINAL height of x) is
+less than (NEW height of y). The same condition will apply if y is the left child of x.
+Note that "a", "b" and "c" could denote a NULL pointer, a single node, or even a sub-tree.
+
+If this condition does not hold, the BST should remain UNCHANGED.
+
+2. File and Function Name: Modify the C++ source file named `rotate.cpp` to
+implement the solution for this problem.
+
+3. Efficient Implementation: Your implementation of the `rotate` function
+should be efficient, considering both time and space complexity.
+
+4. Provided Files: You have been provided with the following files:
+   - `bst.h`: Defines the structure of a Binary Search Tree (BST).
+   - `bst.cpp`: Provides utilities for creating and manipulating binary trees.
+   - `rotate.cpp`: Write your solution for this problem in this file.
+
+5. Function to Implement: Implement the `rotate` member function that takes
+a key value 'y' as input. This function performs a rotation on the tree at
+the node that has the key 'y'. The function returns true if there is a
+modification of the tree structure, otherwise it returns false.
+
+6. Test Compilation: Compile your solution using the provided command and
+   test it against a suite of test cases.
+   $ make rotate
+
+7. Interactive and Automated Mode: Your implemented code should be able
+  to run both in interactive and automated modes as required by the `main.cpp`.
+
+
+Evaluation
+----------
+
+We will copy the following files to separate folders to test. Changes
+to any other files will be ignored. We will also delete all include files
+other than the one we placed in the files. 
+
+- isbst.cpp
+- rotate.cpp
+
+
+
+
+

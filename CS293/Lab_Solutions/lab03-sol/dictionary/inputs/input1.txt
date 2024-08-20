@@ -1,0 +1,6 @@
+INS this 10
+INS this 15
+DEL this
+DEL this
+DEL this
+QUIT
