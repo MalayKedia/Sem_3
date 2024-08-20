@@ -12,7 +12,7 @@
 
 **Grading**:
 
-- Quiz 1: 10%
+- Quiz 1: 10% (28th August, Wednesday)
 - Midsem: 30%
 - Quiz 2: 10%
 - Endsem: 50%
