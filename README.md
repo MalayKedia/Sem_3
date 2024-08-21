@@ -11,6 +11,8 @@
 > If you own the copyright to any material in this repository and believe it should not be available here,
 > please [**raise an issue**](https://github.com/MalayKedia/Sem_3/issues), and we will promptly address the issue.
 
+### [Link to Damp Resources](https://iitbacin.sharepoint.com/:f:/s/DAMP_Resources_CSE/EmdYbWG7Y4tAhZ8izig5k5kBtvgFoi8SFLluyZTfgFWuOw)
+
 ## Contents
 
 - [**TIMETABLE**](#timetable)
