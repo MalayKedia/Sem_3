@@ -1,0 +1,20 @@
+Introduction
+------------
+
+In this lab, you will learn to deal with trees.
+
+The first problem is about finding the least common ancestor.
+
+The second problem is an easier problem but involves a tree that
+can have arbitrary nodes.
+
+The third problem is about inserting in red-black tree.
+
+Please try to get the first two done.
+
+Read
+1. lca/lca.cpp
+
+2. is-valid-bst/is_valid_bst.h and is-valid-bst/employee.h
+
+3. rb/rb.h      [optional]
