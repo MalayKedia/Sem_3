@@ -5,8 +5,7 @@
 - [**SI 427 : Probability - I**](#si-427--probability---i)
 - [**CS 405 : Game Theory and Algorithmic Mechanism Design**](#cs-405--game-theory-and-algorithmic-mechanism-design)
 - [**MA 403 : Real Analysis**](#ma-403--real-analysis)
-- [**SC 639 : Mathematical Strucuture of COntrol**](sc-639--mathematical-strucutre-of-control)
-
+- [**SC 639 : Mathematical Strucuture of Control**](#sc-639--mathematical-structures-for-control)
 
 ### [SI 427 : Probability - I](SI427)
 
@@ -53,13 +52,12 @@
 **Venue**: LC 301
 
 **Grading**:
-- Assignments: 35%
-- 4 Quizzes:   45%
-- Project:     20%
 
-**Resource Links**:
+- Assignments: 35%
+- 4 Quizzes: 45%
+- Project: 20%
+
+**Course Website(s)**:
+
 - [**Course slides**](https://drive.google.com/drive/folders/16ZlC_WXj_JKEirrDAkVgHlnZ_T6YB3GK)
 - [**Course Vidoe Lectures**](https://drive.google.com/drive/folders/1yPhsb_7XouhvQgezquG4PoOJ6YZELkKv)
-
-
-
