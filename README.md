@@ -58,6 +58,7 @@
 - Quiz 1: Wednesday Aug 21 08:30 AM
 - Quiz 2: Wednesday Oct 16 08:30 AM
 - Quiz 3: Wednesday Nov 6 08:30 AM
+- Midsem : Thursday Sep 19 01:30 PM
 
 **Course Website(s)**:
 
@@ -81,6 +82,7 @@
 **Quiz Dates**:
 
 - Quiz 1 : Thursday Aug 8 8:30 AM (20 min)
+- Midsem : Wednesday Sep 18 1:30 PM
 
 **Course Website(s)**:
 
@@ -112,8 +114,11 @@
 - Lab exam 2: 2024-09-(14-22) (Midsem week; Exact date will be decided!)
 - Lab exam 3: 2024-10-18 (Week 11)
 - Lab exam 4: 2024-11-08 (Week 14)
+- Theory Midsem : Saturday Sep 21 1:30 PM
 - Project description declared: 2024-10-13 (Week 12)
 - Project submission deadline: 2024-11-10 (Week 14)
+
+  
 
 **Course Website(s)**:
 
@@ -140,6 +145,9 @@
 **Quiz Dates**:
 
 - Quiz 1 ( Digital Logic ) : Friday Aug 16 8:30 AM - 9:30 AM
+- Quiz 2 (Computer Architecture) : Thursday Sep 12 11:30 AM
+- Theory Midsem : Tuesday Sep 17 1:30 PM
+- Lab Midsem : Tuesday Sep 24 2:00 PM - 5:00 PM 
 
 **Course Website(s)**:
 
