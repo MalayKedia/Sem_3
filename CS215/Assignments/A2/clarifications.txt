@@ -1,0 +1,5 @@
+In Q4E, the Xi are iid Bernoulli random variables. It is true that the result holds in general, as can be shown by Chebyshev; however, we only require a proof via Chernoff of the Bernoulli case.
+
+Also, in P4B, Chebyshev-Cantelli, there is no modulus. You just need to establish 
+P[X - mu ≥ t] ≤ s²/(s² + t²).
+s = \sigma, t = \tau.
