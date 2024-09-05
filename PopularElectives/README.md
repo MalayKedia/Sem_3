@@ -56,3 +56,10 @@
 - Assignments: 35%
 - 4 Quizzes:   45%
 - Project:     20%
+
+**Resource Links**:
+- [**Course slides**](https://drive.google.com/drive/folders/16ZlC_WXj_JKEirrDAkVgHlnZ_T6YB3GK)
+- [**Course Vidoe Lectures**](https://drive.google.com/drive/folders/1yPhsb_7XouhvQgezquG4PoOJ6YZELkKv)
+
+
+
