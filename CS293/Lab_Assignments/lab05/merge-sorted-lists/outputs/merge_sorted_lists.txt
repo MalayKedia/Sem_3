@@ -1,0 +1,14 @@
+Nikhil 11 143.8
+Siddhi 69 150.8
+Aryan 15 155
+Ankita 18 160.1
+Harshita 110 165.5
+Sanjana 89 168.5
+Suresh 115 170
+Jaagruthi 9 171.1
+Arjun 117 175.5
+Preetham 58 176.5
+Siddharth 13 185.9
+Subash 120 187.2
+Shashwat 20 189.3
+Sandeep 97 190.8

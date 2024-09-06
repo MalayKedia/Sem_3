@@ -1,0 +1,20 @@
+Introduction
+------------
+
+In this lab, you will learn to deal with heap.
+
+The first problem is about implementing the heap as we discussed in the lectures.
+
+The second problem is a twist on the heap: You will implement a heap that supports any data type. Furthermore, we will implement efficient merging of sorted lists using a heap.
+
+The third problem also needs a heap for efficient implementation.
+
+Please try to get the first two done.
+
+Read
+1. heap/heap.cpp
+
+2. merge-sorted-lists/heap.h, merge-sorted-lists/student.h,  and merge-sorted-lists/merge-sorted-lists.h
+
+3. ropes/README      [optional]
+

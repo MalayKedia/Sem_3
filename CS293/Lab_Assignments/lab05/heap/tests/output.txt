@@ -1,0 +1,20 @@
+Input container:9383 886 2777 6915 7793 8335 5386 
+Input as a tree:
+|__9383
+    |--886
+    │   |--6915
+    │   |__7793
+    |__2777
+        |--8335
+        |__5386
+After transcformation to heap:
+|__9383
+    |--7793
+    │   |--6915
+    │   |__886
+    |__8335
+        |--2777
+        |__5386
+Swaps for build heap: 2
+Swaps for deleteMax: 14
+Sorted container:886 2777 5386 6915 7793 8335 9383 
