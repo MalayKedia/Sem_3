@@ -3,3 +3,22 @@ In Q4E, the Xi are iid Bernoulli random variables. It is true that the result ho
 Also, in P4B, Chebyshev-Cantelli, there is no modulus. You just need to establish 
 P[X - mu ≥ t] ≤ s²/(s² + t²).
 s = \sigma, t = \tau.
+
+
+More clarifications following doubts asked, and a few other pointers about A2. Please read till the end.
+
+(Clarifications)
+- Q3D, subtask 3: plot the "binomial distribution Bin(k*, \theta*)" -> plot the "Gamma distribution Gamma(k*, \theta*)". I suppose that was clear, but pointing it out for completeness. Also, please read subpart 3 carefully, there is a nuance in calling the gamma.pdf funcion; don't call it spicy.stats.gamma.pdf incorrectly!
+- Q3C,D,F: fsolve requires initial values, whose choice may determine which solution it converges to. As long as you choose initial parameters roughly near what you believe would be close to a good solution, any solution it converges to is alright. Try different choices and see what maximizes likelihood.
+- Q2C: only the second subfigure in Figure 1 of a2.pdf is to be reproduced.
+- Q4B: In Chebyshev-Cantelli, there is no modulus. You just need to establish that P[X - μ ≥ τ] ≤ σ²/(σ² + τ²).
+- Q4E: the X_i are iid Bernoulli random variables, since Chernoff was proved only for the case.
+- Questions 1, 4, and 5 have no code necessary.
+
+(Misc)
+- In case you are submitting hand-written solutions, and wish to use more space than provided; please tell us so below the assigned space for each such question, and attach all extra work at the end after all the questions.
+- Please submit exactly as per the submission instructions; please unzip your submission and check that the format matches. Also make sure the question file is not there in the submission. For those of you running MacBooks, please remove the .DS_Store and __MACOSX metadata files before submission. Following these streamlines our grading a lot. Thanks!
+
+Thanks for the questions. Hopefully the assignment is progressing fine; please feel free to ask any more questions.
+
+REMINDER: the hints will be released one minute after 11.59pm, 9/9/24 (so at midnight, between Monday and Tuesday). Submit by Monday to gain the free 10 points for not using the hints!
