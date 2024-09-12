@@ -1,0 +1,151 @@
+
+<!-- saved from url=(0052)https://www.cs.uic.edu/~troy/spring04/cs366/mp1.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>CS 366 - First SPIM Programming Assignment</title>
+</head>
+
+<body>
+<h2>CS 366 - First SPIM Programming Assignment</h2>
+
+Due: Monday, February 2, 2004 at 11:59 pm
+<p>
+For this assignment, we will decode three different values 
+from a integer value received from input.  The decoding
+is done based on the following information:
+</p><ul>
+<li>The first 7 bits of the original value will
+be used to store an ASCII character value in the numeric range from
+0 to 127.  The "first 7 bits are the seven least significant bits
+at positions 6 through 0.
+
+</li><li>The next 5 bits (position 11 through 7) of the original value will
+be used to store a signed integered value in the range from -16 to
++15.  Treat these bits as a signed 5-bit integer value using two's
+complement representation. 
+If the bits are all zeros, the decoded value will be zero.
+If these bits are all ones, the decoded value will be -1.
+If these bits are "01111", the decoded value will be +15.
+If these bits are "10000", the decoded value will be -16.
+
+</li><li>The next 6 bits (position 17 through 12) of the original value will be used
+to store a integer value in the range from 0 to 63.  
+Treat these bits as an unsigned 6-bit integer value.
+If these bits are all zeros, the decoded value will be zero.
+If these bits are all ones, the decoded value will be 63.
+
+</li><li>Bits 30 through 18 are not used with the decoding, so the values of 
+these bits do not matter.
+
+</li><li>The most significant bit (position 31) is used to stop the execution
+of the program.
+</li></ul>
+<p>
+Your program is to first print out your name, netid (user id on icarus)
+and your CS account user id.  This will help identify you for grading.
+Your program is to prompt the user to enter in the integer input.
+If a negative integer is entered, print some appropriate message and quit 
+the program. 
+For a non-negative integer input, print a message that clearly showing the 
+three decoded values.
+When printing the ASCII character value, print out the actual character 
+when possible.
+If the character is a non-printable character, print out a message stating 
+the character is
+non-printable and print out the numeric value of the ASCII character.
+Your program is to continue prompting, reading and decoding integer 
+values until a negative value is entered (i.e loop back to the statement
+where you prompt for input).  
+</p><p>
+The programs will be graded based on how they execute on <b>xspim running in 
+the CS Department computers</b>.  You are to submit your program electronically 
+using the the <b>turnin</b> command with the project name of <b>mp1</b>.
+Your program must be well commented and use blank
+lines to separate logical sections of your code.
+</p><p>
+</p><h2>Alternative Register Names in SPIM</h2>
+<table border="1">
+<caption>This is from Figure 9.9 in the Goodman&amp;Miller text</caption>
+<tbody><tr><th>Register Name</th><th>Alternative Name</th><th>Description
+</th></tr><tr><td>$0</td><td></td><td>the value 0
+</td></tr><tr><td>$1</td><td>$at</td><td>reserved by the assembler
+</td></tr><tr><td>$2 - $3</td><td>$v0 - $v1</td><td>expression evaluation and function results
+</td></tr><tr><td>$4 - $7</td><td>$a0 - $a3</td><td>the first four parameters -<br>
+&nbsp;&nbsp;not preserved across procedure calls
+</td></tr><tr><td>$8 - $15</td><td>$t0 - $t7</td><td>temporaries -<br>
+&nbsp;&nbsp;not preserved across procedure calls
+</td></tr><tr><td>$16 - $23</td><td>$s0 - $s7</td><td>saved values -<br>
+&nbsp;&nbsp;preserved across procedure calls
+</td></tr><tr><td>$24 - $25</td><td>$t8 - $t9</td><td>temporaries -<br>
+&nbsp;&nbsp;not preserved across procedure calls
+</td></tr><tr><td>$26 - $27</td><td>$k0 - $k</td><td>reserved for use by the operating system
+</td></tr><tr><td>$28</td><td>$gp</td><td>global pointer
+</td></tr><tr><td>$29</td><td>$sp</td><td>stack pointer
+</td></tr><tr><td>$30</td><td>$s8</td><td>saved value -<br>
+&nbsp;&nbsp;preserved across procedure calls
+</td></tr><tr><td>$31</td><td>$ra</td><td>return address
+</td></tr><tr><td>$f0 - $f2</td><td></td><td>floating point function results
+</td></tr><tr><td>$f4 - $f10</td><td></td><td>temporaries -<br>
+&nbsp;&nbsp;not preserved across procedure calls
+</td></tr><tr><td>$f12 - $f14</td><td></td><td>the first two floating point parameters -<br>
+&nbsp;&nbsp;not preserved across procedure calls
+</td></tr><tr><td>$f16 - $18</td><td></td><td>temporaries -<br>
+&nbsp;&nbsp;not preserved across procedure calls
+</td></tr><tr><td>$f20 - $f30</td><td></td><td>saved values -<br>
+&nbsp;&nbsp;preserved across procedure calls
+</td></tr></tbody></table>
+
+<p>
+</p><h2>Input and Output in SPIM</h2>
+I/O is done in SPIM using the <b>syscall</b> opcode.  For 
+each I/O operation, a specific value is placed in the $2 register
+(also referred to as $v0).  Depending on the I/O operation to be
+performed, other registers may be involved.  The following table
+lists the possible <b>syscall</b> services.
+
+<table border="1">
+<tbody><tr><th>Service</th><th>System Call Code<br>placed in $2/$v0</th><th>Arguments
+	</th><th>Results
+</th></tr><tr><td>print_int</td><td>1</td><td>$a0 = integer</td><td>
+</td></tr><tr><td>print_float</td><td>2</td><td>$f12 = float</td><td>
+</td></tr><tr><td>print_double</td><td>3</td><td>$f12 = double</td><td>
+</td></tr><tr><td>print_string</td><td>4</td><td>$a0 = address of string</td><td>
+</td></tr><tr><td>read_int</td><td>5</td><td></td><td>integer (in $v0)
+</td></tr><tr><td>read_float</td><td>6</td><td></td><td>float (in $f0)
+</td></tr><tr><td>read_double</td><td>7</td><td></td><td>double (in $f0)
+</td></tr><tr><td>read_string</td><td>8</td><td>$a0 = address of string buffer<br>
+			  $a1 = length of string buffer</td><td>
+</td></tr><tr><td>sbrk</td><td>9</td><td>$a0 = amount</td><td>address (in $v0)
+</td></tr><tr><td>exit</td><td>10</td><td></td><td>
+</td></tr></tbody></table>
+<ul>
+<li>The print_string service expects the address to start a null-terminated
+character string.  The directive <b>.asciiz</b> creates a null-terminated
+character string.
+</li><li>The read_int, read_float  and read_double services read an
+entire line of input up to and including the newline character.
+</li><li>The read_string service has the same semantices as the C
+library routine <i>fgets()</i>.
+<ul>
+<li>It reads up to n-1 characters into a buffer and terminates the string
+with a null character.
+</li><li>If fewer than n-1 characters are in the current line, it reads up to 
+and including the newline and terminates the string with a null character.
+</li></ul>
+</li><li>The sbrk service returns the address to a block of memory containing
+n additional bytes.  This would be used for dynamic memory allocation.
+</li><li>The exit service stops a program from running.
+</li></ul>
+<a href="https://www.cs.uic.edu/~troy/spring04/cs366/ex2.html">View Spim Input/Output Example Program</a> or
+<a href="https://www.cs.uic.edu/~troy/spring04/cs366/ex2.s">download Spim Input/Output Example Program</a>.
+<p>
+The following special characters are used with character strings
+in SPIM.  The special characters follow the C language convention:
+<table border="1">
+<tbody><tr><th>Character</th><th>Encoding Sequence
+</th></tr><tr><td>Newline</td><td>\n
+</td></tr><tr><td>Tab</td><td>\t
+</td></tr><tr><td>Double quote</td><td>\"
+</td></tr></tbody></table>
+
+
+</p></body></html>
