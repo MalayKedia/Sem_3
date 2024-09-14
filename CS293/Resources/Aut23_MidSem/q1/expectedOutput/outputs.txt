@@ -1,0 +1,10 @@
+LCA is: 2
+LCA is: 2
+LCA is: 11
+LCA is: 4
+LCA doesn't exist
+LCA is: 29
+LCA is: 143
+LCA is: 121
+LCA is: 4
+LCA is: 360

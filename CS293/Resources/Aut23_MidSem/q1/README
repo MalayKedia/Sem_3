@@ -1,0 +1,37 @@
+************************************ Problem 1 ************************************ 
+
+DO NOT CHANGE ANYTHING IN FILES EXCEPT findlca.cpp AS WE WILL ONLY TAKE YOUR findlca.cpp FILE FOR EVALUATION.
+
+
+Recall the definition of least common ancestor (LCA) from class and tutorial. 
+Given a binary tree T and two nodes a and b, the LCA of a and b is the node v 
+such that v is an ancestor of both a and b, and v is the lowest node with this property. 
+For example, in the tree below, the LCA of nodes 4 and 5 is node 2, and the LCA of nodes 4 and 6 is node 1.
+Tree:
+    1
+   / \
+  2   3
+ / \ / \
+4  5 6  7
+
+0. We already discussed the algorithm to find LCA in tutorial.
+1. Complete the function findlca(a, b) in findlca.cpp that takes pointer to two nodes a and b, and returns the pointer to LCA node of a and b.
+   Check the file "tree.h" to understand what fnctionalities are available for the TREE class and TreeNode.
+2. The given tree is not necessarily a binary search tree. You may assume that both a and b are in the same tree if they are not NULL.
+3. You have been provided with 10 sample testcases in testLCA folder. These testcases by no means cover all possible testcases. 
+   You are encouraged to write your own testcases to test your code.
+4. Check for all possible corner cases.
+5. Note that there is no constraint on the number of nodes in the tree. 
+6. However, you may assume that all keys in a tree are distinct.
+7. To test your code, run the following commands:
+    For auto-testing on given testcases:
+    - make findlca
+    For interactive testing:(look at what all interactive commands are allowed in main.cpp)
+    - make interactive
+8. Note that in testLCA folder, tree is given in tree<i>.txt file whereas label of nodes a and b separated by space are given in keys<i>.txt file. 
+9. The expected output from all 10 testcases is given in expectedOutput/outputs.txt file. 
+10.For example, for testcase 1, the tree is given in testLCA/tree1.txt, label of nodes a and b are given in testLCA/keys1.txt and the expected output is line 2 in expectedOutput/outputs.txt.
+
+
+Note:
+We are looking for solution that has most efficient running time in case of balanced trees.
