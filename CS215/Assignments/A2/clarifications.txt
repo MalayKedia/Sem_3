@@ -15,6 +15,8 @@ More clarifications following doubts asked, and a few other pointers about A2. P
 - Q4E: the X_i are iid Bernoulli random variables, since Chernoff was proved only for the case.
 - Questions 1, 4, and 5 have no code necessary.
 
+Q2E (bonus), subpart 2 has a typo. The correct probability P_h[X = 2i] is 1/√(pi k) exp(- i²/k). Essentially, h in the problem statement is replaced everywhere by k = h/2.
+
 (Misc)
 - In case you are submitting hand-written solutions, and wish to use more space than provided; please tell us so below the assigned space for each such question, and attach all extra work at the end after all the questions.
 - Please submit exactly as per the submission instructions; please unzip your submission and check that the format matches. Also make sure the question file is not there in the submission. For those of you running MacBooks, please remove the .DS_Store and __MACOSX metadata files before submission. Following these streamlines our grading a lot. Thanks!
