@@ -1,0 +1,80 @@
+#!/bin/sh
+# Exercise timestamps.
+
+# Copyright 2016-2023 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# limit so don't run it by default.
+
+. "${srcdir=.}/init.sh"; path_prepend_ ..
+
+TZ=UTC0
+export TZ
+oldIFS=$IFS
+
+# On platforms supporting timestamps outside gzip's range,
+# test that gzip warns when converting them to gzip format.
+for time_date in \
+    '190101010000~Jan  1  1901' \
+    '196912312359.59~Dec 31  1969' \
+    '197001010000~Jan  1  1970' \
+    '210602070628.16~Feb  7  2106'
+do
+  IFS='~'
+  set $time_date
+  time=$1
+  date=$2
+  IFS=$oldIFS
+  if touch -t $time in; then
+    ls_l=$(ls -l in)
+    case $ls_l in
+      *"$date"*) returns_ 2 gzip in || fail=1;;
+    esac
+  fi
+  rm -f in.gz in
+done
+
+# Test that timestamps in range for gzip do not generate warnings.
+for time_date in \
+    '197001010000.01~Jan  1  1970' \
+    '203801190314.07~Jan 19  2038' \
+    '203801190314.08~Jan 19  2038' \
+    '210602070628.15~Feb  7  2106'
+do
+  IFS='~'
+  set $time_date
+  time=$1
+  date=$2
+  IFS=$oldIFS
+  if touch -t $time in; then
+    ls_l=$(ls -l in)
+    case $ls_l in
+      *"$date"*) gzip in || fail=1;;
+    esac
+  fi
+  rm -f in.gz in
+done
+
+# Test that gzip succeeds when converting timestamps from gzip format,
+# or warns that the timestamp is out of time_t range.
+printf '\037\213\10\0\377\377\377\377\0\377\3\0\0\0\0\0\0\0\0\0' >y2106.gz ||
+  framework_failure_
+gzip -Nlv <y2106.gz
+status=$?
+test $status -eq 0 || test $status -eq 2 || fail=1
+
+# Ensure that --no-name does not provoke a timestamp warning.
+: | gzip --no-name > k || fail=1
+
+Exit $fail

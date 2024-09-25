@@ -1,0 +1,32 @@
+#!/bin/sh
+# Test end-of-block check in unpack code
+
+# Copyright 2017-2023 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# limit so don't run it by default.
+
+. "${srcdir=.}/init.sh"; path_prepend_ ..
+
+printf banana >exp || framework_failure_
+hex_printf_ '\x1f\x1e\x00\x00\x00\x06\x03\x01\x01\x00\x61\x6e\x62\x16\xc8' \
+  > test.z || framework_failure_
+
+fail=0
+gzip -dc test.z > out 2> err || fail=1
+
+compare exp out || fail=1
+compare /dev/null err || fail=1
+
+Exit $fail

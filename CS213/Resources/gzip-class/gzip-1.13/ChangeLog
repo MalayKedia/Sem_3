@@ -1,0 +1,3362 @@
+2023-08-19  Jim Meyering  <meyering@meta.com>
+
+	version 1.13
+	* NEWS: Record release date.
+
+	maint: remove use gnulib's deprecated stdalign module
+	* bootstrap.conf (gnulib_modules): Remove deprecated stdalign.
+	It was not directly used.
+
+	build: update gnulib to latest; also update bootstrap and tests/init.sh
+
+2023-06-24  Jim Meyering  <meyering@meta.com>
+
+	build: update gnulib to latest
+
+2023-06-24  Bruno Haible  <bruno@clisp.org>
+
+	build: Ensure that makeinfo ≥ 6.8 checks the @menu structure.
+	See <https://lists.gnu.org/archive/html/bug-texinfo/2023-06/msg00015.html>.
+
+	* doc/Makefile.am (MAKEINFO): New variable.
+	* cfg.mk (_makefile_at_at_check_exceptions): New variable.
+
+2023-06-24  Jim Meyering  <meyering@fb.com>
+
+	build: modernize bootstrap prerequsite tools
+	Following Pádraig Brady's example from coreutils, ...
+	* bootstrap.conf: Add an explicit requirement on m4.
+	Add an explicit requirement on texi2pdf -- often packaged separately
+	rather than with makeinfo -- its absence would otherwise induce a
+	failure late in the build process.
+	Also, add an xz requirement and a version for autopoint.
+
+2023-06-16  Paul Eggert  <eggert@cs.ucla.edu>
+
+	doc: minor tuneup of man page
+	From suggestions by Bjarni Ingli Gislason (bug#64118).
+
+2023-04-11  Bruno Haible  <bruno@clisp.org>
+
+	tests: Fix a test failure.
+	* tests/write-error: Make executable. Skip the test if we're running as root.
+
+2023-04-07  Jim Meyering  <meyering@fb.com>
+
+	gzip: improve a write-failure diagnostic
+	* gzip.c (create_outfile): Call write_error, not progerror,
+	so failure to open for writing gives a better diagnostic:
+	  gzip: failed to write d/f.gz: Permission denied
+	rather than this:
+	  gzip: d/f.gz: Permission denied
+	* tests/write-error: New file, to test for this.
+	* tests/Makefile.am (TESTS): Add the file name.
+	Reported in https://bugs.gnu.org/16876.
+
+2023-04-07  Jim Meyering  <meyering@meta.com>
+
+	build: update gnulib to latest
+
+2023-02-04  Jim Meyering  <meyering@meta.com>
+
+	maint: prefer https: to git:
+	The idea is to defend against some adversary-in-the-middle attacks.
+	Also prefer git.savannah.gnu.org over its shorter alias, git.sv.gnu.org
+	to avoid a warning e.g., from git clone.
+	Also, drop any final ".git" suffix on the resulting URIs.
+	Inspired by Paul Eggert's nearly identical changes to coreutils.
+
+2023-02-03  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zless: improve gzip failure checking
+	* zless.in: Use --show-preproc-error if available.
+
+	gzip: fix exit status on broken pipe
+	Fix gzip to behave like cat etc. when outputting to a broken pipe:
+	i.e., exit with nonzero status if SIGPIPE is ignored, and be
+	terminated by SIGPIPE otherwise.
+	* NEWS: Mention this.
+	* gzip.c: Do not install signal handlers unless creating an output
+	file, for which signal handlers are needed.  This avoids gzip
+	having to deal with signal handlers when outputting to stdout.
+	(exiting_signal): Remove.  All uses removed.
+	(main): Do not install signal handlers at first.
+	(create_outfile): Instead, install them only when needed.
+	(finish_up_gzip): New function, which generalizes abort_gzip.
+	(abort_gzip): Use it.
+	* tests/pipe-output: New test.
+	* tests/Makefile.am (TESTS): Add it.
+	* util.c (EPIPE): Default to 0.
+	(write_error): Just warn if it is a pipe error, and suppress that
+	warning if quiet.  In any event exit with status 2 (warning),
+	not status 1 (error).
+	* zgrep.in: Treat gzip status 141 like status 2;
+	it is a broken pipe either way.
+
+	doc: document exit status
+	* doc/gzip.texi: Document exit status.
+
+2023-01-30  Bruno Haible  <bruno@clisp.org>
+
+	Don't require 'rsync' as a prerequisite. It is no longer needed since 2018.
+	* bootstrap.conf (buildreq): Remove rsync.
+
+	Fix "make check" in a subdirectory (VPATH build).
+	* Makefile.am (gzip.doc): Generate gzip.doc in the source directory, not in the
+	build directory.
+
+2023-01-10  Jim Meyering  <meyering@fb.com>
+
+	maint: update --version copyright dates
+	* gunzip.in, gzexe.in, gzip.c, zcat.in, zcmp.in, zdiff.in, zforce.in,
+	zgrep.in, zless.in, zmore.in, znew.in: Also update the --version copyright
+	dates (those are not updated by update-copyright) by running this:
+
+	  grep -l ' 2022 Free'|xargs perl -pi -e 's/ 2022 Free/ 2023 Free/'
+
+2023-01-01  Jim Meyering  <meyering@fb.com>
+
+	build: update gnulib to latest
+
+	maint: update copyright dates
+
+2022-12-28  Jim Meyering  <meyering@fb.com>
+
+	maint: avoid new sc_tight_scope syntax-check failure
+	* cfg.mk (_gl_TS_extern): Allow a leading '_Noreturn ' on
+	declarations like that of abort_gzip.
+
+	maint: SPC-indent inflate.c
+	* inflate.c: Indent with spaces, not TABs.
+
+2022-12-27  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: update THANKS
+	Add lines for each bug reporter and fix contributor for
+	which there is a Bug# in the commit messages.
+	Fix some accents and email addresses and sorting issues
+	while we’re in the neighborhood.
+
+2022-12-27  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: use strerror, not perror
+	* bootstrap.conf (gnulib_modules): Use strerror, not perror.
+	This removes dependencies on Gnulib’s ‘threadlib’ and ‘lock’ modules,
+	and simplifies the mainline code.  Apparently the old code was written
+	before strerror was universally supported; nowadays we can use Gnulib
+	strerror instead.  All uses of perror changed to use strerror+fprintf.
+
+	* gzip.h (WARN): Since this expands to a statement, wrap within
+	‘do ... while (false)’ for the usual reasons.  Helpful now that
+	calls to WARN are now simplified.
+
+2022-12-27  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: link with $(LIB_FDATASYNC)
+	* Makefile.am (gzip_LDADD): Add LIB_FDATASYNC as gnulib-tool suggests.
+	It’s not likely to make much difference nowadays (does anybody still
+	run Solaris 10 x86?) but it shouldn’t hurt to add it.
+
+	maint: go back to single-file bootstrap
+	I recently added this option to Gnulib, and it seems a better
+	match for gzip as it means just one bootstrap-related file.
+	* README-hacking: Document this.
+	* bootstrap: Sync from gnulib/build-aux/bootstrap, not
+	from gnulib/top/bootstrap.
+	* autogen.sh, autopull.sh, bootstrap-funclib.sh: Remove.
+
+	build: update gnulib submodule to latest
+
+2022-12-26  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: more fallout from Gnulib sync
+	* README-hacking: Improve wording.
+	* autogen.sh, autopull.sh, bootstrap-funclib.sh: New files.
+
+	maint: do not include stdbool.h, stdalign.h
+	They are not needed in C23, which Gnulib now emulates.
+	(We no longer worry about C89, since Gnulib doesn’t.)
+
+2022-12-25  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: fix typo in previous patch
+
+	maint: expand tabs in previous patch
+
+	maint: sync to Gnulib bootstrap
+	Suggested by Bruno Haible (Bug#56749).
+	* README-hacking: Document this.
+	* bootstrap: Sync from Gnulib by running
+	'./bootstrap ./bootstrap --bootstrap-sync’.
+	* bootstrap.conf: Do not mkdir build-aux, since bootstrap
+	does that for us.
+	(bootstrap_post_import_hook): Create the empty ChangeLog
+	in this new function.
+
+	maint: prefer https: to http:
+	This also syncs COPYING from Gnulib and README-hacking from Coreutils.
+
+	maint: port to gcc -std=c99 -Wstrict-prototypes
+	This doesn’t fix any bugs, since the code is correct as-is on all
+	C versions.  However, it pacifies gcc -std=c99 -Wstrict-prototypes,
+	which complains about a function definition without arguments
+	unless there’s a previous prototype with ‘(void)’.
+	Most (but not all) of this patch merely reverts some recent
+	changes to be more consistent when porting to C23.
+	* dfltcc.c (is_dfltcc_enabled):
+	* gzip.c (get_input_size_and_time):
+	* inflate.c (inflate_stored, inflate_fixed, inflate_dynamic):
+	* unpack.c (read_byte):
+
+	gzip: port alignas usage to C23
+	* gzip.c (BUFFER_ALIGNED): Do not depend on __alignas_is_defined
+	as that has been removed from C23.
+
+	gzip: local → static
+	* gzip.h (local): Remove.  All uses replaced by ‘static’.
+	Previously, the source code was inconsistent about using ‘local’
+	vs ‘static’ even before the recent changes, and ‘local’ was
+	more trouble than it was worth.
+
+	maint: port function definitions to C23
+	C23 does not allow K&R style function definitions.
+	Use protyped definitions.  However, don't bother with (void) in
+	function definitions since C23 prefers (); so prefer () to (void) as
+	this will work with older compilers anyway.
+
+	maint: stop using obsolete dosname module
+	* bootstrap.conf (gnulib_modules): Replace dosname with filename.
+	* gzip.c: Include filename.h, not dosname.h.
+	* lib/.gitignore: Remove name of dosname.h.
+
+	maint: stop using obsolete stdnoreturn module
+	* bootstrap.conf (gnulib_modules): Remove stdnoreturn.
+	* gzip.h: Do not include stdnoreturn.h.
+	All uses of noreturn replaced by _Noreturn,
+	at start of declaration for benefit of C23.
+	* lib/.gitignore, m4/.gitignore: Remove names of
+	stdnoreturn-related files.
+
+	maint: stop using obsolete fdl module
+
+	maint: update .gitignore to match Gnulib changes
+
+	build: update gnulib submodule to latest
+
+2022-07-20  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: tweak for sed failure
+	* zgrep.in (icolon): Defend better against sed failure.
+	Suggested by Lasse Collin.
+
+2022-06-28  Paul Eggert  <eggert@cs.ucla.edu>
+
+	build: update gnulib submodule to latest
+
+	maint: update from Gnulib
+	* bootstrap: Copy from Gnulib.
+
+2022-06-28  Paul Eggert  <eggert@trombone>
+
+	gzip: test invalid-input bug
+	* NEWS: Mention the bug.
+	* tests/unpack-invalid: Test for the bug.
+
+	gzip: detect invalid input
+	Problem reported by Young Mo Kang and fix from Mark Adler (Bug#56247).
+	* inflate.c: Include stdbool.h.
+	(fresh): New static var.
+	* inflate.c (flush_output): Clear it.
+	(inflate): Set it.
+	(inflate_codes): Fail if the offset is outside a fresh input window.
+
+	gzip: match printf format to arg type
+	This pacifies gcc -Wformat -DDEBUG.
+	* bits.c (send_bits):
+	* deflate.c (check_match):
+	* inflate.c (huft_build, inflate_codes):
+	* trees.c (send_code, gen_codes, flush_block):
+	Use correct printf formats for signed vs unsigned integers.
+
+2022-04-07  Jim Meyering  <meyering@fb.com>
+
+	maint: reference CVE-2022-1271 in 1.12's NEWS
+	* NEWS: Reference newly-assigned CVE number.
+	* cfg.mk (old_NEWS_hash)
+
+2022-04-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: update --version copyright dates
+	* cfg.mk (srcdirslash): New macro.
+	(in_vc_files): Use it to avoid problems when srcdir is '.'.
+	Also look for copyright dates in shell script *.in files,
+	so that ‘zgrep --version’ etc. outputs current dates.
+	* gunzip.in, gzexe.in, gzip.c, zcat.in, zcmp.in, zdiff.in:
+	* zforce.in, zgrep.in, zless.in, zmore.in, znew.in:
+	Update copyright date in --version output to 2022.
+
+2022-04-07  Jim Meyering  <meyering@fb.com>
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.12
+	* NEWS: Record release date.
+
+2022-04-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: fix "binary file matches" mislabeling
+	Problem reported by Jim Avera (Bug#31280).
+	This became more of an issue when GNU grep 3.5 (2020) started sending
+	"binary file matches" diagnostics to stderr instead of to stdout.
+	* tests/Makefile.am (TESTS): Add zgrep-binary.
+	* tests/zgrep-binary: New test.
+	* zgrep.in (args): New var, to accumulate args separately
+	from grep command, so we can prepend args if need be.
+	Most uses of 'grep' changed to use 'args' instead, or also.
+	(with_filename): Set to 1 if more than one file and -h not given;
+	this simplifies later code.
+	(gnuish_grep): New var; evaluates to true if grep supports
+	-H and --label options, as is true for GNU and FreeBSD grep.
+	Append -H to 'grep' if outputting file names with GNUish grep,
+	and use --label with GNUish grep unless reading from stdin,
+	as that’s safer and more efficient than relabeling with 'sed'.
+
+	maint: use C locale more often
+	* gzexe.in, zdiff.in, zgrep.in:
+	Run expr and sed in the C locale when it might help to avoid
+	undefined behavior on non-GNU platforms.
+	* sample/zfile, znew.in: Run in the C locale, for simplicity and
+	to avoid undefined behavior on non-GNU platforms.
+
+	gzexe: optimize out a grep
+	* gzexe.in: Avoid an unnecessary invocation of ‘grep’,
+	by using sed instead.  Also, look only for at-most-3-digit numbers,
+	for consistency with the rest of the script.
+
+	gzip: mention when fixed bugs were introduced
+
+	zgrep: port to POSIX sed
+	* zgrep.in (res): When escaping the file name do not rely on GNU
+	sed’s extension to POSIX with respect to s/.../\n/.  Instead, use
+	features that should also work with AIX and/or Solaris sed.  This is
+	simpler anyway, and would have prevented the recently-fixed bug.
+
+2022-04-07  Jim Meyering  <meyering@fb.com>
+
+	zgrep: add NEWS and tests for this exploitable bug
+	* tests/zgrep-abuse: New file, based on PoC by cleemy desu wayo.
+	* tests/Makefile.am (TESTS): Add it.
+	* NEWS: Mention the exploit.
+	The bug appears to have been present since the beginning.
+
+2022-04-06  Lasse Collin  <lasse.collin@tukaani.org>
+
+	zgrep: avoid exploit via multi-newline file names
+	* zgrep.in: The issue with the old code is that with multiple
+	newlines, the N-command will read the second line of input,
+	then the s-commands will be skipped because it's not the end
+	of the file yet, then a new sed cycle starts and the pattern
+	space is printed and emptied. So only the last line or two get
+	escaped. This patch makes sed read all lines into the pattern
+	space and then do the escaping.
+
+	This vulnerability was discovered by:
+	cleemy desu wayo working with Trend Micro Zero Day Initiative
+
+2022-04-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix i386 port
+	* deflate.c (prev_length, match_start, max_chain_length, good_match):
+	Make these extern instead of static, reverting part of the
+	2021-12-01T21:46:36Z!eggert@cs.ucla.edu patch.  These symbols are
+	used by i386 asm, and so must be extern at least for i386.
+
+	maint: pacify GCC with recent x86 glibc
+	* configure.ac (WERROR_CFLAGS): Disable -Wtype-limits,
+	due to a false alarm on platforms where 'long' is 32 bits
+	and time_t is 64-bit, such as recent glibc on x86.
+
+2022-04-04  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: update from Gnulib
+	* bootstrap, tests/init.sh: Copy manually from current Gnulib.
+	* lib/.gitignore, m4/.gitignore: Update as per current Gnulib.
+
+	build: update gnulib submodule to latest
+
+	build: support --program-prefix etc.
+	Problem reported by Antonio Diaz Diaz via Dagobert Michelsen in:
+	https://bugs.gnu.org/16876
+	* Makefile.am (.in): Substitute for 'gzip', 'zdiff', 'zgrep'.
+	($(GZIP_TRANSFORMED), $(ZDIFF_TRANSFORMED), $(ZGREP_TRANSFORMED)):
+	New rules to build forwarding shell scripts, if needed.
+	Add these files to BUILT_SOURCES and MOSTLY_CLEANFILES if needed.
+	* configure.ac (GZIP_TRANSFORMED, ZDIFF_TRANSFORMED, ZGREP_TRANSFORMED):
+	New substituted vars.
+	(GZIP_IS_TRANSFORMED, ZDIFF_IS_TRANSFORMED, ZGREP_IS_TRANSFORMED):
+	New Automake conditions.
+	* gunzip.in, gzexe.in, zcat.in, zcmp.in, zdiff.in, zegrep.in:
+	* zfgrep.in, zforce.in, zgrep.in, zless.in, zmore.in, znew.in:
+	Quote possibly-transformed subcommand names.
+
+2022-04-01  Paul Eggert  <eggert@cs.ucla.edu>
+
+	doc: improve doc for saved timestamps etc.
+	Problem reported by Carpe Sébastien (Bug#24559).
+
+2022-03-31  Paul Eggert  <eggert@cs.ucla.edu>
+
+	tests: port list-big test to macOS 12.1
+	* tests/list-big: Use dd, not truncate, to create a big file.
+
+	zmore: don't assume benign PAGER in testing
+	* tests/help-version (zmore_setup): Unset PAGER so that we test
+	'more', not whatever the tester has in its PAGER environment
+	variable.  This works around a problem I found when I ran
+	'PAGER=less make check' on a platform that lacked 'less'.
+
+	zless: install only on platforms with 'less'
+	Problem reported by Michael Felt (Bug#30029).
+	* Makefile.am (ZLESS_MAN, ZLESS_PROG): New macros.
+	(man_MANS, bin_SCRIPTS): Use them.
+	* configure.ac: Check for 'less'.
+	* tests/Makefile.am (ZLESS_PROG): New macro.
+	(built_programs): Use it.
+
+2022-03-29  Paul Eggert  <eggert@cs.ucla.edu>
+
+	doc: spelling fixes
+
+	doc: omit @refill
+	* doc/gzip.texi: Remove @refill to suppress warning
+	‘gzip.texi:562: warning: @refill is obsolete.’ from makeinfo 6.8.
+
+2022-03-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zdiff: fix another arg-handling bug
+	Also allow args after file names.
+	Problem reported by Lv Ying <https://bugs.gnu.org/54290#12>.
+
+2022-03-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zdiff: fix arg handling bug
+	Problem reported by Lv Ying (Bug#54291).
+	* zdiff.in (escape): Handle args like '-C 5'.
+
+2022-02-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	doc: embolden SEE ALSO refs
+	Problem reported by Helge Kreutzmann (Bug#53918).
+
+2022-01-03  Jim Meyering  <meyering@fb.com>
+
+	maint: avoid new syntax-check failures
+	* cfg.mk (local-checks-to-skip): Add sc_indent, to skip it.
+	Otherwise, "make syntax-check" would fail.
+
+	build: disable some expensive compiler warnings by default
+	* configure.ac (gl_GCC_VERSION_IFELSE): Copy from coreutils.
+	(gcc-warnings): Update from coreutils.
+
+	maint: make update-copyright
+
+	build: update gnulib to latest; also bootstrap and init.sh
+
+2021-12-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	doc: document gzip -l change
+	* NEWS, doc/gzip.texi (Invoking gzip), gzip.1 (gunzip):
+	Document recent change.
+
+	gzip: gzip -l now outputs accurate size
+	gzip -l now decompresses to see how long the uncompressed file was.
+	This fixes what is by far the most common bug report for gzip.
+	It has a significant performance cost, but it’s worth it nowadays.
+	* gzip.c (main): -l now sets 'test' too.  All uses of
+	'test' changed.
+	(treat_stdin, treat_file): Call do_list after decompressing,
+	so that the length is known.
+	(do_list): Omit arg IFD, since it is no longer needed.
+	All callers changed.  Get the CRC and uncompressed size
+	from input_crc and bytes_out instead of using lseek.
+	* tests/list-big: New test.
+	* unzip.c (unzip): Set unzip_crc before returning.
+	* util.c (write_buf): If 'test', output nothing.
+	Update bytes_out with output byte count, regardless of 'test'.
+	All callers changed.
+
+2021-12-01  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: reduce module coupling
+	If a symbol is extern but never used by another module, make it
+	static instead, or remove it if it is not used anywhere.
+	* Makefile.am (gzip_SOURCES): Remove lzw.c.
+	* bits.c (bi_buf, bi_valid) [!IBM_Z_DFLTCC]:
+	* deflate.c (prev_length, match_start, max_chain_length)
+	(good_match, lm_init):
+	* gzip.c (verbose) [!DEBUG]:
+	* unlzw.c (block_mode):
+	Now static.
+	* gzip.c (help, main, do_lzw):
+	* revision.h:
+	Simplify by assuming !LZW.
+	* util.c (setcrc): Define only if IBM_Z_DFLTCC.
+	(make_simple_name): Define only if NO_MULTIPLE_DOTS.
+
+2021-10-30  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: modernize README-{hacking,prereq}
+
+2021-09-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	build: update gnulib submodule to latest
+
+2021-09-03  Jim Meyering  <meyering@fb.com>
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.11
+	* NEWS: Record release date.
+
+2021-08-31  Paul Eggert  <eggert@cs.ucla.edu>
+
+	tests: port still better to NetBSD
+	* tests/hufts: Ignore more lines starting with ‘+’ in stderr.
+
+	tests: port better to NetBSD
+	* tests/hufts, tests/zdiff:
+	Ignore lines starting with ‘+’ in stderr.
+	The NetBSD shell outputs them after set -x.
+
+	tests: update help-version from coreutils
+	This merges coreutils/tests/misc/help-version.sh into
+	gzip/tests/help-version; they're now identical except
+	for the initial init.sh configuration line.  This
+	should port better to NetBSD.
+
+	maint: update .gitignore files
+	* .gitignore, lib/.gitignore, m4/.gitignore:
+	Bring up to date.  Remove duplicates.  Sort.
+
+	tests: port two-files to IRIX 6.5
+	Problem reported by Nelson H. F. Beebe.
+	* tests/two-files: Skip test if /dev/urandom is not readable.
+
+2021-08-29  Jim Meyering  <meyering@fb.com>
+
+	build: update gnulib to latest
+
+	maint: don't send announcements to TP coordinator
+	gzip has no translatable strings, so don't include the translation
+	project coordinator's email address in the announcement template.
+	* cfg.mk (translation_project_): Define to be empty.
+
+2021-08-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: clarify "other links" diagnostic
+	* gzip.c (treat_file): Instead of saying
+	"gzip: FOO has 1 other link  -- unchanged", say
+	"gzip: FOO has 1 other link -- file ignored".
+	This is clearer when -k is also used (Bug#50097).
+
+2021-08-08  Jim Meyering  <meyering@fb.com>
+
+	build: update gnulib to latest
+
+2021-06-30  Jim Meyering  <meyering@fb.com>
+
+	build: update gnulib to latest
+
+2021-04-11  Dmitry V. Levin  <ldv@altlinux.org>
+
+	bug#47715: [PATCH] gzip.c: use a more portable alignment
+	The alignment of 8192 introduced by commit
+	be0c5581e38332b2ffa8a4cf92076cfde02872b4 is not quite portable:
+	eu-elflint --gnu-ld complains about the result gzip executable
+	with the following diagnostics:
+	section [25] '.bss' not fully contained in segment of program header entry 6
+
+	* gzip.c [__alignas_is_defined] (BUFFER_ALIGNED): Decrease alignment
+	from 8192 back to 4096.
+
+2021-03-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: modernize .gitignore
+	* lib/.gitignore, m4/.gitignore: Sort and modernize
+	to current Gnulib.
+
+	zgrep: fix option typo
+	* zgrep.in: Fix typo in option processing that prevented
+	operands like ‘binary-1’.
+
+	gzip: port to SIGPIPE-less platforms
+	* gzip.c (main): Don’t assume SIGPIPE is defined.
+
+2021-02-26  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* gzip.1: Quote better (Bug#46730).
+
+2021-01-01  Jim Meyering  <meyering@fb.com>
+
+	maint: update all copyright year number ranges
+	Run "make update-copyright" and then...
+	* gnulib: Update to latest with copyright year adjusted.
+	* tests/init.sh: Sync with gnulib to pick up copyright year.
+	* bootstrap: Likewise.
+
+2020-12-09  Jim Meyering  <meyering@fb.com>
+
+	maint: avoid another autoreconf warning
+	* configure.ac: modernize AC_TRY_COMPILE invocation
+	Use AC_COMPILE_IFELSE instead of AC_TRY_COMPILE.
+
+	maint: remove uses of obsolete macros
+	* configure.ac (AC_TYPE_SIGNAL, AC_ISC_POSIX, AC_HEADER_STDC): Remove.
+
+	maint: avoid autoreconf warnings
+	* configure.ac: Go back to using AC_PROG_CC rather than AC_PROG_CC_STDC,
+	as the latter is obsolescent and the Autoconf bug involving the former
+	has been fixed.
+
+	build: update gnulib to latest
+
+	build: require autoconf-2.64
+	* configure.ac: Require autoconf-2.64, up from 2.63, to align with gnulib.
+
+2020-09-24  Ilya Leoshkevich  <iii@linux.ibm.com>
+
+	Add a test for compressing and decompressing two files
+	It ensures that compression and decompression state of the first file
+	does not affect the second file.
+
+	Fix DFLTCC segfault when compressing or decompressing two files
+	The value in total_in global variable from processing the first file
+	affected processing of the second file.  Fix by making total_in local.
+
+	bug#43583: Fix building DFLTCC with clang
+	clang does not support .machinemode, so put it under an #ifdef.
+
+	Update .gitignore files
+	On my s390x Fedora 31 machine there are a bunch of extra files copied to
+	lib and m4 directories.  Add them to .gitignore.
+
+2020-08-31  Paul Eggert  <eggert@cs.ucla.edu>
+
+	doc: prefer bold to italics for command names
+
+2020-05-29  Ilya Leoshkevich  <iii@linux.ibm.com>
+
+	IBM Z DFLTCC: add STREQ definition
+	Commit 81c9fe4d0986 replaced !strcmp with STREQ in order to be compliant
+	with the gnulib linter, however, gnulib does not provide STREQ!
+
+	Quite a few gnulib .c files contain private definitions of STREQ. This
+	patch just goes with the flow and does the same in dfltcc.c.
+
+2020-03-21  Jim Meyering  <meyering@fb.com>
+
+	build: update gnulib to latest
+
+2020-03-21  Bjarni Ingi Gislason  <bjarniig@rhi.hi.is>
+
+	doc: gzip.1: Change .BR to .B as there is only one argument
+	* gzip.1: Use .B rather than .BR to avoid diagnostics from an
+	upcoming version of groff:
+	  $ groff -b -e -mandoc -T utf8 -rF0 -t -w w -z
+	  <gzip.1>:327 (macro BR): only 1 argument, but more are expected
+	  <gzip.1>:459 (macro BR): only 1 argument, but more are expected
+	This addresses https://bugs.gnu.org/39845
+
+2020-03-14  Jim Meyering  <meyering@fb.com>
+
+	doc: man page improvements
+	* gzip.1 (REPORTING BUGS): New section.
+	(-t, --test): Add "then quit" at end of sentence to clarify what
+	this option does.
+	Reported by Dan Jacobson in https://bugs.gnu.org/839768.
+
+2020-01-10  Ilya Leoshkevich  <iii@linux.ibm.com>
+
+	IBM Z DFLTCC: fix three data corruption issues
+	SUSE maintainers have found an issue related to building zlib in 31-bit
+	mode, which also applies to gzip: STFLE instruction can be used only in
+	z/Architecture mode: https://build.opensuse.org/request/show/708284 --
+	I have integrated the fix into this patch.
+
+	* configure.ac (AC_CHECK_HEADERS_ONCE): Add feature detection for
+	sys/sdt.h probes.
+	* dfltcc.c (dfltcc_cc): Minor formatting improvements.
+	(HB_BITS): Remove.
+	(HB_SIZE): Likewise.
+	(is_dfltcc_enabled): Fix buffer overrun on newer models and incomplete
+	initialization on older models.
+	Add machine mode hint.
+	(dfltcc): Use sys/sdt.h feature detection.
+	(bi_load): New function.
+	(bi_close_block): Use bi_load.
+	(close_stream): Fix overwriting the End-of-block Symbol.
+	(dfltcc_deflate): Fix losing partial byte on flush.
+	Fix setting Block-Continuation Flag when DFLTCC-CMPR outputs 0 bits and
+	requests a retry.
+	Minor formatting improvements.
+	(dfltcc_inflate): Retry immediately if requested.
+	Print the hardware error code and flush the output buffer on error.
+	Minor formatting improvements.
+	* tests/hufts: Ignore the hardware error code.
+
+2020-01-05  Ilya Leoshkevich  <iii@linux.ibm.com>
+
+	Document IBM Z environment variables
+	IBM Z patch (7a6f9c9) introduced 6 environment variables, which are
+	used to tune the compression and decompression with the DEFLATE
+	COMPRESSION CALL instruction.  This patch adds texinfo documentation for
+	all of them.
+
+	* doc/gzip.texi (Environment): Add DFLTCC* environment variables.
+
+2020-01-01  Jim Meyering  <meyering@fb.com>
+
+	maint: update all copyright year number ranges
+	Run "make update-copyright" and then...
+	* gnulib: Update to latest with copyright year adjusted.
+	* tests/init.sh: Sync with gnulib to pick up copyright year.
+	* bootstrap: Likewise.
+
+	maint: change calloc module to calloc-gnu
+	* bootstrap.conf (gnulib_modules): Use calloc-gnu module,
+	not the deprecated "calloc".
+
+2019-09-07  Jim Meyering  <meyering@fb.com>
+
+	maint: placate strcmp-vs-STREQ syntax check rule
+	* dfltcc.c (is_dfltcc_enabled): Use STREQ (env, "0")
+	in place of "!strcmp (env, "0").
+
+2019-04-02  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Improve IBM Z patch
+	Most of this is minor changes to use GNU style and C99 constructs.
+	* NEWS: Mention IBM Z.
+	* bootstrap.conf (gnulib_modules): Add stdalign.
+	* dfltcc.c: Include stdalign.h, stdbool.h.
+	(union aligned_dfltcc_qaf_param, union aligned_dfltcc_param_v0):
+	New types, used for C11-style alignment.  All uses changed.
+	(init_param):
+	* gzip.c (BUFFER_ALIGNED): New macro.
+	(inbuf, outbuf, window): Use it, so buffers are aligned everywhere.
+	* gzip.h (INBUFSIZ, OUTBUFSIZE): Use big buffers everywhere,
+	unless SMALL_MEM.
+	* zip.c (SLOW, FAST): Now enums since they need not be macros:
+
+2019-04-02  Ilya Leoshkevich  <iii@linux.ibm.com>
+
+	bug#34918: [PATCH] Add support for IBM Z hardware-accelerated deflate
+	Future versions of IBM Z mainframes will provide DFLTCC instruction,
+	which implements deflate algorithm in hardware with estimated
+	compression and decompression performance orders of magnitude faster
+	than the current gzip and ratio comparable with that of level 1.
+
+	This patch adds DFLTCC support to gzip. In order to enable it, the
+	following build commands should be used:
+
+	    $ ./configure --enable-dfltcc
+	    $ make
+
+	When built like this, gzip would compress in hardware on level 1, and in
+	software on all other levels. Decompression will always happen in
+	hardware. In order to enable DFLTCC compression for levels 1-6 (i.e. to
+	make it used by default) one could either add -DDFLTCC_LEVEL_MASK=0x7e
+	at compile time, or set the environment variable DFLTCC_LEVEL_MASK to
+	0x7e at run time.
+
+	Two DFLTCC compression calls produce the same results only when they
+	both are made on machines of the same generation, and when the
+	respective buffers have the same offset relative to the start of the
+	page. Therefore care should be taken when using hardware compression
+	when reproducible results are desired. One such use case - reproducible
+	software builds - is handled explicitly: when SOURCE_DATE_EPOCH
+	environment variable is set, the hardware compression is disabled.
+
+	This patch tries to add DFLTCC support in a least intrusive way.
+	All SystemZ-specific code was placed into a separate file, but
+	unfortunately there is still a noticeable amount of changes in the
+	main gzip code. Below is the summary of those changes.
+
+	DFLTCC will refuse to write an End-of-block Symbol if there is no input
+	data, thus in some cases it is necessary to do this manually. In order
+	to achieve this, bi_buf and bi_valid were promoted to extern variables.
+
+	lm_init() function moves the input buffer into the window, which is not
+	desirable for DFLTCC. Therefore, its invocation was moved to
+	software-only deflate(). In addition to initializing the window, this
+	function also used to convert compression level to flags, which is still
+	needed for DFLTCC. This responsibility was handed off to zip() function.
+
+	To achieve maximum performance with DFLTCC, inbuf and outbuf must be
+	256k big and page-aligned. Additionally, for DFLTCC to work at all, the
+	window must be page-aligned.
+
+	In addition to compression, DFLTCC computes CRC-32 checksum, therefore,
+	whenever it's used, software checksumming needs to be suppressed and its
+	results replaced by those of dfltcc. This is achieved by introducing the
+	new getcrc() and setcrc() functions.
+
+	Unlike the current software implementation, DFLTCC decompresses data
+	into the output buffer, and not the window. Therefore, just like
+	flushing the window, flushing the output buffer must honor the test
+	flag.
+
+	Finally, znew-k test assumes that "znew -K" would not convert the test
+	.Z file to .gz, which is not the case with DFLTCC. Since this is not the
+	main point of the test, this assumption was relaxed.
+
+2019-03-26  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzexe: fix count of lines to skip
+	Problem reported by Jakub Martisko (Bug#35002).
+	* gzexe.in (skip): Bump from 44 to 49.
+
+2019-01-20  Jim Meyering  <meyering@fb.com>
+
+	build: ensure no VLA is used
+	Cause developer builds to fail for any use of a VLA.
+	VLAs (variable length arrays) limit portability.
+	* configure.ac (nw): Remove -Wvla from the list of disabled warnings,
+	thus enabling the warning when configured with --enable-gcc-warnings.
+	(GNULIB_NO_VLA) Define, disabling use of VLAs in gnulib.  This commit
+	is functionally equivalent to coreutils' v8.30-44-gd26dece5d.
+
+	build: update gnulib to latest
+
+2019-01-01  Jim Meyering  <meyering@fb.com>
+
+	maint: update all copyright dates via "make update-copyright"
+	* gnulib: Also update submodule for its copyright updates.
+
+2018-12-29  Jim Meyering  <meyering@fb.com>
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.10
+	* NEWS: Record release date.
+
+2018-12-23  Paul Eggert  <eggert@cs.ucla.edu>
+
+	build: enable -Wunreachable-code
+	* configure.ac (nw): Remove -Wunreachable-code from the list of
+	disabled warnings, now that all offending statements have been removed.
+
+	maint: remove unreachable code
+	Problem reported by Oracle Developer Studio 12.6.
+	In the old days we needed a return statement at the end of
+	the gzip main function to pacify traditional 'lint', but
+	lint checkers nowadays are smarter.
+	* gzip.c (main):
+	* zip.c (file_read): Remove unreachable code.
+
+2018-12-23  Jim Meyering  <meyering@fb.com>
+
+	maint: use a slightly cleaner expression
+	* gzip.c (do_list): Simplify an expression:
+	- int positive_off_t_width = INT_BUFSIZE_BOUND (off_t) - 2;
+	+ int positive_off_t_width = INT_STRLEN_BOUND (off_t) - 1;
+
+2018-12-22  Jim Meyering  <meyering@fb.com>
+
+	build: avoid build failure with --enable-gcc-warnings and latest gcc
+	* gzip.c (do_list): There was a loop to compute the maximum width
+	of a decimal positive off_t value. Replace it with assignment to a
+	constant.  Noticed because gcc 9.0.0 20181219 warned about its use
+	as a printf format-width value.
+	(OFF_T_MAX): Remove now-unused definition.
+
+2018-12-21  Jim Meyering  <meyering@fb.com>
+
+	maint: improve a comment
+	* trees.c (flush_block): Fix grammar/spelling in a comment.
+
+	maint: update gnulib to latest; also update bootstrap and init.sh
+
+	build: make the autoconf-2.63 requirement explicit
+	* configure.ac: AC_PREREQ: Require 2.63, not 2.59.
+	Autoconf-2.63 has been required for some time via gnulib.
+	This merely makes it explicit.
+
+2018-11-30  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix use of uninitialized memory
+	Problem reported by Hanno Böck (Bug#33501).
+	* NEWS: Mention this.
+	* inflate.c (inflate_dynamic): Return if code is invalid.
+	Fix by Mark Adler.
+	* tests/hufts: Add test case for the bug.
+
+2018-08-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* gzip.c (remove_output_file): Fix typo.
+
+	gzip: fix bug in signal-handling fix
+	Problem reported by Johannes Przybilla (Bug#32375#26).
+	* gzip.c (volatile_strcpy): Source is now pointer-to-volatile too.
+	(remove_output_file): Copy remove_ofname to a private nonvolatile
+	copy so that it can be passed to xunlink safely.
+
+2018-08-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix some theoretical races in signal handling
+	Problem reported by Johannes Przybilla (Bug#32375).
+	* NEWS: Mention this.
+	* bootstrap.conf (gnulib_modules): Add sigaction.
+	* gzip.c (SA_NOCLDSTOP, sigprocmask, sigset_t)
+	(siginterrupt) [!SA_NOCLDSTOP]: Remove; Gnulib not supplies these.
+	(remove_ofname): New var.
+	(volatile_strcpy): New function.
+	(create_outfile): Use it.
+	(install_signal_handlers, abort_gzip_signal): Assume sigaction.
+	(remove_output_file): New arg SIGNALS_ALREADY_BLOCKED.
+	All uses changed.  Avoid unnecessary (and racy) call
+	to sigprocmask if this new arg is set.
+	(abort_gzip_signal): Assume C89 or better for signal handler type.
+	* gzip.h (RETSIGTYPE): Remove.
+	* lib/.gitignore, m4/.gitignore:
+	Add files brought in by Gnulib sigaction module.  Sort.
+
+2018-08-04  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: port better to mingw again
+	Problem reported by Bdale Garbee (Bug#32305#8).
+	* gzip.c (do_chown): Use HAVE_FCHOWN || HAVE_CHOWN,
+	which is configured, instead of DO_CHOWN, which is not.
+
+2018-08-02  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: make the output more reproducible
+	Problem reported by Bernhard M. Wiedemann (Bug#32342).
+	* NEWS: Mention this.
+	* doc/gzip.texi (Overview, Invoking gzip): Document this.
+	* gzip.c (get_input_size_and_time): New function,
+	which implements the change.
+	(treat_stdin, treat_file): Use it.
+	* tests/reproducible: New test.
+	* tests/Makefile.am (TESTS): Add it.
+
+2018-07-29  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: port better to mingw
+	Problem reported by Bdale Garbee for Debian
+	* gzip.c (do_chown): Don't assume uid_t and gid_t.
+
+2018-07-01  Jim Meyering  <meyering@fb.com>
+
+	maint: update gnulib to latest; also update bootstrap and init.sh
+
+2018-06-30  Jim Meyering  <meyering@fb.com>
+
+	build: remove -Wformat-truncation=2 to avoid avoid false-positive
+	* configure.ac (GNULIB_WARN_CFLAGS): Add -Wformat-truncation=2,
+	to disable it when building gnulib with --enable-gcc-warnings.
+	This avoids what looks like a false positive from GCC 9:
+	strerror_r.c: In function 'rpl_strerror_r':
+	strerror_r.c:453:35: error: 'Unknown error ' directive output \
+	 truncated writing 14 bytes into a region of size 2 \
+	 [-Werror=format-truncation=]
+	         snprintf (buf, buflen, "Unknown error %d", errnum);
+	                                 ~~^~~~~~~~~~~~
+	In file included from /usr/include/stdio.h:862,
+	                 from ./stdio.h:43,
+	                 from strerror_r.c:29:
+	/usr/include/bits/stdio2.h:64:10: note: '__builtin___snprintf_chk' \
+	  output between 16 and 26 bytes into a destination of size 2
+	   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+
+2018-01-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	misc: update --version copyright
+	* gunzip.in, gzexe.in, gzip.c, zcat.in, zdiff.in, zforce.in, zgrep.in:
+	* zless.in, zmore.in, znew.in:
+	Update copyright year in --version output to 2018.
+	This part of the year-number update isn’t automated yet.
+
+2018-01-07  Jim Meyering  <meyering@fb.com>
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.9
+	* NEWS: Record release date.
+
+2018-01-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzexe: port to macOS mktemp
+	Problem reported by Jeffrey Walton (Bug#30000).
+	* gzexe.in, zdiff.in, zgrep.in:
+	Don’t assume that mktemp works when given no arguments,
+	as this is not true for macOS.  Instead, use a syntax
+	that should work with coreutils, NetBSD, and macOS.
+	While we’re in the neighborhood, be more consistent about how program
+	names are used in temporary file names.  Also, watch out for TMPDIR
+	values that are not absolute file names, since they can cause problems
+	(e.g., leading "-").
+
+2018-01-03  Jim Meyering  <meyering@fb.com>
+
+	maint: update gnulib and copyright dates for 2018
+	* gnulib: Update to latest.
+	* bootstrap: Update from gnulib.
+	* all files: Run "make update-copyright".
+
+2017-12-16  Jim Meyering  <meyering@fb.com>
+
+	build: update gnulib to latest
+
+2017-11-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: zforce and zmore exit status cleanup
+	Problem reported by Nelson H. F. Beebe.
+	* zforce.in, zmore.in: On failure, exit with status 1 instead of
+	with whatever failing status that printf or mv exited with.
+
+2017-11-23  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzexe: ensure file always exists
+	* gzexe.in: When in a filesystem that does not support symlinks,
+	use rm+cp rather than mv to make backups, so that the argument
+	file always exists.
+
+2017-11-23  Jim Meyering  <meyering@fb.com>
+
+	build: update gnulib to latest
+
+2017-11-16  Jim Meyering  <meyering@fb.com>
+
+	gzexe: work even without the ability to make a hard link
+	* gzexe.in: When ln -f fails to create a "~"-style backup,
+	fall back to using mv -f.
+	Reported by Bruno Haible in http://debbugs.gnu.org/29266
+
+2017-11-15  Jim Meyering  <meyering@fb.com>
+
+	build: make each generated script unwritable
+	* Makefile.am (.in): Ensure that each generated script is unwritable.
+	This makes it less likely that someone (even me) will mistakenly
+	modify one of those generated files.
+
+2017-11-13  Jim Meyering  <meyering@fb.com>
+
+	zless, znew: exit 1 upon --help or --version write failure
+	* zless.in: Exit 1 upon --help or --version write error.
+	* znew.in: Likewise.
+
+2017-11-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: script diagnostics status cleanup
+	Problem reported by Bruno Haible (Bug#29266#20).
+	* NEWS: Mention this.
+	* gunzip.in, gzexe.in, zcat.in, zcmp.in, zdiff.in, zforce.in:
+	* zgrep.in, zless.in, zmore.in, znew.in:
+	Use printf instead of echo if the argument might contain ‘\’, at
+	least in theory.  Don’t assume printf exits with status 1 on
+	failure; it might be some other positive status.
+	* gzexe.in: Use printf consistently instead of echo, and
+	proscribe it instead of echo.
+
+	tests: don’t be so strict about timestamps
+	* tests/timestamp: We’ve had many false alarms about timestamps
+	that are not gzip problems, but instead are problems with ‘touch’.
+	Attempt to work around them by not trusting ‘touch’ so much.
+	Problems and parts of solutions proposed by Bruno Haible.
+
+2017-11-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	build: update gnulib submodule to latest
+
+2017-11-09  Jim Meyering  <meyering@fb.com>
+
+	gnulib: update to latest
+
+	maint: use noreturn, not ATTRIBUTE_NORETURN
+	Use gnulib's stdnoreturn module so we can include
+	<stdnoreturn.h> and the "noreturn" helper macro, thus
+	replacing the definition and uses of ATTRIBUTE_NORETURN.
+	* bootstrap.conf (gnulib_modules): Add stdnoreturn.
+	* gzip.h (ATTRIBUTE_NORETURN): Remove definition.
+	Include stdnoreturn.h and use "noreturn" for each
+	ATTRIBUTE_NORETURN-adorned function declaration.
+	* gzip.c (do_exit, try_help): Use "noreturn".
+
+	tests: unpack-invalid: correct and clean up a test
+	* tests/unpack-invalid: There was a logic error that would have
+	caused this test to ignore a failure if first iteration of the
+	loop set fail=1 and the second one reset it to 0.  Also, use
+	"returns_ 1 ...", to require an exit status of 1.
+
+2017-11-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: diagnose out-of-range MTIME
+	This seems to be the problem reported by Bruno Haible for GNU/Hurd
+	i386 with touch 8.26 and glibc 2.24 (Bug#29033#20).
+	* NEWS: Document this.
+	* gzip.c (get_method): If MTIME is out of range for
+	this platform, warn and substitute the nearest in-range
+	value, instead of silently ignoring it.
+	(do_list): Remove no-longer-needed test for unknown time stamp.
+
+2017-11-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	misc: diagnose year-2038 configuration problems
+	* bootstrap.conf (gnulib_modules): Add year2038.
+	* m4/.gitignore: Add year2038.m4[
+
+	maint: remove IMPORT_FROM_GETTEXT
+	* bootstrap.conf (IMPORT_FROM_GETTEXT): Remove.
+	This is a relic from older Gnulib, and has no effect now.
+
+2017-10-29  Jim Meyering  <meyering@fb.com>
+
+	tests/unpack-valid: port to printf that do not grok hex
+	Many versions of printf do not handle hexadecimal in a format string,
+	so this test would fail.
+	* tests/init.cfg (hex_printf_): Copied from grep's tests/init.cfg.
+	* tests/unpack-valid: Use hex_printf_.
+	Reported by Bruno Haible in https://bugs.gnu.org/29033#26
+
+	gnulib: update to latest; also update tests/init.sh from gnulib
+
+	gzip: fix bug with any upper case custom ('-S'-specified) suffix
+	Any user-specified suffix with an upper case
+	letter would fail to match desired file.
+	* gzip.c (get_suffix): First, arrange to have only one return
+	point rather than two. Put a lower-cased (just-malloc'd) copy
+	of z_suffix in the suffix vector, and free it before returning.
+	* tests/upper-suffix: New file.
+	* tests/Makefile.am (TESTS): Add it.
+	* NEWS: Mention it.
+	Reported by meo@xenialab.it in https://bugs.gnu.org/29006
+
+2017-10-16  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix bug in unpack EOB check
+	Problem reported by Vidar Holen (Bug#28861).
+	* NEWS: Mention fix.
+	* tests/unpack-valid: New test.
+	* tests/Makefile.am (TESTS): Add it.
+	* unpack.c (build_tree): Report an error if Huffman tree has
+	too few leaves.
+	* unpack.c (unpack): Fix check for EOB.
+	Remove now-unnecessary check for code out of range.
+
+2017-09-19  Jim Meyering  <meyering@fb.com>
+
+	maint: fix "make syntax-check": remove useless HAVE_UTIME_H definitions
+	* tailor.h: Don't define HAVE_UTIME_H.
+
+	maint: avoid "make syntax-check" failure due to old-NEWS modification
+	* cfg.mk (old_NEWS_hash): Update, to reflect recent NEWS correction.
+
+2017-09-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzexe: improve usage diagnostic
+	* gzexe.in (usage): Reword for clarity (Bug#28514).
+
+	misc: update --version copyright
+	* gunzip.in, gzexe.in, gzip.c, zcat.in, zdiff.in, zforce.in, zgrep.in:
+	* zless.in, zmore.in, znew.in: Update copyright year in --version
+	output to 2017.
+
+	maint: prefer HTTPS to HTTP, FTP in URLs
+
+	maint: copy bootstrap from Gnulib
+
+	maint: port to GCC 7.2
+	* configure.ac (WERROR_CFLAGS): Avoid -Wduplicated-branches.
+	* tailor.h (FALLTHROUGH): New macro, taken from Emacs.
+	* gzip.c (main): Use it.
+
+	maint: update .gitignore for recent Gnulib
+
+	build: update gnulib submodule to latest
+
+2017-05-07  Jim Meyering  <meyering@fb.com>
+
+	maint: also distribute a zip-compressed tarball
+	* configure.ac (AM_INIT_AUTOMAKE): Add dist-zip, for
+	those lacking gzip, 7zip, etc.  Suggested by Karl Berry in
+	https://bugs.gnu.org/25538.
+
+2017-03-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: port zdiff, zless to Busybox
+	Problem reported by Denys Zagorui (Bug#26088).
+	* tests/zdiff: Check that diff uses POSIX-format output.
+	* zless.in (less_version): Don't exit merely because 'less -V'
+	fails; instead, assume 'less' is compatible with an old version of
+	the original 'less'.  Busybox 'less -V' fails, but apparently its
+	'less' works anyway somehow.
+
+2017-02-06  Jim Meyering  <meyering@fb.com>
+
+	tests: avoid failure when running with no tty
+	* tests/help-version (zcat_setup): Export TERM=dumb, to avoid zless
+	malfunction.  Reported by Assaf Gordon in https://bugs.gnu.org/25636#8
+
+	gnulib: update to latest; and tests/init.sh and bootstrap
+
+	maint: change "time stamp" to "timestamp" globally
+	This avoids a new syntax-check failure.
+	* ChangeLog-2007: Perform that change.
+	* NEWS: Likewise.
+	* algorithm.doc: Likewise.
+	* doc/gzip.texi: Likewise.
+	* gunzip.in: Likewise.
+	* gzip.1: Likewise.
+	* gzip.c: Likewise.
+	* gzip.h: Likewise.
+	* m4/.gitignore: Likewise.
+	* sample/ztouch: Likewise.
+	* tests/timestamp: Likewise.
+	* unzip.c: Likewise.
+	* zip.c: Likewise.
+	* znew.1: Likewise.
+	* cfg.mk: Update the old news hash accordingly.
+
+2017-01-01  Jim Meyering  <meyering@fb.com>
+
+	maint: tweak a distcheck rule
+	* dist-check.mk (my-distcheck): Don't use --disable-nls.
+	That option is now unrecognized.
+
+	maint: update gnulib and copyright dates for 2017
+	* gnulib: Update to latest.
+	* all files: Run "make update-copyright".
+
+2016-11-08  Jim Meyering  <meyering@fb.com>
+
+	maint: use "returns_" rather than explicit comparison with "$?"
+	* tests/zdiff: Use "returns_ 1" rather than testing $? = 1.
+	* tests/hufts: Likewise.
+	* tests/timestamp: Likewise, but s/1/2/.
+
+2016-11-04  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: minor time stamp cleanups
+	* NEWS: Document this.
+	* gzip.c (get_method): Do not warn about MTIME out of range.
+	This should avoid useless chatter on hosts with 32-bit time_t
+	after the year 2038 (!).
+	(do_list): Do not pass junk time stamp to localtime.
+	(copy_stat): Do not report "time stamp restored" if restoration
+	fails.
+
+	gzip: --no-time cleanup
+	Problem reported by Jim Meyering (Bug#24826).
+	* gzip.c (longopts): Remove non-working no-time entry.
+	(help) [UNDOCUMENTED]: Don't document it.
+
+	gzip --no-name: avoid spurious warning
+	Problem reported by Jim Meyering (Bug#24826).
+	* tests/timestamp: Add a test from Jim Meyering to exercise the fix
+	* zip.c (zip): Treat unknown time stamps as 0.
+
+2016-10-24  Jim Meyering  <meyering@fb.com>
+
+	maint: update .gitignore files to ignore more generated files
+
+2016-10-02  Jim Meyering  <meyering@fb.com>
+
+	maint: avoid unwarranted "make syntax-check" failure
+	* tests/timestamp: Reorder "rm" arguments so the doubled-word
+	syntax-check rule does not detect a false positive "in in" here.
+
+	gnulib: update to latest
+
+2016-09-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/gzip.texi: Fix off-by-one timestamp.
+
+2016-09-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix some Y2038 etc. bugs
+	* NEWS: Document this.
+	* gzip.c (get_method): Warn about out-of-range MTIME,
+	and ignore it instead of relying on possibly-undefined behavior.
+	* tests/Makefile.am (TESTS): Add timestamp.
+	* tests/timestamp: New test.
+	* zip.c (zip): Warn about out-of-range file time stamp.
+
+2016-08-29  Jim Meyering  <meyering@fb.com>
+
+	maint: fix gzip-specific syntax-check rule
+	* cfg.mk (sc_gzip_copyright_check): This rule had two problems.
+	It was failing erroneously (the copyright date in gzip.c is fine),
+	yet it was complaining.  The first problem is that the rule's
+	diagnostic mentioned the wrong file: lib/version-etc.c, rather than
+	./gzip.c. The second problem is that it specified this file name
+	via "in_files" rather than the "in_vc_files" variable.
+
+2016-06-12  Paul Eggert  <eggert@penguin.cs.ucla.edu>
+
+	gzip: fix port to Atari by not defining ASMV
+	Problem reported by Helmut Karlowski in: http://bugs.gnu.org/23751
+	* tailor.h (ASMV) [ATARI || atarist]: Do not define.
+
+2016-06-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: drop mentions of Amiga, VMS
+	These platforms were not supported anyway, and their code was
+	suffering from bitrot.  This patch may also fix some file name
+	glitches on MS-Windowsish platforms.
+	* bootstrap.conf (gnulib_modules): Add dosname.
+	* gzip.c: Include dosname.h.
+	(shorten_name, treat_dir): Use last_component rather than looking
+	at path separators by hand.
+	* tailor.h: Remove sections on porting to VMS and to Amiga,
+	since dosname.h doesn't support these platforms anyway.
+	(PATH_SEP2, PATH_SEP3, STDC_HEADERS, SUFFIX_SEP, RECORD_IO)
+	(HAVE_CHOWN, HAVE_LSTAT, HAVE_SYS_DIR_H, direct): Remove.  All
+	uses removed.  Many uses replaced by calls to ISSLASH and/or
+	last_component.
+
+2016-04-29  Jim Meyering  <meyering@fb.com>
+
+	maint: arrange for better URLs in generated announcement message
+	* cfg.mk (url_dir_list): Define.  I had been correcting the generated
+	URLs by hand, just before the announcement.  This is better.
+
+2016-04-26  Jim Meyering  <meyering@fb.com>
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.8
+	* NEWS: Record release date.
+
+	gnulib: update to latest
+
+2016-04-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: simplify by closing ourselves
+	This simplifies the previous fix, by avoiding the use of the
+	closein module.  That module was problematic, as gzip normally
+	does not use stdio for output and never uses it for input.
+	Also, it is a heavyweight module, as it drags many files into lib
+	(c-ctype.c, c-ctype.h, closein.c, closein.h, closeout.c, closeout.h,
+	close-stream.c, close-stream.h, config.charset, c-strcasecmp.c,
+	c-strcaseeq.h, c-strcase.h, c-strncasecmp.c, fpending.c, fpending.h,
+	freadahead.c, freadahead.h, localcharset.c, localcharset.h, mbrtowc.c,
+	mbsinit.c, quotearg.c, quotearg.h, quote.h, ref-add.sin, ref-del.sin,
+	streq.h, wctype-h.c, wctype.in.h) and into m4 (closein.m4, closeout.m4,
+	close-stream.m4, codeset.m4, configmake.m4, fpending.m4, freadahead.m4,
+	glibc21.m4, localcharset.m4, locale-fr.m4, locale-ja.m4, locale-zh.m4,
+	mbrtowc.m4, mbsinit.m4, mbstate_t.m4, quotearg.m4, wctype_h.m4),
+	and these files are thus no longer needed.
+	* bootstrap.conf (gnulib_modules): Remove closein.
+	* gzip.c: Don't include closein.h.
+	(stdin_was_read): New static var.
+	(main): Don't use close_stdin.
+	Invoke finish_out to exit after outputting via stdio's stdout.
+	Close stdin after reading it.
+	Restore previous way of closing stdout.
+	(treat_stdin): Record that stdin was read.
+	(finish_out): New function.
+
+	gzip: fix bug with -l output to pipes
+	Problem reported by Christian Franke via Eric Blake in:
+	http://bugs.gnu.org/23314
+	* NEWS: Mention this.
+	* gzip.c (main): Do not close stdout twice when given -l.
+	Instead, -l now just fflushes stdout, so that fdatasync
+	can synchronize it if --synchronize is also specified.
+	* tests/list: New test case.
+	* tests/Makefile.am (TESTS): Add it.
+
+2016-03-28  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Port to Oracle Solaris Studio 12.4
+	Problem reported by Kiyoshi KANAZAWA in: http://bugs.gnu.org/23133
+	* NEWS: Document this.
+	* configure.ac (ASMV): Do not define if NO_ASM is
+	anywhere in DEFS; it doesn't need to be surrounded by white space.
+	* lib/match.c: Do not use x86 version if __x86_64__ is defined.
+
+2016-03-27  Jim Meyering  <meyering@fb.com>
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.7
+	* NEWS: Record release date.
+
+2016-03-26  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Port to NetBSD 7.0
+	Problem reported by Assaf Gordon in: http://bugs.gnu.org/23107#13
+	* gzexe.in, zdiff.in, zgrep.in: Don't rely on mktemp -t,
+	as it has a different meaning in NetBSD.
+
+	* tests/init.sh: Sync from Gnulib.
+
+	Port to Alpine Linux which uses Busybox
+	* Makefile.am (check-local): Use plain diff rather than
+
+2016-03-24  Jim Meyering  <meyering@fb.com>
+
+	gzip: also honor GZIP=--rsyncable
+	* gzip.c (main): Also accept --rsyncable when it is specified
+	via the GZIP environment variable.
+	I noticed this when gzip's "make dist" failed because maint.mk
+	detected that gzip now honors --rsyncable, yet when it set GZIP_ENV
+	to include that, and that propagated via automake-generated code
+	to the GZIP setting used in the "make dist" rule, there, it was not
+	honored, and caused "make dist" to fail.
+
+2016-03-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix typo in previous patch
+
+	Port to Solaris 11 /bin/sh
+	* m4/shell.m4 (AC_PROG_SHELL): Reject Solaris 11 /bin/sh.
+	A problem was reported by Nelson H. F. Beebe for OpenIndiana.
+	I reproduced a problem with different symptoms on Solaris 11.
+	Switching to Bash fixed it, and I hope this fixes it for
+	OpenIndiana too, since both problems appear to be shell-related.
+
+2016-03-18  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: with -f SPECIAL, read SPECIAL just once
+	Problem reported by Fulvio Scapin in: http://bugs.gnu.org/22945
+	* NEWS: Document this.
+	* tests/zgrep-f: Add a test.
+	Adjust a test to cover the case of more than one line in -f's input.
+	* zgrep.in (with_filename): With -f FILE, if FILE is stdin or not
+	a regular file, copy it into a temporary and use the temporary.
+
+2016-03-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: port to AIX 7.1 + xlc V12.1
+	* inflate.c, unlzw.c, util.c: Include tailor.h after including any
+	system include file that might in turn include signal.h for the
+	first time, so that SIGPIPE is not #defined to 0 prematurely,
+	which clashes with signal.h's SIGPIPE.
+
+2016-03-15  Jim Meyering  <meyering@fb.com>
+
+	gnulib: update to latest
+
+	maint: don't ignore gitlog-to-changelog failure
+	* Makefile.am (gen-ChangeLog): Don't ignore failure of
+	gitlog-to-changelog. This syncs to coreutils' copy of this rule.
+
+2016-03-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: pacify clang
+	* gzip.c (do_list): Use 2D array of char for month abbreviations,
+	as this is clearer anyway, and it pacifies Clang.  Problem reported
+	by Assaf Gordon in: http://bugs.gnu.org/22900#40
+
+2016-03-06  Jim Meyering  <meyering@fb.com>
+
+	tests: port to systems for which ":" is not the PATH separator
+	* Makefile.am (new_path): New variable.
+	(check-local): Use $(PATH_SEPARATOR) rather than a literal ":",
+	to avoid "make syntax-check" failure.
+
+2016-03-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	doc: minor --rsyncable doc fixes
+	* doc/gzip.texi (Sample): Mention --rsyncable.
+	* gzip.c (help): Sort and do not capitalize the new --rsyncable
+	help string.
+
+	gzip: minor zgrep cleanup
+	* zgrep.in: Simplify previous change.
+
+	gzip: port zgrep to Solaris 11.2
+	Problem reported by Assaf Gordon in: http://bugs.gnu.org/22900#11
+	* zgrep.in: Port to Solaris 11.2 /bin/sh (ksh 93u 2011-02-08),
+	where $? is 256+SIG when a process was killed with signal SIG, and
+	where 'exit 257' is equivalent to 'exit 1'.  Apparently some other
+	sh implementations use 256+128+SIG.  So, instead of using plain
+	'exit $?', use the equivalent of 'exit ((128 * (128 <= $?)) + $? %
+	128)' within the script, and use the equivalent of 'kill -$($? %
+	128)' at the top level if the exit status is 128 or more.
+
+	gzip: remove --__bindir
+	* NEWS: Document this.
+	* gzexe.in, gunzip.in, zcat.in, zcmp.in, zdiff.in, zegrep.in:
+	* zfgrep.in, zforce.in, zgrep.in, zless.in, zmore.in, znew.in:
+	Remove support for undocumented --__bindir option.  Callers can
+	set PATH instead; that's less error-prone.  This fixes some
+	'make check' failures on my Solaris 11 box, which occurred
+	because the test scripts were mistakenly testing the installed
+	gzip rather than the gzip in the working directory.
+	* Makefile.am (.in): Don't replace bindir.
+	(check-local): Set PATH instead of using --__bindir.
+	* tests/help-version (gunzip_setuphelp, gzexe_setuphelp)
+	(zcat_setuphelp, zcmp_setuphelp, zdiff_setuphelp)
+	(zegrep_setuphelp, zfgrep_setuphelp, zforce_setuphelp)
+	(zgrep_setuphelp, zless_setuphelp, zmore_setuphelp)
+	(znew_setuphelp): Remove.  All uses removed.
+	(lbracket_setup): Default args to empty.
+
+2016-03-04  Jim Meyering  <meyering@fb.com>
+
+	tests: fix "make check" failure on AIX 7.1
+	* tests/Makefile.am (TESTS_ENVIRONMENT): Modernize:
+	remove unused shell_or_perl_ function, and use an
+	export_with_values function as grep does, to remove
+	a lot of duplication.
+	Reported by Assaf Gordon in http://debbugs.gnu.org/22900
+
+2016-03-02  Rusty Russell  <rusty@rustcorp.com.au>
+
+	gzip: support the --rsyncable option
+	* deflate.c: Include verify.h.
+	(RSYNC_WIN, RSYNC_SUM_MATCH): Define.
+	(rsync_sum, rsync_chunk_end): Declare file-scoped globals.
+	(lm_init): Initialize globals.
+	(fill_window): Update rsync_chunk_end.
+	(rsync_roll): New function.
+	(RSYNC_ROLL): New macro.
+	(FLUSH_BLOCK): Update for new "pad" parameter.
+	(deflate_fast): Use RSYNC_ROLL and flush/pad.
+	(deflate): Likewise.
+	* trees.c (flush_block): Add "pad" parameter.
+	* gzip.c (rsync): New global.
+	(RSYNCABLE_OPTION, longopts, help): Add the option.
+	(main): Set the new global.
+	* gzip.h (rsync): Declare new global.
+	(flush_block): Update prototype.
+	* doc/gzip.texi: Document it.
+	* gzip.1: Likewise.
+	* bootstrap.conf: Use verify module.
+	* NEWS (New feature): Mention it.
+	* Makefile.am (check-local): Add tests and use AM_V__* command-
+	hiding opions. Reported against Debian here:
+	https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=118118
+
+2016-02-28  Jim Meyering  <meyering@fb.com>
+
+	maint: dist-check.mk: remove .deps dirs before comparing
+	"make distcheck" with automake-from-trunk would fail like this:
+	  ...
+	  Only in /gz/tests/torture/gzip/test/gzip-1.6.42-9d47.old: .deps
+	  Only in /gz/tests/torture/gzip/test/gzip-1.6.42-9d47.old/lib: .deps
+	  Only in /gz/tests/torture/gzip/test/gzip-1.6.42-9d47.old/lib/glthread: .deps
+	* dist-check.mk (my-distcheck): Remove all .deps directories before
+	comparing the two hierarchies.
+
+2016-02-28  Paul Eggert  <eggert@cs.ucla.edu>
+
+	misc: update --version copyright
+	* gunzip.in, gzexe.in, zcat.in, zdiff.in, zforce.in, zgrep.in:
+	* zless.in, zmore.in, znew.in: Update copyright year in --version
+	output to 2016.
+
+	gzip: new option --synchronous
+	This follows up on the earlier patch to avoid data loss near the
+	system crashes.  It makes the new behavior optional, with the
+	default off.  See: http://bugs.gnu.org/22768
+	* NEWS, doc/gzip.texi (Sample, Invoking gzip), gunzip.in (usage):
+	* gzip.1, zcat.in (usage):
+	Document this.
+	* gzip.c (synchronous): New static var.
+	(SYNCHRONOUS_OPTION): New constant.
+	(longopts, help, main, treat_file): Add support for --synchronous.
+
+	gzip: use constants, not fileno
+	* gzip.c (main, treat_stdin, treat_file, get_method)
+	(check_ofname): Prefer STDIN_FILENO to fileno (stdin),
+	and similarly for STDOUT_FILENO.
+
+	gzip: fdatasync output dir before unlinking
+	This follows up on the earlier patch to avoid data loss near
+	the system crashes.  See: http://bugs.gnu.org/22768
+	* bootstrap.conf (gnulib_modules): Add dirname-lgpl, fdatasync,
+	openat-safer, unistd-safer, unlinkat.
+	* gzip.c: Include stddef.h, dirname.h.
+	Include fcntl--.h instead of fcntl-safer.h.
+	(RW_USER): Remove; no longer needed.
+	(dfname, dfd): New static vars.
+	(dot): New static const.
+	(atdir_eq, atdir_set): New functions.
+	(treat_file): Also fdatasync the output directory, if !keep.
+	(treat_file, create_outfile, open_and_stat):
+	Use dir fd for unlinkat and openat, if possible.
+	(open_and_stat): Omit mode argument, since it was always the
+	same.  All callers changed.
+	* lib/.gitignore, m4/.gitignore: Add new gnulib files.
+	* tailor.h (PROTO, NO_STDIN_FSTAT, OPEN): Remove.  Remove MACOS
+	section, as this stuff would not work anyway now, and circa 2001
+	Apple stopped supporting Mac OS 9 and earlier.
+	* zip.c: Do not include unistd.h and fcntl.h, as this file does
+	not directly use any symbols defined by those headers.
+
+2016-02-22  Paul Eggert  <eggert@cs.ucla.edu>
+
+	fsync output file before closing
+	Problem reported by Yanyan Jiang 蒋炎岩 in: http://bugs.gnu.org/22768
+	* NEWS: Document this.
+	* bootstrap.conf (gnulib_modules): Add fsync.
+	* gzip.c (treat_file): Call fsync just before closing the output.
+	* lib/.gitignore, m4/.gitignore: Add fsync-related gnulib files.
+
+2016-01-22  Jason Leschnik  <jason@leschnik.me>
+
+	doc: correct a diagnostic in man page to match actual
+	* gzip.1: s/no change/unchanged/
+	This addresses http://debbugs.gnu.org/22413
+
+2016-01-01  Jim Meyering  <meyering@fb.com>
+
+	maint: update copyright year, bootstrap, init.sh
+	Run "make update-copyright" and then...
+
+	* gzip.c: Transform the copyright notice via s/2015/2016/.
+	* gnulib: Update to latest.
+	* tests/init.sh: Update from gnulib.
+	* bootstrap: Likewise.
+
+2015-11-01  Jim Meyering  <meyering@fb.com>
+
+	maint: avoid three warnings from the very latest gcc-built-from-git
+	* unzip.c (unzip): Correct two format strings to match the types of the corresponding arguments.
+	* unlzw.c (unlzw): Cast an "int" to unsigned to match expected type of %x.
+
+2015-08-24  Jim Meyering  <meyering@fb.com>
+
+	maint: adjust copyright notices in *.in files to be consistent
+	The copyright year ranges in *.in files were not being updated,
+	because of a missing ", Inc." suffix.  Add that, run
+	run "make udpate-copyright", and ensure 2010..2015 year
+	ranges are covered.
+	* gunzip.in: Update copyright notice and year ranges.
+	* gzexe.in: Likewise.
+	* zcat.in: Likewise.
+	* zdiff.in: Likewise.
+	* zforce.in: Likewise.
+	* zgrep.in: Likewise.
+	* zless.in: Likewise.
+	* zmore.in: Likewise.
+	* znew.in: Likewise.
+
+2015-08-24  Jim Meyering  <meyering@fb.com>
+
+	build: avoid -Wshift-negative-value warning
+	Configured with --enable-gcc-warnings, a gcc-6.x build would fail with this:
+
+	  gzip.c:118:32: error: left shift of negative value
+	   #define OFF_T_MIN (~ (off_t) 0 << (sizeof (off_t) * CHAR_BIT - 1))
+
+	* gzip.c [OFF_T_MAX]: Define in terms of TYPE_MAXIMUM, not OFF_T_MIN.
+	[OFF_T_MIN]: Remove now-unused definition.
+	Include "intprops.h" for definiton of TYPE_MAXIMUM.
+	* bootstrap.conf (gnulib_modules): Add intprops.
+
+2015-07-30  Jim Meyering  <meyering@fb.com>
+
+	maint: remove dead code
+	This package has not been compilable with -DCRYPT
+	since commit v1.4-82-g9d1b943.  Remove final vestiges.
+	* bits.c (copy_block) [CRYPT]: Remove #ifdef'd code.
+	* inflate.c (NEXTBYTE) [CRYPT]: Likewise.
+	Prompted by a report from Flávio Medeiros
+	that HEADER and T might be used uninitialized.
+
+2015-03-17  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: make the GZIP env var obsolescent
+	* NEWS, gzip.1:
+	* doc/gzip.texi (Environment, Tapes): Document this.
+	* gzip.c (args): Remove static var; no longer needed now that
+	'main' frees it.  All uses removed.
+	(ENV_OPTION, shortopts): New constants.
+	(main): Warn about nontrivial uses of GZIP.  Reject dangerous uses.
+	* tests/gzip-env: New test case.
+	* tests/Makefile.am (TESTS): Add it.
+	* util.c (add_envopt): Create new vector instead of adding to old
+	one.  Only use changed.
+
+2015-03-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: adjust to recent gnulib
+	* doc/.gitignore: Add gendocs_template_min.
+	* lib/.gitignore: Add assure.h.
+
+2015-02-08  Jim Meyering  <meyering@fb.com>
+
+	maint: ensure that --version's copyright date is current
+	* cfg.mk (sc_gzip_copyright_check): Ensure we keep this copyright
+	year number up to date.  Reported by Paul Eggert.
+	* gzip.c (license_msg): Include only the current year number,
+	as is done in nearly every other program.
+
+	gnulib: update to latest
+
+2015-01-01  Jim Meyering  <meyering@fb.com>
+
+	maint: update copyright year ranges to include 2015; update gnulib
+
+2014-11-10  Jim Meyering  <meyering@fb.com>
+
+	maint: move new NEWS entry into block for upcoming release
+	* NEWS: Move the latest NEWS entry from the block for gzip-1.6
+	into the block for the upcoming release.
+
+2014-11-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: adjust -v output when -k is also specified
+	Problem reported by Eric Benoit in: http://bugs.gnu.org/16401
+	* gzip.c (treat_file): When keeping a file, don't say it's replaced.
+	* NEWS: Document this.
+	* tests/keep: Test this.
+
+2014-11-10  Jim Meyering  <meyering@fb.com>
+
+	maint: enable more syntax checks
+	* cfg.mk (local-checks-to-skip): Remove several rule names from this
+	list, thus enabling the corresponding checks.  To fix some, I made
+	syntactic changes to source files.  In other cases, I exempted certain
+	files from the checks.
+	Add exemptions for these:
+	  sc_prohibit_atoi_atof = ^(gzip|sample/sub)\.c$$
+	  sc_space_tab = ^lib/match\.c$$
+	  sc_useless_cpp_parens = ^(lib/match\.c|tailor\.h)$$
+	* configure.ac: Add quotes to fix under-quoting.
+	* deflate.c: Remove unnecessary cpp parentheses.
+	* tests/Makefile.am (TEST_ENVIRONMENT): Remove space-before-TAB.
+	* unlzw.c: Change some TABs to spaces.
+
+	maint: avoid false positive match in check for double semicolon
+	* cfg.mk (exclude_file_name_regexp--sc_prohibit_double_semicolon):
+	Exempt the file, lib/match.c, from gnulib's new double-semicolon
+	check.
+
+	gnulib+bootstrap: update to latest
+	* gnulib: Update the submodule.
+	* bootstrap: Update from gnulib.
+
+2014-10-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	tests: use local dir for output
+	Reported by Kiyoshi KANAZAWA in: http://bugs.gnu.org/18679
+	* tests/unpack-invalid: Use local directory, not /tmp, for output.
+
+2014-08-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix --suffix=z bug (Bug#18239)
+	* gzip.c (get_suffix): Put --suffix string at the end
+	of the list of suffixes if it is a suffix of one one them.
+	* tests/z-suffix: New file.
+	* tests/Makefile.am (TESTS): Add it.
+
+2014-06-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: exit with status 0 if a file matches and there's no trouble
+	Reported by Pavel Raiskup in: http://bugs.gnu.org/17760
+	* zgrep.in (res): Treat exit status 0 to be greater than 1.
+	Also, exit immediately on software configuration error.
+
+2014-06-07  Paul Eggert  <eggert@cs.ucla.edu>
+
+	doc: use UTF-8 in the manual
+	* doc/gzip.texi: Switch to UTF-8 encoding.  Fix ASCIIisms.
+	Don't use @sc; plain caps are fine for GNU manuals.
+
+	maint: update .gitignore files
+	* lib/.gitignore, m4/.gitignore: Adjust to match current sources.
+	Also, sort.
+
+2014-06-07  Jim Meyering  <meyering@fb.com>
+
+	maint: udpate all copyright notices via "make update-copyright"
+
+	maint: update copyright year range in gzip.texi
+	* doc/gzip.texi: Update copyright date.
+
+	maint: update gnulib to latest and adapt streamsavedir usage
+	* gnulib: Update module to latest.
+	* gzip.c (treat_dir): Gnulib's streamsavedir API has changed:
+	call it with a new argument, SAVEDIR_SORT_NONE, to retain the
+	preceding behavior.
+
+2014-03-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zless: improve gzip failure checking, and port to new -V format
+	Problem reported by Jaroslaw Weglinski, and LESSOPEN change
+	suggested by Mark Nudelman, in: http://bugs.gnu.org/16951
+	This doesn't fix bug 16951 entirely, as 'less' needs to be changed
+	too, but it's a start.
+	* zless.in (check_exit_status): New var.
+	(LESSOPEN): Use it.
+	(use_input_pipe_on_stdin): Adjust to output format on Fedora 20,
+	where 'less -V' outputs "less 458 (POSIX regular expressions)"
+	on the first line.
+
+2013-10-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix permissions issue on Solaris-like systems
+	I.e., on systems that let users give files away.
+	* gzip.c (do_chown): New function.
+	(copy_stat): Use it, to change the group, then the permissions,
+	then the owner.  Idea suggested by Vladimir Marek in
+	<http://bugs.gnu.org/15672#11>
+
+2013-10-03  Paul Eggert  <eggert@cs.ucla.edu>
+
+	znew: avoid denial-of-service issue
+	Reported by Rich Burridge in <http://bugs.gnu.org/15522>.
+	* znew.in: Rewrite to avoid the need for a temporary file in /tmp.
+	That way, we avoid the need for set -C
+	and worrying about denial of service.
+	Use touch -r and chmod --reference rather than cpmod.
+	Assume cp -p works, as it's now universal.
+	Quote 'echo' args better, while we're at it.
+	(warn, tmp, cpmod, cpmodarg): Remove.
+	(GZIP): Unset, so that we needn't test for gzip extension.
+	(ext): Now always '.gz'.
+	* znew.1: Document the change of implementation assumptions.
+
+2013-06-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix spelling typo in newly-added comment.
+
+	tests: zgrep-signal race condition fix
+	* tests/zgrep-signal: Check that Perl supports dup2.
+	(exec_with_SIGPIPE_SIGDFL): Remove.
+	(write_to_dangling_pipe): Simplify by moving more of it into Perl.
+	Fix race condition, where subcommand writes to a pipe before the ":"
+	command exits.  Problem reported by Thorsten Glaser in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-06/msg00028.html>.
+
+2013-06-12  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: usage should say which grep options are not supported
+	* zgrep.in (usage): Document which grep options are not supported.
+	Problem reported by Liron Paryente in
+	<http://lists.gnu.org/archive/html/bug-grep/2013-06/msg00005.html>.
+
+2013-06-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: port util.c to Compaq C V6.5-303
+	* util.c (crc_32_tab): Move definition to front, since this
+	compiler doesn't allow declarations of static arrays with
+	incomplete types.  Problem reported by Steven M. Schweda in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-06/msg00010.html>.
+
+	tests: zgrep-context assumes grep knows context
+	* tests/Makefile.am (TESTS_ENVIRONMENT): Pass GREP too.
+	* tests/zgrep-context: Check that the underlying grep supports
+	context options.  Problem reported by Steven M. Schweda in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-06/msg00010.html>.
+
+	doc: zgrep exit status, unsupported options
+	* zgrep.1 (EXIT STATUS, BUGS): New sections.
+	Problem reported by Bdale Garbee in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-06/msg00007.html>.
+
+	maint: port to platforms lacking SIGPIPE
+	* tailor.h (SIGPIPE): Define to 0 if not defined.  This fixes a
+	porting bug introduced as part of 2012-11-16 syntax-check cleanup.
+	Problem reported by Bdale Garbee in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-06/msg00006.html>.
+
+2013-06-09  Jim Meyering  <meyering@fb.com>
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.6
+	* NEWS: Record release date.
+
+	build: avoid automake warning that suggests use of subdir-objects
+	* configure.ac (AM_INIT_AUTOMAKE): Use the subdir-objects option.
+
+	build: avoid warning about deprecated use of automake's ACLOCAL_AMFLAGS
+	* Makefile.am (ACLOCAL_AMFLAGS): Don't use this deprecated variable.
+	* configure.ac: Do this instead: AC_CONFIG_MACRO_DIR([m4]).
+
+	build: use more portable shell syntax in search of working shell
+	* m4/shell.m4: Adjust sh/case syntax not to evoke a syntax
+	error from Solaris 10's /bin/sh.
+
+	build: update gnulib to latest, and bootstrap
+
+2013-05-28  Jim Meyering  <meyering@fb.com>
+
+	tests: exercise the new --keep option
+	* tests/keep: New file.
+	* tests/Makefile.am (TESTS): Add it.
+
+2013-05-28  Rodrigo Campos  <rodrigo@sdfg.com.ar>
+
+	gzip: add "--keep" option to retain (don't delete) input files
+	gzip now accepts the --keep (-k) option, for consistency with tools
+	like xz, lzip and bzip2.  With this option, gzip no longer removes
+	named input files when compressing and decompressing.
+	* doc/gzip.texi: Document it.
+	* gzip.1: Likewise.
+	* gunzip.in: Likewise.
+	* NEWS: Likewise.
+	* gzip.c: Add support for "--keep".
+
+2013-04-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	tests: redo patch for non-GNU gzip installed in /usr/local/bin
+	Problem with previous patch reported by Antonio Diaz Diaz in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-04/msg00011.html>.
+	* tests/help-version (gunzip_setuphelp, gzexe_setuphelp)
+	(zcat_setuphelp, zcmp_setuphelp, zdiff_setuphelp)
+	(zegrep_setuphelp, zfgrep_setuphelp, zforce_setuphelp)
+	(zgrep_setuphelp, zless_setuphelp, zmore_setuphelp)
+	(znew_setuphelp): New functions, used when testing even --help.
+	(zdiff_setup, zcat_setup, znew_setup, zgrep_setup, gzexe_setup):
+	Use gzip_setuphelp to set --__bindir.
+
+2013-04-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	tests: work even if non-GNU gzip is installed in /usr/local/bin
+	Problem reported by Antonio Diaz Diaz in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-04/msg00004.html>.
+	* tests/help-version (zdiff_setup, zcat_setup, znew_setup, zgrep_setup)
+	(gzexe_setup): Pass --__bindir so that subsidiary programs are our
+	own's, not /usr/local/bin's.  This requires using 'eval' on the result.
+	(zcmp_setup, gunzip_setup, zmore_setup, zless_setup, zforce_setup)
+	(zegrep_setup, zfgrep_setup): Invoke one of the other setup functions,
+	to make the patterns more obvious and simplify future maintenance.
+	* zcmp.in, zegrep.in, zfgrep.in: Pass __bindir to subsidiary program.
+
+	maint: adjust to Gnulib, Automake changes
+	* .gitignore: Add *.trs.
+	* lib/.gitignore: Add unused-parameter.h.
+
+	tests: port to Solaris 10 /bin/sh
+	* tests/Makefile.am (TESTS_ENVIRONMENT):
+	Use "FOO=val; export FOO" rather than "export FOO=val",
+	as the latter form doesn't work with Solaris /bin/sh.
+
+2013-02-25  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: port to DMF file systems
+	* util.c (read_buffer): When reading a file with O_NONBLOCK, if
+	the read fails with errno==EAGAIN, clear O_NONBLOCK and try again.
+	Problem reported by Vitezslav Cizek in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-02/msg00030.html>.
+
+2013-02-05  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix bug where you say "n" and gzip acts as if you said "y"
+	Problem reported for GCC 4.7 x86-64 -O2 by Allan McRae in
+	<http://lists.gnu.org/archive/html/bug-gzip/2013-02/msg00000.html>.
+	* NEWS: Document this.  Use consistent format in earlier note.
+	* gzip.c: Include yesno.h.
+	* gzip.h (yesno): Remove decl; that's yesno.h's job.
+
+2013-01-06  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: adjust to Gnulib changes
+	* lib/.gitignore: Add glthread, math.c, unistd.c, wctype-h.c.
+	* m4/.gitignore: Remove inline.m4.
+
+2013-01-04  Jim Meyering  <jim@meyering.net>
+
+	maint: update all copyright year number ranges
+	Run "make update-copyright".
+
+	build: update gnulib submodule to latest
+
+2012-12-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	diagnose unexpected EOF and zero lengths in packed data
+	Problem reported by Aki Helin.
+	* NEWS: Mention Aki's reports.
+	* tests/unpack-invalid: New file,
+	with test data suggested by Aki.
+	* tests/Makefile.am (TESTS): Add it.
+	* unpack.c (read_byte): New function.
+	(look_bits, read_tree): Use it.
+	(read_tree): Check against zero bit length Huffman code.
+
+	gzip: diagnose invalid code in packed data
+	* unpack.c (unpack): When encountering a code out of range, report
+	it and fail rather than charging ahead with randomish output.
+	Problem reported by Aki Helin.
+
+2012-11-16  Jim Meyering  <jim@meyering.net>
+
+	maint: avoid new syntax-check failures
+	* cfg.mk (_gl_TS_unmarked_extern_vars): Append nice_match, to avoid
+	false-positive syntax-check failure on i686.
+	* gzip.c (SIGPIPE): Remove definition.  Now always provided via gnulib.
+	* lib/.gitignore: xsize.c, added by gnulib-tool.
+
+2012-11-16  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix debugging/porting typo
+	* unlzw.c (unlzw) [DEBUG]: Don't assume 'long' can be printed with %d.
+
+	maint: merge build improvements from coreutils
+	* configure.ac: Invoke gl_ASSERT_NO_GNULIB_POSIXCHECK.
+	(--enable-gcc-warnings): Change help message.
+	(gl_GCC_VERSION_IFELSE): New macro.
+	Do not omit -Wunused-macros for main code.
+	Adjust other -W options as per coreutils.
+	* lib/Makefile.am (AM_CFLAGS): Use GNULIB_WARN_CFLAGS, not WARN_CFLAGS.
+	* unlzw.c (REGISTERS, REG1, REG2, ..., REG16): Remove.
+	All uses removed.  These provoked -Wunused-macros warnings.
+	This sort of fiddling with registers hasn't been needed for years.
+
+	build: update gnulib submodule to latest
+
+	maint: port to platforms lacking SIGPIPE
+	* gzip.c (SIGPIPE): Define to 0 if not already defined.
+
+	doc: bring up to date and fix troff typos
+	* doc/gzip.texi (Overview): Update RFC URLs.
+	* gzip.1: Likewise.  Don't say "SEE ALSO" to programs that almost
+	nobody has installed anymore.
+	* gzip.1, zmore.1: Fix some troff typos.
+	* zdiff.1: Clarify what happens with input files.  Don't talk
+	about temporary file names, as they're rarely used these days.
+
+2012-10-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	tests: exercise the grep -e portability fix
+	Remove workaround for Solaris, since the bug should be fixed now.
+	Suggested by Petr Sumbera in
+	<http://lists.gnu.org/archive/html/bug-gzip/2012-10/msg00005.html>.
+	* tests/zgrep-context, tests/zgrep-f: All uses removed.
+	* tests/init.cfg (require_POSIX_grep_): Remove.
+
+2012-10-23  Eric Blake  <eblake@redhat.com>
+
+	build: default to --enable-gcc-warnings in a git tree
+	Anyone building from cloned sources can be assumed to have a new
+	enough environment, such that enabling gcc warnings by default will
+	be useful.  Tarballs still default to no warnings, and the default
+	can still be overridden with --disable-gcc-warnings.
+	* configure.ac (gl_gcc_warnings): Set default based on environment.
+
+2012-10-20  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: do not assume standard 'grep' has -e
+	On Solaris 11, /usr/bin/grep -e does not work.
+	Problem reported by Petr Sumbera in
+	<http://lists.gnu.org/archive/html/bug-gzip/2012-10/msg00003.html>.
+	* Makefile.am (.in): Substitute @GREP@.
+	* configure.ac (AC_PROG_GREP): Invoke.
+	* zgrep.in (grep): Use @GREP@.
+
+2012-08-14  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: do not assume GNU expr
+	* zgrep.in: Do not assume '\+' has the GNU behavior in the BRE
+	given to 'expr', as POSIX does not guarantee that.  Come to think
+	of it, use a shell pattern rather than 'expr', as this is more
+	efficient.
+
+2012-08-08  Jim Meyering  <meyering@redhat.com>
+
+	tests: exercise the just-fixed part of zgrep
+	* tests/zgrep-context: New file.
+	* tests/Makefile.am (TESTS): Add it.
+
+2012-08-08  Jim Meyering  <meyering@redhat.com>
+
+	zgrep: handle a multi-digit context option like -15
+	* zgrep.in: Do not malfunction when given an option like -15.
+	Before, it could end up treating the pattern as a file name:
+
+	  $ echo x | gzip | zgrep -15 x
+	  gzip: x.gz: No such file or directory
+
+	* NEWS (Bug fixes): Mention it.
+	Reported by Dan Bloch via Thomas Bushnell in
+	https://bugs.launchpad.net/bugs/1032831
+
+2012-08-07  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib, bootstrap and init.sh
+
+	maint: fix misspellings in old ChangeLog and NEWS
+	* ChangeLog-2007: s/Supress/Suppress/
+	* NEWS: Likewise.
+	* cfg.mk (old_NEWS_hash): Update to match typo fix.
+
+2012-06-19  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zmore: rewrite to fix bugs and assume POSIX
+	Problem reported for Solaris 9 by Daniel in
+	<http://lists.gnu.org/archive/html/bug-gzip/2012-06/msg00007.html>.
+	Rather than figure out what exactly went wrong in Solaris 9
+	it was easier to rip out all the buggy compatibility and stty cruft.
+	* zmore.in: Don't use stty or trap; simply pipe the output to 'more'
+	and let it deal with signals and terminal control.
+	Use printf, not 'echo', to avoid problems with backslashes.
+	Don't assume ANS is not 's' in the environment.
+	Use a 'more'-style header instead of rolling our own style.
+	Paginate the header, too; the old behavior lost the header.
+	* NEWS, zmore.1: Document this.
+
+2012-06-17  Jim Meyering  <meyering@redhat.com>
+
+	maint: add .mailmap
+	* .mailmap: New file.  Unify two spellings of Paul's name,
+	to make git log output slightly cleaner.
+
+	maint: post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.5
+	* NEWS: Record release date.
+
+	build: update gnulib for fixed maint.mk
+
+	build: update gnulib submodule; bootstrap and init.sh, too
+	* cfg.mk: Exempt crufty tailor.h from its use of "#define off_t...".
+	* .gitignore, m4/.gitignore: Update semi-automatically (via bootstrap).
+
+2012-04-24  Paul Eggert  <eggert@cs.ucla.edu>
+
+	doc: document -rf change
+	* NEWS: Document the ZFS fix.
+
+	gzip: remove CLOSEDIR
+	* gzip.c (CLOSEDIR): Remove; no longer used.
+
+	gzip: port gzip -rf to ZFS
+	Problem reported privately by Rich Burridge.
+	* bootstrap.conf: Add savedir.
+	* gzip.c: Include <savedir.h>.
+	(_D_EXACT_NAMELEN): Remove.
+	(treat_dir): Use savedir rather than reading directory entries one
+	at a time, to avoid revisiting an already-compressed file when using
+	ZFS and the -rf flags are specified.
+	* lib/.gitignore, m4/.gitignore: Ignore savedir-related files.
+
+2012-03-18  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix nondeterministic compression results
+	Reported by Jakub Wilk in <http://bugs.debian.org/647522>.
+	* deflate.c (fill_window): Don't let garbage pollute the dictionary.
+
+2012-01-11  Jim Meyering  <meyering@redhat.com>
+
+	tests: make all test scripts executable; work with automake-1.12
+	* tests/Makefile.am (TESTS_ENVIRONMENT): Adapt to work with upcoming
+	automake-1.12.
+	* tests/mixed: Make executable.
+	* tests/zgrep-f: Likewise.
+	* tests/zgrep-signal: Likewise.
+	* tests/znew-k: Likewise.
+
+	build: accommodate newer bootstrap from gnulib
+	* bootstrap.conf (gnulib_tool_option_extras): Add both --symlink
+	and --makefile-name=gnulib.mk.
+	* bootstrap: Update from gnulib.
+	* tests/init.sh: Update from gnulib.
+	* lib/Makefile.am: Initialize all of the following so that
+	generated code in gnulib.mk may use += to append to those variables:
+	AM_CFLAGS, BUILT_SOURCES, CLEANFILES, EXTRA_DIST, MOSTLYCLEANDIRS,
+	MOSTLYCLEANFILES, SUFFIXES, noinst_LTLIBRARIES.
+
+2012-01-01  Jim Meyering  <meyering@redhat.com>
+
+	maint: update all copyright year number ranges
+	Run "make update-copyright".
+
+2011-12-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zless: decompress stdin too, if less 429 or later
+	* zless.in: Use LESSOPEN |- feature of less 429 or later.
+	Problem reported by Jeroen Roovers via Mike Frysinger in
+	<http://lists.gnu.org/archive/html/bug-gzip/2011-12/msg00006.html>.
+
+2011-11-29  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	build: accommodate gnulib's new warnings with --enable-gcc-warnings
+	* configure.ac (WERROR_CFLAGS): Disable two new warnings:
+	-Wno-format-nonliteral, -Wno-unsuffixed-float-constants.
+	* gzip.h (bi_reverse): Declare with _GL_ATTRIBUTE_CONST.
+	(gzip_base_name): Declare with _GL_ATTRIBUTE_PURE.
+
+2011-11-29  Jim Meyering  <meyering@redhat.com>
+
+	tests: use "compare exp out", not "compare out exp"
+	Likewise, when an empty file is expected, use "compare /dev/null out",
+	not "compare out /dev/null". I.e., specify the expected/desired contents
+	via the first file name.  Prompted by a suggestion from Bruno Haible
+	in http://thread.gmane.org/gmane.comp.gnu.grep.bugs/4020/focus=29154
+
+	Run these commands:
+
+	    git grep -l -E 'compare [^ ]+ exp' \
+	      |xargs perl -pi -e 's/\b(compare) (\S+) (exp\S*)/$1 $3 $2/'
+	    git grep -l -E 'compare [^ ]+ /dev/null' \
+	      |xargs perl -pi -e 's,\b(compare) (\S+) (/dev/null),$1 $3 $2,'
+
+2011-11-05  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+2011-11-02  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* tests/zgrep-signal: Don't assume exit status 141 on PIPE signal.
+	Problem reported by Eric Blake in
+	<http://lists.gnu.org/archive/html/bug-gzip/2011-11/msg00007.html>.
+
+	* tests/zgrep-signal: Use perl instead of a nonportable shell trap.
+	Problem reported by Eric Blake in
+	<http://lists.gnu.org/archive/html/bug-gzip/2011-11/msg00005.html>.
+
+	* tests/zgrep-signal: Test for Fedora 15 signal bug.
+	Also, don't assume that SIGPIPE is SIG_DFL on entry.
+
+2011-11-02  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	tests: mixed: correct size-enumeration logic
+	* tests/mixed (sizes): Fix misplaced "&& break" that made us test
+	only with a size of 0, rather than all sizes in 0..64.
+
+	maint: avoid "make syntax-check" failure
+	* gzip.c (treat_stdin): Indent with spaces, not TABs.
+
+2011-11-02  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* gzip.c (treat_stdin): If quiet, be quiet with plain gzip -q.
+	Problem reported by Michaël Guitton in
+	<http://lists.gnu.org/archive/html/bug-gzip/2011-11/msg00000.html>.
+
+2011-08-10  Jim Meyering  <meyering@redhat.com>
+
+	maint: remove amiga, atari, msdos, nt, os2, vms sub-directories,
+	and all files therein.  This was proposed months prior, and no
+	one objected.
+	* amiga/Makefile.gcc: Remove file.
+	* amiga/Makefile.sasc: Likewise.
+	* amiga/match.a: Likewise.
+	* amiga/tailor.c: Likewise.
+	* amiga/utime.h: Likewise.
+	* atari/Makefile.st: Likewise.
+	* msdos/Makefile.bor: Likewise.
+	* msdos/Makefile.djg: Likewise.
+	* msdos/Makefile.msc: Likewise.
+	* msdos/doturboc.bat: Likewise.
+	* msdos/gzip.prj: Likewise.
+	* msdos/match.asm: Likewise.
+	* msdos/tailor.c: Likewise.
+	* nt/Makefile.nt: Likewise.
+	* os2/Makefile.os2: Likewise.
+	* os2/gzip.def: Likewise.
+	* os2/gzip16.def: Likewise.
+	* vms/Makefile.gcc: Likewise.
+	* vms/Makefile.mms: Likewise.
+	* vms/Makefile.vms: Likewise.
+	* vms/Readme.vms: Likewise.
+	* vms/gzip.hlp: Likewise.
+	* vms/makegzip.com: Likewise.
+	* vms/vms.c: Likewise.
+	* Makefile.am (EXTRA_DIST): Remove those file names.
+
+	build: use largefile module and update to latest gnulib
+	* configure.ac: Remove AC_SYS_LARGEFILE, subsumed by ...
+	* bootstrap.conf (gnulib_modules): ...this.  Use largefile module.
+	* gnulib: Update to latest.
+
+2011-07-12  Jim Meyering  <meyering@redhat.com>
+
+	maint: update init.sh and bootstrap from gnulib
+	* bootstrap: Update from gnulib.
+	* tests/init.sh: Update from gnulib.
+
+	maint: use gnulib's realloc-gnu and malloc-gnu modules
+	* bootstrap.conf (gnulib_modules): Use realloc-gnu and malloc-gnu,
+	rather than the now-deprecated realloc and malloc modules.
+
+	build: update gnulib submodule to latest
+
+2011-06-21  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* deflate.c: Export nice_match to assembler.
+	(static_unless_ASMV): New macro.
+	(nice_match): Use it.
+
+2011-06-08  Jim Meyering  <meyering@redhat.com>
+
+	build: fix "make syntax-check"
+	* cfg.mk (_gl_TS_unmarked_extern_vars): Add good_match.
+
+	build: avoid link failure: this time on i686 linux
+	* deflate.c (good_match): Must not be static, since it may
+	be used from lib/match.c.
+
+2011-05-14  Jim Meyering  <meyering@redhat.com>
+
+	build: avoid link failure on at least i386-FreeBSD7.2
+	* deflate.c (match_start, prev_length, max_chain_length): Do not
+	declare these as static.  On some types of system/arch, they are
+	used via match_.s.
+	* cfg.mk (_gl_TS_unmarked_extern_vars): Mark those three variables
+	as known-extern: match_start, prev_length, max_chain_length.
+
+2011-05-13  Jim Meyering  <meyering@redhat.com>
+
+	avoid new build failure on a system without <crypt.h>
+	* bits.c: Don't include "crypt.h", now that it's deleted.
+
+	maint: use gnulib's new readme-release module
+	* bootstrap.conf (gnulib_modules): Add readme-release.
+	(bootstrap_epilogue): Add the recommended perl one-liner.
+	* README-release: Remove file; it is now generated from gnulib.
+	* .gitignore: Add it.
+
+2011-05-09  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	maint: prepare for gnulib's new tight-scope syntax-check rule
+	* cfg.mk (_gl_TS_dir): Define.
+	(_gl_TS_unmarked_extern_vars): Define.
+
+	maint: declare many variables to be static
+	* deflate.c: Likewise.
+	* gzip.c: Likewise.
+	* gzip.h: Likewise.
+	* inflate.c: Likewise.
+	* trees.c: Likewise.
+	* unzip.c: Likewise.
+	* util.c: Likewise.
+
+	maint: remove crypt.[ch] stubs
+	* Makefile.am (gzip_SOURCES): Remove crypt.c
+	(EXTRA_DIST): Remove crypt.h
+	* crypt.c, crypt.h: Remove files.
+	* unpack.c: Don't #include "crypt.h"
+	* zip.c: Likewise
+	* util.c: Likewise.
+	* unzip.c: Likewise.
+
+	maint: limit scope of several functions
+	* deflate.c (longest_match): Move extern declaration into #if-ASMV block.
+	[!ASMV]: Define as static.
+	* inflate.c: Remove unnecessary prototypes.
+	ANSI-declify functions and declare them to be static.
+
+	maint: remove all uses of OF((...)) prototype-hiding macro
+	* bits.c: Remove all uses of OF.
+	* deflate.c: Likewise.
+	* gzip.c: Likewise.
+	* inflate.c: Likewise.
+	* lzw.h: Likewise.
+	* trees.c: Likewise.
+	* unlzh.c: Likewise.
+	* unpack.c: Likewise.
+	* util.c: Likewise.
+	* gzip.h: Likewise.
+	(OF): Remove its definition, too.
+
+	maint: prepare for tight-scope rule: use noinst_HEADERS
+	* Makefile.am (EXTRA_DIST): Move lzw.h and gzip.h from here to ...
+	(noinst_HEADERS): ...here.
+	For convenience, since the tight-scope rule uses $(noinst_HEADERS).
+
+2011-04-14  Jim Meyering  <meyering@redhat.com>
+
+	maint: update bootstrap and init.sh from gnulib
+	* bootstrap: Likewise.
+	* tests/init.sh: Update from gnulib.
+
+	maint: note that we'll remove amiga, atari, msdos, nt, os2, vms soon
+	If someone can show that any of these are being used, let us know.
+	* TODO: Note the plan to remove those directories this year.
+
+	build: update gnulib submodule to latest
+
+	maint: fix typos in vms manual: s/it\nit/\nit/
+	* vms/gzip.hlp: Remove doubled "it".
+
+2011-04-10  Jim Meyering  <meyering@redhat.com>
+
+	maint: fix typos in comment: s/to to/to/
+	* deflate.c: Remove doubled 'to's.
+
+2011-03-20  Jim Meyering  <meyering@redhat.com>
+
+	maint: stop using .x-sc_* files to list syntax-check exemptions
+	Instead, use the new mechanism with which you merely use a
+	variable (derived from the rule name) defined in cfg.mk to an ERE
+	matching the exempted file names.
+	* gnulib: Update to latest, to get maint.mk that implements this.
+	* .x-sc_file_system: Remove file.
+	* .x-sc_prohibit_tab_based_indentation: Likewise.
+	* .x-sc_require_config_h: Likewise.
+	* .x-sc_require_config_h_first: Likewise.
+	* cfg.mk: Define variables to exempt the same files.
+
+2011-03-18  Jim Meyering  <meyering@redhat.com>
+
+	doc: correct README-release
+	* README-release: Remove mention of -announce mailing list.
+	Unlike coreutils, gzip does not have its own.
+
+	doc: update release procedure
+	* README-release: Resync from coreutils' file by the same name.
+
+2011-01-03  Jim Meyering  <meyering@redhat.com>
+
+	maint: update copyright year ranges to include 2011
+	Run "make update-copyright", so "make syntax-check" works in 2011.
+
+	build: update gnulib submodule to latest
+
+	maint: avoid failure of new test for bindtextdomain
+	* cfg.mk (local-checks-to-skip): Add sc_bindtextdomain.
+
+2010-12-02  Jim Meyering  <meyering@redhat.com>
+
+	maint: avoid "make syntax-check" failure due to old-NEWS modification
+	* cfg.mk (old_NEWS_hash): Update, to reflect recent NEWS correction.
+
+2010-12-01  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* NEWS: The "gzip -f foo.gz" change occurred in 1.3.13, not 1.3.12
+
+2010-11-10  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: don't assume traditional behavior with signal numbers
+	* zgrep.in: Don't assume the exit status is the signal number plus
+	128, as POSIX doesn't require this.  No need to kill self; exiting
+	with large status is enough.  Propagate all exit statuses greater
+	than 1, not merely those in the range 129..143, as there's no need
+	to treat that range specially (and it's not portable anyway).
+
+2010-11-09  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: fix shell portability bug with -f; fix mishandling of "-e -"
+	* tests/zgrep-f: Check for "zgrep -e -" bug, too.
+	* zgrep.in: Don't assume that if the shell redirects fd 6, then
+	this redirection is visible to the subsidiary grep.  POSIX doesn't
+	guarantee this visibility except for file descriptors 0, 1, and 2,
+	and ksh does not support it.  Problem reported by Thomas Schulz in
+	<http://lists.gnu.org/archive/html/bug-gzip/2010-11/msg00000.html>.
+	Also, fix a related bug: "-e -" was mishandled.  These two bugs
+	were introduced by commit 5b54db4546b84ec97ff57a62f8ddb98faacf77f2
+	dated 2009-10-09.
+	(escape): Change the convention: do not assume that a stray X
+	is present at the end of the last line.  All uses changed.
+	There was no longer any need for this convention, and fixing this
+	made it a bit easier to use 'sed' in a later part of the fix.
+
+2010-11-08  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: fix copyright dates that were munged by a maintenance script
+	* gunzip.in, gzexe.in, zcat.in, zcmp.in, zdiff.in, zforce.in:
+	* zgrep.in, zless.in, zmore.in, znew.in:
+	A script went awry when updating copyright dates in gzip's shell
+	scripts.  It should update comments to look like "# Copyright (C)
+	2007, 2010 Free Software Foundation, Inc." (with a set of years)
+	and version messages to look like "Copyright (C) 2010 Free
+	Software Foundation, Inc." (with just the most-recent year).
+	Instead, it sometimes ignored one, sometimes the other, and
+	typically put ranges into version messages.  Fix all this stuff by
+	hand, using dates that I divined from the change logs (so they're
+	a bit more accurate than script-generated dates).  We need to fix
+	the script before it runs in 2011.
+
+2010-10-23  Jim Meyering  <meyering@redhat.com>
+
+	maint: anchor patterns in .gitignore files
+	* doc/.gitignore: Anchor patterns.
+	* lib/.gitignore: Likewise.
+	* m4/.gitignore: Likewise.
+
+	maint: update bootstrap and init.sh from gnulib
+	* bootstrap: Update.
+	* tests/init.sh: Update.
+
+2010-10-23  Rob Vermaas  <rob.vermaas@gmail.com>
+
+	maint: update to latest gnulib; use fdutimens, not gl_futimens
+	* gzip.c (copy_stat): Use fdutimens, not gl_futimens.
+	* gnulib: Update to latest.
+
+2010-10-23  Jim Meyering  <meyering@redhat.com>
+
+	maint: accommodate stricter syntax-check
+	Avoid #if, #define and #undef of always-defined symbols.
+	* gzip.c (ELOOP, SIGPIPE): Remove unneeded cpp directives.
+	* tailor.h (HAVE_DIRENT_H, HAVE_FCNTL_H, HAVE_UNISTD_H, MSDOS):
+	(O_BINARY): Likewise.
+
+	maint: make our use of gnulib's init.sh conform
+	* tests/help-version: Make use of init.sh conform.
+	* tests/helin-segv: Likewise.
+	* tests/help-version: Likewise.
+	* tests/hufts: Likewise.
+	* tests/memcpy-abuse: Likewise.
+	* tests/mixed: Likewise.
+	* tests/null-suffix-clobber: Likewise.
+	* tests/stdin: Likewise.
+	* tests/trailing-nul: Likewise.
+	* tests/zdiff: Likewise.
+	* tests/zgrep-f: Likewise.
+	* tests/zgrep-signal: Likewise.
+	* tests/znew-k: Likewise.
+
+2010-10-10  Jim Meyering  <meyering@redhat.com>
+
+	maint: describe policy on copyright year number ranges
+	* README: Mention coreutils' long-standing policy on use of M-N
+	ranges in copyright year lists.  Requested by Richard Stallman.
+
+2010-09-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	zgrep: fix parsing of -Eh options
+	* zgrep.in: Update list of single-letter options to match what's
+	in GNU grep.  Add -h as an alias for --no-filename.  Bug reported
+	by Vladimir Sidorenko in
+	<http://lists.gnu.org/archive/html/bug-gzip/2010-09/msg00007.html>.
+
+2010-08-17  Paul Eggert  <eggert@cs.ucla.edu>
+
+	gzip: fix NO_SIZE_CHECK for VMS
+	* gzip.c (do_list): Use if, not #if.
+	* tailor.h (NO_SIZE_CHECK) [defined(VAXC) || defined(VMS)]: Define.
+	* zip.c (zip): Simplify conditional, which was incorrect at any rate
+	for VMS.
+
+2010-08-15  Paul Eggert  <eggert@cs.ucla.edu>
+
+	algorithm.doc: mention Internet RFC 1952 and modernize a bit
+	* algorithm.doc: Update to mention header-CRC and Internet RFC 1952.
+	Also, remove the crypto stuff, which never worked.
+	Inspired by that same suggestion of Greg Roelofs.
+
+	gzip: Use 0x%04x instead of %x when printing 16-bit checksums
+	* gzip.c (get_method): Use 0x%04x, not %x, to print 16-bit checksums.
+	Inspired by a suggestion of Greg Roelofs in
+	http://lists.gnu.org/archive/html/bug-gzip/2010-08/msg00004.html
+
+2010-08-03  Paul Eggert  <eggert@cs.ucla.edu>
+
+	maint: update bootstrap
+	* bootstrap, bootstrap.conf, tests/init.sh: Merge from gnulib.
+
+2010-07-19  Paul R. Eggert  <eggert@cs.ucla.edu>
+
+	gzip: don't assume C99, and don't assume overlapping memcpy should work
+	* tailor.h (NOMEMCPY): Remove.  memcpy is entitled to not work
+	on overlapping blocks.
+	* inflate.c (inflate_codes): Don't put decl after statement.
+	Omit NOMEMCPY.
+
+	* gzip.c (get_method): don't assume size_t can be printed with %u
+
+2010-07-02  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Mention that gzip -d now handles FHCRC.
+
+2010-07-02  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Decode FHCRC flag properly, as per Internet RFC 1952.
+	Problem reported by Greg Roelofs in:
+	http://lists.gnu.org/archive/html/bug-gzip/2010-06/msg00003.html
+
+	* gzip.c (discard_input_bytes): New function.
+	(get_method): Check header checksum, if given.  We never generate it,
+	but other programs may.
+	* gzip.h (HEADER_CRC): Renamed from CONTINUATION.  All uses changed.
+	* tailor.h [defined __50SERIES]: Remove PRIMOS stuff that was obsolete
+	anyway and would have made this patch harder to maintain.
+	(get_char, put_char): Remove.
+	* zip.c (zip): Use put_byte instead of the now-removed put_char.
+
+2010-07-01  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Don't assume that sizeof (long) == 4 when computing statistics.
+	* gzip.c (get_method): Don't assume sizeof (long) == 4.
+	* zip.c (zip): Likewise.
+
+	Update Info-ZIP name and coordinates (thanks to Greg Roelofs).
+
+2010-05-11  Paul Eggert  <eggert@cs.ucla.edu>
+
+	* doc/gzip.texi (Sample): Fix backslash quoting problem.
+	Problem reported by Ole Tange in
+	<http://lists.gnu.org/archive/html/bug-gzip/2010-05/msg00000.html>.
+
+2010-04-26  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	maint: remove primos support
+	* Makefile.am (EXTRA_DIST): Remove all primos/ files.
+	* primos/build.cpl: Remove file.
+	* primos/ci.opts: Likewise.
+	* primos/include/errno.h: Likewise.
+	* primos/include/fcntl.h: Likewise.
+	* primos/include/stdlib.h: Likewise.
+	* primos/include/sysStat.h: Likewise.
+	* primos/include/sysTypes.h: Likewise.
+	* primos/primos.c: Likewise.
+	* primos/readme: Likewise.
+
+2010-04-08  Jim Meyering  <meyering@redhat.com>
+
+	build: include cfg.mk in the distribution tarball
+	* Makefile.am (EXTRA_DIST): Add cfg.mk.
+
+2010-04-07  Eric Blake  <eblake@redhat.com>
+
+	maint: ignore more built files
+	* .gitignore: Add version files.
+
+2010-04-07  Jim Meyering  <meyering@redhat.com>
+
+	tests: help-version: cross-check PATH in tests
+	* tests/help-version: Cross-check $VERSION and --version output.
+	* tests/Makefile.am (TESTS_ENVIRONMENT): Export VERSION=$(VERSION).
+
+	tests: improve help-version
+	* tests/help-version: Use fail_, rather than echo+Exit.
+
+	tests: pull help-version from grep
+
+	build: keep --version strictly up to date
+	Before this change, in development, gzip's --version output could lag
+	behind reality by a couple deltas or by a "-dirty" suffix.  That would
+	lead to spurious failure of the new --version-$VERSION PATH cross-check.
+	* Makefile.am (version.c, version.h): New rules.
+	(BUILT_SOURCES): Set/append.
+	(noinst_LIBRARIES, noinst_libver_a_SOURCES): Define.
+	(gzip_LDADD): Add libver.a.
+	(DISTCLEANFILES): Define.
+	* gzip.c (license): Use Version, not VERSION.
+
+2010-04-06  Jim Meyering  <meyering@redhat.com>
+
+	tests: (portability) use st, not "status" as variable name
+	* tests/zgrep-signal: Do not use status as a variable name,
+	per autoconf's documentation that it is not portable to
+	some shells.
+
+	tests: s/framework_failure/framework_failure_/
+
+	tests: update init.sh from gnulib
+	* tests/init.sh: Update from gnulib.
+
+	tests: run most tests via tests/Makefile.am
+	* Makefile.am (SUBDIRS): List tests after ".".
+	Move most test-related things from here to ...
+	* tests/Makefile.am: ... here.
+	* configure.ac (AC_CONFIG_FILES): Add tests/Makefile.
+	* tests/helin-segv: Adjust.
+	* tests/help-version: Likewise.
+	* tests/hufts: Likewise.
+	* tests/memcpy-abuse: Likewise.
+	* tests/mixed: Likewise.
+	* tests/null-suffix-clobber: Likewise.
+	* tests/stdin: Likewise.
+	* tests/trailing-nul: Likewise.
+	* tests/zdiff: Likewise.
+	* tests/zgrep-f: Likewise.
+	* tests/zgrep-signal: Likewise.
+	* tests/znew-k: Likewise.
+
+	tests: skip tests that use grep's -f and -E options, if they don't work
+	* tests/init.cfg (require_grep_minus_f): New function.
+	* tests/zgrep-f: Use require_grep_minus_f.  Use path_prepend_.
+
+	tests: arrange for skip and failure notices to go to stderr, not .log
+	* tests/init.cfg: New file.  Make init.sh's stderr_fileno_ match
+	what the "exec 9>&2" we use in TESTS_ENVIRONMENT.
+	* Makefile.am (EXTRA_DIST): Add it.
+
+2010-04-06  Eric Blake  <eblake@redhat.com>
+
+	maint: ignore generated files
+	* .gitignore: Ignore recent gnulib additions.
+
+	maint: update bootstrap
+	* bootstrap: Use latest copy from gnulib/build-aux.
+
+2010-04-05  Jim Meyering  <meyering@redhat.com>
+
+	build: use gnulib's lib-ignore module
+	* bootstrap.conf (gnulib_modules): Add lib-ignore, in case it helps.
+	* Makefile.am (AM_LDFLAGS): Define it.
+
+	maint: let configure-invoked cpp emit diagnostics to config.log
+	* configure.ac: Do not discard CPP's stderr.
+
+	build: update gnulib submodule to latest, and adapt
+	* cfg.mk: Update to use new _sc_search_regexp interface.  Run this:
+	perl -pi -e 's/\b_prohibit_regexp\b/_sc_search_regexp/;'
+	-e 's/\bmsg=/halt=/; s/\bre=/prohibit=/;' cfg.mk
+	and then adjust backslashes so they still line up.
+	* cfg.mk (local-checks-to-skip): Add new sc_texinfo_acronym, to skip it.
+	* msdos/tailor.c (fcalloc): Mark a diagnostic for translation, to
+	placate stricter syntax-check, even though no one uses this file.
+
+	use assembly code matcher when possible
+	* configure.ac (ASCPPPOST): Backslash-escape "#" in AC_SUBST'd
+	variable, to keep make from seeing it as a comment-introducer.
+	Based on a patch by Petr Pisar.
+	* lib/Makefile.am (match.$(OBJEXT)): Use AM_V_GEN and AM_V_at.
+	* lib/match.c: Don't include <config.h>.
+	It would impede configure-time assembler test.
+	* .x-sc_require_config_h: Exempt lib/match.c from syntax-check.
+	* .x-sc_require_config_h_first: Likewise.
+
+2010-03-20  Jim Meyering  <meyering@redhat.com>
+
+	do not use stat.st_mtime of a non-regular file
+	* gzip.c: Include "timespec.h".
+	(treat_stdin): Use st_mtime only from a regular file.
+	This matters at least on Cygwin 1.7.1-1, for which a stdin-pipe has
+	the mtime of /dev/null, rather than the gzip-documented-for-pipes
+	"current time".  Reported by Denis Excoffier.
+
+2010-02-22  Jim Meyering  <meyering@redhat.com>
+
+	tests: exercise the fix for the decompression data-loss bug
+	* tests/null-suffix-clobber: New file.
+	* Makefile.am (TESTS): Add it.
+
+	gzip: fix a data-loss bug when decompressing with --suffix=''
+	* gzip.c (main): Disallow an empty --suffix=S also with -d.
+	Otherwise, "gzip -d -S '' F.gz" would ask if it's ok to remove the
+	existing file, "F.gz";  if you reply "yes", you'd lose all of that data.
+	Use of an empty suffix was already rejected in compression mode.
+	* gzip.1 (--suffix (-S)): Do not recommend to use "gunzip -S '' *".
+	Describe how the suffix is used when decompressing, too.
+	* NEWS (Bug fixes): mention the fix.
+	Reported by Ripduman Sohan.
+
+	tests: add ---presume-input-tty option, solely for testing
+	* gzip.c: Include <stdbool.h>.
+	(presume_input_tty): New global.
+	(main): Set it.
+	(treat_stdin, check_ofname): Use it.
+
+2010-02-07  Jim Meyering  <meyering@redhat.com>
+
+	doc: minor adjustment to README-release
+	* README-release: Tweak description, to sync from coreutils.
+
+	tests: add the help-version sanity tests from coreutils
+	* tests/help-version: New file, from coreutils.
+	* Makefile.am (TESTS): Add it.
+
+	tests: make distcheck invoke "make syntax-check" and other tests
+	* dist-check.mk: New file, from coreutils.
+	* cfg.mk: Include it.
+	* Makefile.am (distcheck-hook): New rule, to make us use it.
+
+	zcmp: consistently indicate failure with exit status of 2
+	* zcmp.in: Exit with status of 2 (not 1), when writing
+	--help or --version output fails, to be more like cmp.
+
+2010-02-03  Jim Meyering  <meyering@redhat.com>
+
+	tests: add more tests of gzip -cdf
+	* tests/mixed: Test "gzip -cdf" for a range of small uncompressed files.
+
+	tests: flip and adjust mixed test, now that the bug is fixed
+	* NEWS (Bug fixes): Mention the fix.
+	* Makefile.am (XFAIL_TESTS): Move tests/mixed from here...
+	(TESTS): ...to here.
+	* tests/mixed: Comment out the currently (always?) failing part.
+
+2010-02-03  Mark Adler  <madler@alumni.caltech.edu>
+
+	gzip -cdf now handles concatenation of gzip'd and uncompressed data
+	* util.c (copy): Change semantics so as to honor a decremented inptr.
+	* gzip.c (get_method): When needed (-cdf), decrement inptr rather
+	than clearing it -- and output the first magic byte.
+
+2010-02-03  Dmitry V. Levin  <ldv@altlinux.org>
+
+	zgrep: terminate gracefully when a pipeline is interrupted by a signal
+	zgrep is not terminated gracefully when its grep/sed pipeline
+	is terminated by a signal.  For example, a command like
+	zgrep -F .TH /usr/share/man/man1/*.gz | head
+	continues working long after the "head" process completes.
+	Another example, a command like
+	zgrep unmatched-pattern /usr/share/man/man1/*.gz
+	cannot be interrupted by sending a SIGQUIT with Ctrl-\ key, it outputs
+	zgrep: line 221: test: : integer expression expected
+	and goes on.
+	* zgrep.in: Terminate gracefully when the grep/sed pipeline is
+	terminated by a signal.
+	* tests/zgrep-signal: New test.
+	* Makefile.am (TESTS): Add it.
+
+2010-02-03  Jim Meyering  <meyering@redhat.com>
+
+	maint: teach "make syntax-check" the space-only indentation rule
+	* cfg.mk (sc_prohibit_tab_based_indentation): New rule, from coreutils.
+	(sc_prohibit_emacs__indent_tabs_mode__setting): Likewise.
+	* bootstrap: Remove "indent-tabs-mode: nil" directive.
+	* .x-sc_prohibit_tab_based_indentation: New file.
+
+2010-02-02  Jim Meyering  <meyering@redhat.com>
+
+	global: convert indentation-TABs to spaces
+	Transformed via this shell code:
+	t=$'\t'
+	git ls-files \
+	  | grep -vE '(^|/)((GNU)?[Mm]akefile|ChangeLog)|\.(am|mk)$' \
+	  | grep -vE 'tests/pr/|help2man' \
+	  | xargs grep -lE "^ *$t" \
+	  | xargs perl -MText::Tabs -ni -le \
+	    '$m=/^( *\t[ \t]*)(.*)/; print $m ? expand($1) . $2 : $_'
+
+2010-02-02  Dmitry V. Levin  <ldv@altlinux.org>
+
+	wrapper scripts: write diagnostics to stderr, not to stdout
+	* zforce.in: In case of usage error, output short error diagnostics to
+	stderr instead of printing help text to stdout.
+	* zmore.in: Likewise.
+	* znew.in: Likewise.
+
+2010-02-02  Jim Meyering  <meyering@redhat.com>
+
+	gzip -cdf mishandles some concatenated input streams: test it
+	* tests/mixed: Exercise "gzip -cdf" bug.
+	* Makefile.am (XFAIL_TESTS): Add it.
+	Mark Adler reported the bug.
+
+	tests: move the hufts-segv test to its own file
+	* tests/hufts: New test.
+	* Makefile.am (TESTS): Add tests/
+	(check-local): Remove the hufts-segv test from this rule.
+
+	tests: begin moving tests into their own files
+	* Makefile.am (TESTS): Add tests/stdin.
+	(check-local): Move the stdin check to its own file:
+	* tests/stdin: New script.
+
+	tests: remove unnecessary use of "path_prepend_ ."
+	It is unnecessary, since Makefile.am's TESTS_ENVIRONMENT setting
+	already adds the top build directory, and besides, is only
+	marginally useful when running stand-alone, since it presumes
+	that the script is being run from the top build directory.
+	* tests/helin-segv: Remove unnecessary use of path_prepend_.
+	* tests/memcpy-abuse: Likewise.
+	* tests/trailing-nul: Likewise.
+	* tests/zdiff: Likewise.
+	* tests/zgrep-f: Likewise.
+
+	tests: note that znew-k test depends on length of temp file name
+	* tests/znew-k: Tweak diagnostic, factor and add a surprising comment.
+
+2010-02-01  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+2010-02-01  Dmitry V. Levin  <ldv@altlinux.org>
+
+	fix "znew -K" to work without use of compress utility
+	* znew.in: Change -K option to imply -t, do not use compress(1).
+	* znew.1: Document it.
+	* tests/znew-k: New test.
+	* Makefile.am (TESTS): Add it.
+
+2010-01-20  Jim Meyering  <meyering@redhat.com>
+
+	maint: update README-release procedure
+	* README-release: sync from coreutils.
+
+	post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.4
+	* NEWS: Record release date.
+
+	tests: exercise the segfault fix
+	* tests/helin-segv: New test.
+	* Makefile.am (TESTS): Add it.
+
+	gzip -d: do not clobber stack for valid input on x86_64
+	* unlzw.c (unlzw): Avoid integer overflow.
+	Aki Helin reported the segfault along with an input to trigger the bug.
+	* NEWS (Bug fixes): Mention it.
+
+	maint: avoid a minor "make syntax-check" failure
+	* .x-sc_file_system: Exempt NEWS, since it includes a literal
+	from an old diagnostic.
+
+	maint: remove unused file: README-alpha
+	* README-alpha: Remove unused file.
+
+	build: update gnulib submodule to latest
+
+2010-01-11  Yuxi Zhang  <YZhang@qnx.com>
+
+	gzip -d: use memcpy more often
+	* inflate.c (inflate_codes): Use memcpy (rather than slower
+	memcopy-like code) in more cases.
+
+2010-01-11  Jim Meyering  <meyering@redhat.com>
+
+	build: do not override gnulib-provided AM_CFLAGS options
+	Avoid a warning from automake:
+	lib/Makefile.am:24: AM_CFLAGS multiply defined in condition TRUE ...
+	lib/gnulib.mk:30: ... `AM_CFLAGS' previously defined here
+	lib/Makefile.am:20:   `lib/gnulib.mk' included from here
+
+	* lib/Makefile.am (AM_CFLAGS): Append $(WARN_CFLAGS) and
+	$(WERROR_CFLAGS), i.e., use "+=", not "=".
+	This was introduced via 2009-12-17 commit 0341fc22,
+	"build: with --enable-gcc-warnings, use -Werror",
+	but fortunately is not a bug, because the definition
+	it would have overridden was always empty.
+
+2010-01-10  Jim Meyering  <meyering@redhat.com>
+
+	gzip -d would fail with a CRC error...
+	...for some inputs, and some memcpy implementations.  It is possible
+	that an offending input has to be compressed "from FAT filesystem
+	(MS-DOS, OS/2, NT)", since the sole reproducer no longer evokes a
+	CRC error when uncompressed and recompressed on a GNU/Linux system.
+	Also, using an unpatched reverse-memcpy-gzip on over 100,000 inputs
+	on a GNU/Linux system did not turn up another reproducer.
+	* inflate.c (inflate_codes): Don't call memcpy with overlapping regions.
+	Properly detect when source and destination overlap.
+	* tests/memcpy-abuse: New test, to trigger misbehavior.
+	* Makefile.am (TESTS): Add it.
+	* NEWS (Bug fixes): Mention it.
+	Reported by Alain Magloire in
+	http://thread.gmane.org/gmane.comp.gnu.gzip.bugs/307
+
+2010-01-08  Jim Meyering  <meyering@redhat.com>
+
+	tests: switch to gnulib's init.sh test infrastructure
+	* tests/test-lib.sh: Remove file.
+	* tests/init.sh: New file, from gnulib.
+	* tests/trailing-nul: Use the new file.
+	* tests/zdiff: Likewise.
+	* tests/zgrep-f: Likewise.
+	* Makefile.am (EXTRA_DIST): List tests/init.sh, not test-lib.sh.
+
+	build: update gnulib submodule to latest
+
+2010-01-03  Jim Meyering  <meyering@redhat.com>
+
+	maint: record update-copyright options for this package
+	* cfg.mk: Next time, just run "make update-copyright".
+
+2010-01-01  Jim Meyering  <meyering@redhat.com>
+
+	maint: update all FSF copyright year lists to include 2010
+	Use this command:
+	git ls-files |grep -vE '^(\..*|COPYING|gnulib)$' |xargs \
+	env UPDATE_COPYRIGHT_USE_INTERVALS=1 build-aux/update-copyright
+
+2009-12-31  Jim Meyering  <meyering@redhat.com>
+
+	maint: newer gnulib; don't hard-code my GPG key ID
+	* cfg.mk (gpg_key_ID): Remove definition, now that maint.mk automates it.
+	* gnulib: Update to lastest.
+
+2009-12-30  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	maint: remove lots of obsolete #if...HAVE_* checks
+	Remove many always-true cpp tests like #ifdef HAVE_UNISTD_H,
+	 #ifdef HAVE_FCNTL_H and #ifdef SSIZE_MAX.
+	* gzip.c: As above.
+	* gzip.h: Likewise.
+	* inflate.c: Likewise.
+	* tailor.h: Likewise.
+	* unlzw.c: Likewise.
+	* util.c: Likewise.
+	* zip.c: Likewise.
+
+	build: add a syntax-check
+	* cfg.mk (sc_prohibit_obsolete_HAVE_HEADER_H): New rule.
+
+	build: with --enable-gcc-warnings, use -Werror
+	* Makefile.am (AM_CFLAGS): Enable $(WERROR_CFLAGS).
+	* lib/Makefile.am (AM_CFLAGS): Enable both $(WARN_CFLAGS) and
+	$(WERROR_CFLAGS).
+
+	build: quiet warnings from util.c
+	* configure.ac (warnings): Add -Wno-overflow and -Wno-type-limits.
+
+	build: avoid warning about possibly-no-return functions
+	* gzip.h (read_error, write_error): Mark these functions as "no-return".
+
+	build: avoid warning about ignored chown/fchown return value
+	* bootstrap.conf (gnulib_modules): Add ignore-value.
+	* gzip.c: Include "ignore-value.h".
+	(copy_stat): Explicitly ignore chown and fchown failure
+
+	build: update gnulib submodule to latest
+
+2009-11-20  Jim Meyering  <meyering@redhat.com>
+
+	build: unlzw.c: avoid warnings about unused macros
+	* configure.ac: Turn off -Wunused-macros.
+
+	build: avoid warnings about unused macros
+	* unzip.c (LOCTIM): Comment out unused macro.
+	* deflate.c (EQUAL): Remove definition.  Use "0" at sole point of use.
+
+	build: util.c: avoid warnings about add_envopt
+	* util.c (add_envopt): The parameter "env" was used for two conflicting
+	purposes.  One use required a const char* parameter, while the other
+	was used as an argument to free, which must not be "const".
+	Rename the parameter and use a new local variable for the second role.
+
+	build: avoid many const-related warnings
+	* gzip.c: Add "const" to many variables, to avoid compiler warnings.
+	* util.c (add_envopt): Make 3rd parameter const
+	(gzip_error): Make sole parameter const.
+	* gzip.h: Update prototypes.
+
+	build: avoid warnings from -Wstrict-prototypes
+	* gzip.c (main): Declare using a prototype.
+	(progerror): Likewise.  And make parameter const.
+
+	build: use gnulib's fdopendir module
+	* bootstrap.conf (gnulib_modules): Add fdopendir.
+	* gzip.c (treat_dir): Don't depend on HAVE_FDOPENDIR.
+	Gnulib now guarantees its availability.
+	* configure.ac: Don't check for fdopendir here.
+
+	build: enable many warnings
+	* configure.ac: Add support for --enable-gcc-warnings.
+	* bootstrap.conf (gnulib_modules): Add manywarnings.
+	* Makefile.am (AM_CFLAGS): Add (WARN_CFLAGS) # $(WERROR_CFLAGS)
+
+	maint: tweak formatting of bootstrap.conf
+	* bootstrap.conf (gnulib_modules): Unindent list.
+
+	maint: cfg.mk: remove factored-out ftp host/dir definitions
+	* cfg.mk (gnu_ftp_host-alpha, gnu_ftp_host-beta gnu_ftp_host-stable):
+	(gnu_rel_host, url_dir_list): Remove definitions.  The defaults,
+	now provided by maint.mk, are the same.
+	* gnulib: Update for latest, including those maint.mk additions.
+
+	build: "make stable" emitted an invalid gnupload command
+	* cfg.mk (gnu_ftp_host-stable): Rename from gnu_ftp_host-major.
+	* README-release: Change another s/major/stable/.
+
+2009-10-30  Jim Meyering  <meyering@redhat.com>
+
+	post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.3.14
+	* NEWS: Record release date.
+
+	build: accommodate new syntax-check test
+	* amiga/tailor.c (_expand_args): Change each of three uses of
+	"exit(20)" to "exit(EXIT_FAILURE)".
+	* sample/add.c: Include <stdlib.h>.
+	(main): Use EXIT_FAILURE and EXIT_SUCCESS, not 1 and 0.
+	* sample/sub.c (main): Likewise.
+	* sample/zread.c (main): Likewise.
+
+	build: update gnulib submodule to latest
+
+	build: link with $(LIB_CLOCK_GETTIME)
+	* Makefile.am (gzip_LDADD): Add $(LIB_CLOCK_GETTIME), now that
+	utimens pulls in gettime.
+	(FILES_TO_CHECK): Remove $(gzip_LDADD), now that it may contain -lrt.
+
+2009-10-28  Jim Meyering  <meyering@redhat.com>
+
+	msdos: fix syntax in Makefile.djg
+	* msdos/Makefile.djg (gzip): Change each of two leading 8-space
+	sequences to a TAB.  Reported by Allan Mui.
+
+2009-10-20  Jim Meyering  <meyering@redhat.com>
+
+	build: do not use AC_PREFIX_PROGRAM
+	* configure.ac: Do not use "AC_PREFIX_PROGRAM(gzip)".
+	It would induce behavior that is so surprising that it is probably
+	universally considered to be buggy, these days.  Reported by Zube
+	in http://thread.gmane.org/gmane.comp.gnu.gzip.bugs/273
+
+2009-10-10  Jim Meyering  <meyering@redhat.com>
+
+	gzip: add tests for today's bug fix
+	* tests/trailing-nul: New file.  Test for today's fix.
+	* Makefile.am (TESTS): Add new script.
+	* NEWS (Bug fixes): Mention it.
+
+2009-10-10  Daniel Barkalow  <barkalow@iabervon.org>
+
+	gzip: don't fail when there is exactly one trailing NUL byte
+	* gzip.c (get_method): Require the second byte of magic only if
+	the first byte was nonzero.
+
+2009-10-09  Jim Meyering  <meyering@redhat.com>
+
+	build: enable automake color- and parallel-test options
+	* configure.ac (AM_INIT_AUTOMAKE): Enable color-tests and parallel-tests.
+
+	zgrep: portability improvements; exercise "-f -"
+	* zgrep.in: Adjust loop not to use seq; it's not portable enough.
+	Fail if we don't find a free file descriptor.
+	(exists): New function; Use it in place of less portable "test -e".
+	Testing for existence of /dev/fd/$fd doesn't work on Solaris 10,
+	since all 256 always exist (as char devices), but testing for
+	/proc/$$/fd/$fd does work, so do that instead.
+	* Makefile.am (TESTS): Add tests/zgrep-f.
+	* tests/zgrep-f: New test; exercise this bug.
+	* NEWS (Bug fixes): Mention it.
+
+2009-10-09  Carl Worth  <cworth@cworth.org>
+
+	zgrep: handle "-f -" the same way that it works with grep
+	Before this change, echo needle|zgrep -f - haystack.gz would not work.
+	* zgrep.in: When the pattern comes from stdin, redirect it to a
+	different file descriptor, since we're about to use stdin.
+
+2009-10-09  Jim Meyering  <meyering@redhat.com>
+
+	zdiff would exit 2 (error) rather than 1 for differences
+	* zdiff.in: Save and restore cmp's exit status around a case
+	statement that would otherwise clobber its value.
+	* NEWS (Bug fixes): Mention it.
+	* tests/zdiff: New test; exercise both bugs.
+	* tests/test-lib.sh: New file.  From coreutils.
+	* Makefile.am (EXTRA_DIST): Add tests/test-lib.sh.
+	(TESTS): Add tests/zdiff.
+	(TESTS_ENVIRONMENT): Define.  From coreutils.
+	(EXTRA_DIST): Append all $(TESTS).
+
+	zdiff: fix malfunction when operating on two gzip'd inputs
+	zdiff would fail to print differences in two compressed inputs
+	* zdiff.in: Don't let cmp output mix with echo'd gzip exit
+	status values.  Report and fix from Jörg-Volker Peetz via
+	<http://bugs.debian.org/434275>
+	* NEWS (Bug fixes): Mention it.
+
+	build: update gnulib submodule to latest
+
+2009-10-07  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+2009-10-06  Jim Meyering  <meyering@redhat.com>
+
+	maint: clarify web-doc-update instructions
+	* README-release: sync a tiny change from coreutils.
+
+2009-10-03  Jim Meyering  <meyering@redhat.com>
+
+	build: update gnulib submodule to latest
+
+	doc: use gnu-web-doc-update module
+	* bootstrap.conf (gnulib_modules): Add it.
+
+2009-10-02  Jim Meyering  <meyering@redhat.com>
+
+	doc: describe release procedure
+	* README-release: New file.
+
+2009-10-01  Jim Meyering  <meyering@redhat.com>
+
+	maint: make cfg.mk slightly more generic
+	* cfg.mk (url_dir_list): Don't hard-code "coreutils".  Use $(PACKAGE).
+
+2009-09-30  Jim Meyering  <meyering@redhat.com>
+
+	post-release administrivia
+	* NEWS: Add header line for next release.
+	* .prev-version: Record previous version.
+	* cfg.mk (old_NEWS_hash): Auto-update.
+
+	version 1.3.13
+	* NEWS: Record release date.
+
+	build: update gnulib submodule to latest
+
+	maint: update bootstrap script
+	* bootstrap (with_gettext): Update from coreutils.
+
+	maint: pull in two release-related modules from gnulib
+	* bootstrap.conf (gnulib_modules): Add announce-gen and gnupload.
+
+	build: use more gnulib modules for better POSIX compliance
+	* bootstrap.conf (gnulib_modules): Add modules exposed via
+	make CFLAGS=-DGNULIB_POSIXCHECK 2>&1 \
+	|perl -lne '/.* use gnulib module (\S+).*/ and print $1' \
+	|sort |uniq -c|sort -nr
+	Add these: calloc close fclose fprintf-posix lstat malloc
+	perror printf-posix realloc
+
+2009-09-30  Karl Berry  <karl@freefriends.org>
+
+	doc: update to FDL 1.3, minor clean-up
+	* NEWS, README, TODO: Update FDL s/1.2/1.3/.
+
+2009-09-28  Karl Berry  <karl@freefriends.org>
+
+	doc: update gzip.texi
+	* doc/gzip.texi: FDL 1.3+
+	Consistently (de)capitalize section names.
+	"User's" is not correct; seems best to simplify the title.
+	Throw in some "GNU"'s.
+	Make direntries be what we actually want.
+	Detabify.
+
+2009-09-26  Jim Meyering  <meyering@redhat.com>
+
+	maint: temporarily exempt failing syntax-check tests
+	* cfg.mk (local-checks-to-skip): Add the list of currently-failing
+	tests, to exempt them from "make syntax-check".
+
+	gzip: don't use an uninitialized file descriptor
+	gzip interprets an argument of "-" as indicating stdin, but when
+	"-" is not the first name on the command line, it doesn't work.
+	* gzip.c (treat_stdin): Initialize "ifd".
+	Patch and fine description by Lasse Collin in
+	http://www.mail-archive.com/bug-gzip@gnu.org/msg00213.html
+	* Makefile.am (check-local): Exercise the fix.  Based on the above.
+	* NEWS (Bug fixes): Mention this.
+
+	maint: use a git submodule for gnulib
+	* .gitmodules: New file, to track gnulib.
+	* gnulib: New file, created by running this:
+	git submodule add git://git.sv.gnu.org/gnulib.git gnulib
+
+	maint: update existing copyright year lists to include 2009
+	* bootstrap.conf (gnulib_modules): Add update-copyright.
+
+	maint: include <config.h> first in many files
+
+	maint: avoid another "make syntax-check" failure
+	* lib/Makefile.am (match.$(OBJEXT)): Use $(ASCPPPOST), not @ASCPPPOST@.
+
+	maint: remove RCS $Id$ variables and comments
+
+	maint: change spelling in comments: s/filesystem/file system/
+
+	maint: don't use "the the"
+	* msdos/doturboc.bat: s/the the/the/.
+
+	maint: remove trailing blanks
+
+	maint: remove useless if-before-free tests
+	* gzip.c (do_exit): Remove useless if-before-free tests.
+
+	maint: remove useless casts to avoid "make syntax-check" failures
+	* gzip.c (do_exit): Remove anachronistic cast.
+	* inflate.c (huft_free): Likewise.
+	* util.c (add_envopt): Likewise.
+	* vms/vms.c (vms_expand_args): Likewise.
+
+	maint: new file: .prev-version
+	* .prev-version: New file, to record previous version number.
+
+2009-09-06  Jim Meyering  <meyering@redhat.com>
+
+	build: avoid spurious warnings from clang
+	* gzip.h (gzip_error): Declare with ATTRIBUTE_NORETURN.
+
+	maint: update build-from-scratch infrastructure
+	* bootstrap: Modernize.
+	* bootstrap.conf: Modernize.
+	* cfg.mk: New file.
+
+2009-08-18  Jim Meyering  <meyering@redhat.com>
+
+	inflate: avoid a leak on a error path
+	* inflate.c (inflate_dynamic): Don't leak
+
+	maint: ignore a few generated files
+	* lib/.gitignore: ignore more generated files.
+
+	tests: add a test for just-fixed bug
+	* tests/hufts-segv.gz: New file, from bug report.
+	* Makefile.am (EXTRA_DIST): Add tests/hufts-segv.gz.
+	(check-local): Exercise the bug.
+
+	tests: don't misinterpret a failing test as successful
+	* Makefile.am (check-local): Exit "1" upon failure, not 0.
+
+2009-08-18  Thiemo Nagel  <thiemo.nagel@ph.tum.de>
+
+	avoid creating an undersized buffer for the hufts table
+	A malformed input file can cause gzip to crash with a segmentation
+	violation or hang in an endless loop.
+	Reported in <http://bugs.debian.org/507263>.
+	* NEWS (Bug fixes): Mention it.
+
+2009-08-18  Jim Meyering  <meyering@redhat.com>
+
+	avoid silent data loss e.g., on NFS, due to unchecked close of stdout
+	* gzip.c: Include "closein.h".
+	(main): Use atexit (close_stdin);
+	* bootstrap.conf (gnulib_modules): Add closein.
+	Prompted by Mark Kidwell's report and patch in
+	http://bugs.debian.org/538187
+	* NEWS (Bug fixes): Mention it.
+	* */.gitignore: Update.
+
+	build: require automake-1.11 and produce xz-compressed tarballs, too
+	* configure.ac: Require automake-1.11.  Use the dist-xz option.
+
+	build: avoid non-srcdir build failure
+	* Makefile.am (gzip.doc.gz): Use $(srcdir)/gzip.doc, not gzip.doc.
+	Don't redirect directly to $@.  Use $(AM_V_GEN).
+	(gzip.doc, .in): Don't redirect directly to $@.  Use $(AM_V_GEN).
+	* NEWS: Add template header for upcoming release.
+
+	build: enable git-version-gen, automake silent rules, generate ChangeLog
+	* configure.ac (AC_INIT): Use git-version-gen.
+	Use AM_SILENT_RULES([yes]).
+	(AM_INIT_AUTOMAKE): Drop gnits; conflicts with git-version-gen versions.
+	* bootstrap.conf (gnulib_modules): Use getopt-gnu
+	Ensure ChangeLog exists, for automake.
+	rather than obsolete "getopt" module.
+	Add gitlog-to-changelog.
+	Add git-version-gen.
+	Add gnu-make, gnumakefile and maintainer-makefile.
+	* Makefile.am (dist-hook, gen-ChangeLog): New rules, to generate
+	ChangeLog and insert it into the distribution tarball.
+	(EXTRA_DIST): Add ChangeLog-2007.
+
+	maint: retire the last VC'd ChangeLog file
+	* ChangeLog-2007: Rename from ChangeLog.
+	From now on, the ChangeLog file will be generated automatically
+	from commit logs.
+
+	maint: rename .cvsignore files to .gitignore
+	* .gitignore: Renamed from .cvsignore.
+	* doc/.gitignore: Likewise.
+	* lib/.gitignore: Likewise.
+	* m4/.gitignore: Likewise.

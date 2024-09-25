@@ -1,0 +1,388 @@
+GZIP(1)			    General Commands Manual		       GZIP(1)
+
+1mNAME0m
+       gzip, gunzip, zcat - compress or expand files
+
+1mSYNOPSIS0m
+       1mgzip 22m[ 1m-acdfhklLnNrtvV19 22m] [1m-S suffix22m] [ 4mname24m 4m...24m  ]
+       1mgunzip 22m[ 1m-acfhklLnNrtvV 22m] [1m-S suffix22m] [ 4mname24m 4m...24m  ]
+       1mzcat 22m[ 1m-fhLV 22m] [ 4mname24m 4m...24m  ]
+
+1mDESCRIPTION0m
+       The  1mgzip  22mcommand reduces the size of the named files using Lempel-Ziv
+       coding (LZ77).  Whenever possible, each file is replaced	 by  one  with
+       the  extension  1m.gz22m, while keeping the same ownership modes, access and
+       modification times.  (The default extension is 1mz 22mfor MSDOS,	 OS/2  FAT,
+       Windows	NT  FAT	 and  Atari.)  If no files are specified, or if a file
+       name is "-", the standard input is compressed to the  standard  output.
+       The  1mgzip 22mcommand will only attempt to compress regular files.  In par-
+       ticular, it will ignore symbolic links.
+
+       If the compressed file name is too long for its file system, 1mgzip 22mtrun-
+       cates  it.  The 1mgzip 22mcommand attempts to truncate only the parts of the
+       file name longer than 3 characters.  (A part is delimited by dots.)  If
+       the name consists of small parts only, the longest parts are truncated.
+       For example, if file names are limited to 14 characters, gzip.msdos.exe
+       is  compressed  to  gzi.msd.exe.gz.  Names are not truncated on systems
+       which do not have a limit on file name length.
+
+       By default, 1mgzip 22mkeeps the original file name and timestamp in the com-
+       pressed	file.	These are used when decompressing the file with the 1m-N0m
+       option.	This is useful when the compressed file name was truncated  or
+       when the timestamp was not preserved after a file transfer.
+
+       Compressed  files  can be restored to their original form using 1mgzip -d0m
+       or 1mgunzip 22mor 1mzcat22m.  If the original name saved in the	compressed  file
+       is not suitable for its file system, a new name is constructed from the
+       original one to make it valid.
+
+       1mgunzip 22mtakes a list of files on its command line and replaces each file
+       whose  name ends with .gz, -gz, .z, -z, or _z (ignoring case) and which
+       begins with the correct magic number with an uncompressed file  without
+       the  original extension.	 1mgunzip 22malso recognizes the special extensions
+       1m.tgz 22mand 1m.taz 22mas shorthands for 1m.tar.gz 22mand 1m.tar.Z 22mrespectively.   When
+       compressing, 1mgzip 22muses the 1m.tgz 22mextension if necessary instead of trun-
+       cating a file with a 1m.tar 22mextension.
+
+       1mgunzip 22mcan currently decompress files created by 1mgzip22m,	 1mzip22m,  1mcompress22m,
+       1mcompress  -H  22mor 1mpack22m.	 The detection of the input format is automatic.
+       When using the first two formats, 1mgunzip 22mchecks a 32 bit CRC.  For 1mpack0m
+       and  1mgunzip 22mchecks the uncompressed length.	 The standard 1mcompress 22mfor-
+       mat was not designed to allow consistency checks.   However  1mgunzip  22mis
+       sometimes  able	to detect a bad .Z file.  If you get an error when un-
+       compressing a .Z file, do not assume that the .Z file is correct simply
+       because	the  standard  1muncompress  22mdoes  not complain.  This generally
+       means that the standard 1muncompress 22mdoes not check its input,  and  hap-
+       pily  generates	garbage	 output.  The SCO compress -H format (lzh com-
+       pression method) does not include a CRC but also	 allows	 some  consis-
+       tency checks.
+
+       Files  created  by  1mzip 22mcan be uncompressed by gzip only if they have a
+       single member compressed with the 'deflation' method.  This feature  is
+       only intended to help conversion of tar.zip files to the tar.gz format.
+       To extract a 1mzip 22mfile with a single member, use a command like  '1mgunzip0m
+       1m<foo.zip22m'  or '1mgunzip -S .zip foo.zip22m'.  To extract zip files with sev-
+       eral members, use 1munzip 22minstead of 1mgunzip22m.
+
+       The 1mzcat 22mcommand is identical to 1mgunzip -c22m.  (On some systems, 1mzcat 22mmay
+       be installed as 1mgzcat 22mto preserve the original link to 1mcompress22m.)  1mzcat0m
+       uncompresses either a list of files on the command line or its standard
+       input  and  writes the uncompressed data on standard output.  1mzcat 22mwill
+       uncompress files that have the correct magic number whether they have a
+       1m.gz 22msuffix or not.
+
+       The  1mgzip  22mcommand uses the Lempel-Ziv algorithm used in 1mzip 22mand PKZIP.
+       The amount of compression obtained depends on the size of the input and
+       the  distribution of common substrings.	Typically, text such as source
+       code or English is reduced by 60-70%.  Compression  is  generally  much
+       better  than that achieved by LZW (as used in 1mcompress22m), Huffman coding
+       (as used in 1mpack22m), or adaptive Huffman coding (1mcompact22m).
+
+       Compression is  always  performed,  even	 if  the  compressed  file  is
+       slightly	 larger	 than the original.  The worst case expansion is a few
+       bytes for the gzip file header, plus 5 bytes per 32 KiB	block,	or  an
+       expansion  ratio	 of 0.015% for large files.  The actual number of used
+       disk blocks almost never increases.
+
+       1mgzip 22mnormally preserves the mode and modification timestamp of  a  file
+       when compressing or decompressing.  If you have appropriate privileges,
+       it also preserves the file's owner and group.
+
+1mOPTIONS0m
+       1m-a --ascii0m
+	      Ascii text mode: convert end-of-lines using  local  conventions.
+	      This option is supported only on some non-Unix systems.  For MS-
+	      DOS, CR LF is converted to LF when compressing, and LF  is  con-
+	      verted to CR LF when decompressing.
+
+       1m-c --stdout --to-stdout0m
+	      Write  output on standard output; keep original files unchanged.
+	      If there are several input files, the output consists of	a  se-
+	      quence  of  independently	 compressed members.  To obtain better
+	      compression, concatenate	all  input  files  before  compressing
+	      them.
+
+       1m-d --decompress --uncompress0m
+	      Decompress.
+
+       1m-f --force0m
+	      Force compression or decompression even if the file has multiple
+	      links or the corresponding file already exists, or if  the  com-
+	      pressed  data is read from or written to a terminal.  If the in-
+	      put data is not in a format recognized by 1mgzip22m, and if  the	op-
+	      tion  --stdout is also given, copy the input data without change
+	      to the standard output: let 1mzcat 22mbehave as 1mcat22m.	 If  1m-f  22mis  not
+	      given,  and  when not running in the background, 1mgzip 22mprompts to
+	      verify whether an existing file should be overwritten.
+
+       1m-h --help0m
+	      Display a help screen and quit.
+
+       1m-k --keep0m
+	      Keep (don't delete) input files during compression or decompres-
+	      sion.
+
+       1m-l --list0m
+	      For each compressed file, list the following fields:
+
+		  compressed size: size of the compressed file
+		  uncompressed size: size of the uncompressed file
+		  ratio: compression ratio (0.0% if unknown)
+		  uncompressed_name: name of the uncompressed file
+
+	      The  uncompressed size is given as -1 for files not in gzip for-
+	      mat, such as compressed .Z files.	 To get the uncompressed  size
+	      for such a file, you can use:
+
+		  zcat file.Z | wc -c
+
+	      In  combination  with the --verbose option, the following fields
+	      are also displayed:
+
+		  method: compression method
+		  crc: the 32-bit CRC of the uncompressed data
+		  date & time: timestamp for the uncompressed file
+
+	      The compression methods currently supported  are	deflate,  com-
+	      press,  lzh  (SCO	 compress  -H)	and pack.  The crc is given as
+	      ffffffff for a file not in gzip format.
+
+	      With --name, the uncompressed name,  date and  time   are	 those
+	      stored within the compress file if present.
+
+	      With  --verbose,	the  size totals and compression ratio for all
+	      files is also displayed, unless some sizes  are  unknown.	  With
+	      --quiet, the title and totals lines are not displayed.
+
+       1m-L --license0m
+	      Display the 1mgzip 22mlicense and quit.
+
+       1m-n --no-name0m
+	      When  compressing,  do not save the original file name and time-
+	      stamp by default.	 (The original name is	always	saved  if  the
+	      name  had	 to be truncated.)  When decompressing, do not restore
+	      the original file name if present (remove only the  1mgzip  22msuffix
+	      from  the	 compressed file name) and do not restore the original
+	      timestamp if present (copy it from the compressed	 file).	  This
+	      option is the default when decompressing.
+
+       1m-N --name0m
+	      When  compressing,  always save the original file name, and save
+	      the seconds part of the original modification timestamp  if  the
+	      original	is  a  regular	file  and  its timestamp is at least 1
+	      (1970-01-01 00:00:01 UTC) and is	less  than  2**32  (2106-02-07
+	      06:28:16	UTC,  assuming	leap seconds are not counted); this is
+	      the default.  When decompressing, restore from  the  saved  file
+	      name and timestamp if present.  This option is useful on systems
+	      which have a limit on file name length or when the timestamp has
+	      been lost after a file transfer.
+
+       1m-q --quiet0m
+	      Suppress all warnings.
+
+       1m-r --recursive0m
+	      Travel  the directory structure recursively.  If any of the file
+	      names specified on the command line are directories,  1mgzip  22mwill
+	      descend  into  the directory and compress all the files it finds
+	      there (or decompress them in the case of 1mgunzip 22m).
+
+       1m-S .suf --suffix .suf0m
+	      When compressing, use suffix .suf instead of .gz.	 Any non-empty
+	      suffix  can  be given, but suffixes other than .z and .gz should
+	      be avoided to avoid confusion  when  files  are  transferred  to
+	      other systems.
+
+	      When  decompressing,  add	 .suf  to the beginning of the list of
+	      suffixes to try, when deriving an output file name from an input
+	      file name.
+
+       1m--synchronous0m
+	      Use  synchronous	output.	 With this option, 1mgzip 22mis less likely
+	      to lose data during a system crash, but it can  be  considerably
+	      slower.
+
+       1m-t --test0m
+	      Test.  Check the compressed file integrity then quit.
+
+       1m-v --verbose0m
+	      Verbose.	 Display  the  name  and percentage reduction for each
+	      file compressed or decompressed.
+
+       1m-V --version0m
+	      Version.	Display the version  number  and  compilation  options
+	      then quit.
+
+       1m-# --fast --best0m
+	      Regulate	the  speed of compression using the specified digit 1m#22m,
+	      where 1m-1 22mor 1m--fast	 22mindicates  the  fastest  compression  method
+	      (less  compression)  and 1m-9 22mor 1m--best 22mindicates the slowest com-
+	      pression method (best  compression).   The  default  compression
+	      level is 1m-6 22m(that is, biased towards high compression at expense
+	      of speed).
+
+       1m--rsyncable0m
+	      When you synchronize a compressed file  between  two  computers,
+	      this  option  allows  rsync  to  transfer	 only  files that were
+	      changed in the archive instead of the entire archive.  Normally,
+	      after  a change is made to any file in the archive, the compres-
+	      sion algorithm can generate a new version of  the	 archive  that
+	      does  not	 match	the  previous version of the archive.  In this
+	      case, rsync transfers the entire new version of the  archive  to
+	      the  remote computer.  With this option, rsync can transfer only
+	      the changed files as well as a small amount of metadata that  is
+	      required	to  update  the archive structure in the area that was
+	      changed.
+
+1mADVANCED USAGE0m
+       Multiple compressed files can be concatenated.  In  this	 case,	1mgunzip0m
+       will extract all members at once.  For example:
+
+	     gzip -c file1  > foo.gz
+	     gzip -c file2 >> foo.gz
+
+       Then
+
+	     gunzip -c foo
+
+       is equivalent to
+
+	     cat file1 file2
+
+       In  case of damage to one member of a .gz file, other members can still
+       be recovered (if the damaged member is removed).	 However, you can  get
+       better compression by compressing all members at once:
+
+	     cat file1 file2 | gzip > foo.gz
+
+       compresses better than
+
+	     gzip -c file1 file2 > foo.gz
+
+       If you want to recompress concatenated files to get better compression,
+       do:
+
+	     gzip -cd old.gz | gzip > new.gz
+
+       If a compressed file consists of several members, the uncompressed size
+       and  CRC reported by the --list option applies to the last member only.
+       If you need the uncompressed size for all members, you can use:
+
+	     gzip -cd file.gz | wc -c
+
+       If you wish to create a single archive file with	 multiple  members  so
+       that members can later be extracted independently, use an archiver such
+       as tar or zip.  GNU tar supports the -z option to invoke gzip transpar-
+       ently.  gzip is designed as a complement to tar, not as a replacement.
+
+1mENVIRONMENT0m
+       The obsolescent environment variable 1mGZIP 22mcan hold a set of default op-
+       tions for 1mgzip22m.  These options are interpreted first and can  be  over-
+       written	by  explicit command line parameters.  As this can cause prob-
+       lems when using scripts, this feature is	 supported  only  for  options
+       that  are  reasonably likely to not cause too much harm, and 1mgzip 22mwarns
+       if it is used.  This feature will be removed in	a  future  release  of
+       1mgzip22m.
+
+       You can use an alias or script instead.	For example, if 1mgzip 22mis in the
+       directory 1m/usr/bin 22myou can prepend 1m$HOME/bin 22mto your 1mPATH 22mand create an
+       executable script 1m$HOME/bin/gzip 22mcontaining the following:
+
+	     #! /bin/sh
+	     export PATH=/usr/bin
+	     exec gzip -9 "$@"
+
+1mSEE ALSO0m
+       1mznew22m(1), 1mzcmp22m(1), 1mzmore22m(1), 1mzforce22m(1), 1mgzexe22m(1), 1mzip22m(1), 1munzip22m(1), 1mcom-0m
+       1mpress22m(1)
+
+       The 1mgzip 22mfile format is specified in P. Deutsch, GZIP file format spec-
+       ification version 4.3, 1m<https://www.ietf.org/rfc/rfc1952.txt>22m, Internet
+       RFC 1952 (May 1996).  The 1mzip	22mdeflation  format  is  specified  in	 P.
+       Deutsch,	 DEFLATE  Compressed  Data  Format  Specification version 1.3,
+       1m<https://www.ietf.org/rfc/rfc1951.txt>22m, Internet RFC 1951 (May 1996).
+
+1mDIAGNOSTICS0m
+       Exit status is normally 0; if an error occurs, exit status is 1.	 If  a
+       warning occurs, exit status is 2.
+
+       Usage: gzip [-cdfhklLnNrtvV19] [-S suffix] [file ...]
+	      Invalid options were specified on the command line.
+
+       4mfile24m: not in gzip format
+	      The file specified to 1mgunzip 22mhas not been compressed.
+
+       4mfile24m: Corrupt input.
+	      Use  zcat	 to  recover  some data.  The compressed file has been
+	      damaged.	The data up to the point of failure can	 be  recovered
+	      using
+
+		    zcat 4mfile24m > recover
+
+       4mfile24m: compressed with 4mxx24m bits, can only handle 4myy24m bits
+	      1mFile  22mwas  compressed  (using  LZW) by a program that could deal
+	      with more bits than the decompress code on this machine.	Recom-
+	      press  the file with gzip, which compresses better and uses less
+	      memory.
+
+       4mfile24m: already has .gz suffix -- unchanged
+	      The file is assumed to be already compressed.  Rename  the  file
+	      and try again.
+
+       4mfile24m already exists; do you wish to overwrite (y or n)?
+	      Respond  "y"  if you want the output file to be replaced; "n" if
+	      not.
+
+       gunzip: corrupt input
+	      A SIGSEGV violation was detected which usually  means  that  the
+	      input file has been corrupted.
+
+       4mxx.x%24m Percentage of the input saved by compression.
+	      (Relevant only for 1m-v 22mand 1m-l22m.)
+
+       -- not a regular file or directory: ignored
+	      When the input file is not a regular file or directory, (e.g., a
+	      symbolic link, socket, FIFO, device file), it is left unaltered.
+
+       -- has 4mxx24m other links: unchanged
+	      The input file has links; it is left unchanged.  See  1mln22m(1)	for
+	      more  information.  Use the 1m-f 22mflag to force compression of mul-
+	      tiply-linked files.
+
+1mCAVEATS0m
+       When writing compressed data to a tape, it is  generally	 necessary  to
+       pad  the	 output	 with zeroes up to a block boundary.  When the data is
+       read and the whole block is passed to 1mgunzip 22mfor decompression,  1mgunzip0m
+       detects	that there is extra trailing garbage after the compressed data
+       and emits a warning by default.	You can use the --quiet option to sup-
+       press the warning.
+
+1mBUGS0m
+       In  some rare cases, the --best option gives worse compression than the
+       default compression level (-6).	On some highly redundant  files,  1mcom-0m
+       1mpress 22mcompresses better than 1mgzip22m.
+
+1mREPORTING BUGS0m
+       Report bugs to: bug-gzip@gnu.org
+       GNU gzip home page: <https://www.gnu.org/software/gzip/>
+       General help using GNU software: <https://www.gnu.org/gethelp/>
+
+1mCOPYRIGHT NOTICE0m
+       Copyright (C) 1998-1999, 2001-2002, 2012, 2015-2023 Free Software Foun-
+       dation, Inc.
+       Copyright (C) 1992, 1993 Jean-loup Gailly
+
+       Permission is granted to make and distribute verbatim  copies  of  this
+       manual  provided	 the  copyright	 notice and this permission notice are
+       preserved on all copies.
+
+       Permission is granted to copy and distribute modified versions of  this
+       manual under the conditions for verbatim copying, provided that the en-
+       tire resulting derived work is distributed under the terms of a permis-
+       sion notice identical to this one.
+
+       Permission  is granted to copy and distribute translations of this man-
+       ual into another language, under the above conditions for modified ver-
+       sions,  except  that this permission notice may be stated in a transla-
+       tion approved by the Foundation.
+
+				     local			       GZIP(1)

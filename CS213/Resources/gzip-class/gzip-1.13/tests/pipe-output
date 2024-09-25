@@ -1,0 +1,46 @@
+#!/bin/sh
+# Check behavior of output to pipes
+
+# Copyright 2023 Free Software Foundation, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# limit so don't run it by default.
+
+. "${srcdir=.}/init.sh"; path_prepend_ ..
+
+sleep 0.01 && sleep_amount=0.01 || sleep_amount=1
+
+echo a >a && echo b >b || framework_failure_
+gzip a && gzip b || fail=1
+
+# Check that gzip etc. behave like cat if the output is a broken pipe.
+for trap_pipe in trap :; do
+  cat_status=$( (($trap_pipe '' PIPE
+                  sleep $sleep_amount
+                  cat <a.gz
+                  echo $? >&3) | : ) 3>&1)
+  test 1 -lt $cat_status && test $cat_status -lt 128 && cat_status=1
+
+  for cmd in 'gunzip' 'gunzip -q' 'gzip -d' 'gzip -dq' \
+             'zcat' 'zcmp - b.gz' 'zdiff - b.gz' 'zgrep a'; do
+    cmd_status=$( (($trap_pipe '' PIPE
+                    sleep $sleep_amount
+                    $cmd <a.gz
+                    echo $? >&3) | : ) 3>&1)
+    test 1 -lt $cmd_status && test $cmd_status -lt 128 && cmd_status=1
+    test $cat_status -eq $cmd_status || fail=1
+  done
+done
+
+Exit $fail
