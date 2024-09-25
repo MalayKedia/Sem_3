@@ -2,7 +2,7 @@
 
 - This folder contains modified gzip source code that was used in the class
 
-Compiling gzip code
+Compiling gzip code:
 
 ```bash
 cd gzip-1.13
@@ -49,16 +49,24 @@ xxd -b name.txt.gz
 ```
 
 Fflags == file flags
-0x01 FTEXT If set the uncompressed data needs to be treated as text instead
+
+`0x01 FTEXT` If set the uncompressed data needs to be treated as text instead
 of binary data. This flag hints end-of-line conversion for
 cross-platform text files but does not enforce it.
-0x02 FHCRC The file contains a header checksum (CRC-16)
-0x04 FEXTRA The file contains extra fields
-0x08 FNAME The file contains an original file name string
-0x10 FCOMMENT The file contains comment
-0x20 Reserved
-0x40 Reserved
-0x80 Reserved
+
+`0x02 FHCRC` The file contains a header checksum (CRC-16)
+
+`0x04 FEXTRA` The file contains extra fields
+
+`0x08 FNAME` The file contains an original file name string
+
+`0x10 FCOMMENT` The file contains comment
+
+`0x20` Reserved
+
+`0x40` Reserved
+
+`0x80` Reserved
 
 Cflags == Compression flags
 
