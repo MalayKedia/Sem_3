@@ -1,0 +1,6 @@
+Stack frame format for recurse:
+
+(just below my stack frame is my second argument)
+
+0($sp) is $t0
+4($sp) is $ra
