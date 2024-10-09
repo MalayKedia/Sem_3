@@ -1,0 +1,7 @@
+#ifndef CONSTANTS
+#define CONSTANTS
+#define OFFSET_BITS 15
+#define LENGTH_BITS 8
+#define WINDOW_SIZE 32768
+#define BLOCK_SIZE 131072
+#endif
