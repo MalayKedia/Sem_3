@@ -1,0 +1,65 @@
+Lab07 : Real Data Compression
+
+This lab, we implement (essentially) the algorithm used to zip your files. We get there in a few steps.
+
+1 Run-length encoding
+-----------------
+Consider a string of characters, say aaabbbcccccc. We can compress this string by replacing each run of the same character
+with the character and the number of times it occurs. So, aaabbbcccccc becomes a3b3c6. This is called run-length encoding.
+Complete the file rle.cpp to implement run-length encoding. You may assume that the input string contains only 0s and 1s.
+Run-Length is more general, but we can optimize because the string is binary.
+
+1.1 The modified RLE
+----------------
+- One-time character declaration: Since the file is binary, we know that the character will alternate between 0 and 1. There-
+fore, we only need to declare the character once at the beginning of the encoded file. After that, we can simply encode
+the counts of 0s and 1s. for example: ”100011011” can be encoded as ”1 1 3 2 1 2”
+- Reading the count: We will use fixed length binary encoding for count and gamma as an argument to our rle encoder,
+which will tell how many bits to read at a time for count for example if gamma is 2, encoding for ”100011” is ”1 01 11 10”
+- Handling large counts: If the number of consecutive 0s or 1s is greater than 2^gamma-1, we can insert a count of 0 for the
+other number and continue. for example if gamma is 2, encoding for ”10000” is ”1 01 11 00 01”
+Note that spaces are only added in the above examples for readability, there will be no spaces in the expected output.
+
+2 Huffman coding
+---------------
+Run-length encoding is a simple compression algorithm, but it is not very effective. Huffman encoding, as you have seen in
+class, is very effective to compress the number of bits required to represent a string. Complete the file huffman-tree.cpp
+and huffman-zip.cpp to implement Huffman encoding of a string. This time, the string may contain any character with
+ASCII value between 0 and 127.
+
+3 (Optional) Lempel-Ziv’77: LZ77
+----------------------------
+This is the final element of the zipping algorithm. It works like so: repeated occurrences of a string of length at least 3 are
+replaced by a backreference to the first occurrence, provided the first occurrence is within the last 216 characters.
+The backreference is a pair (d, l), where d is the distance to the first occurrence, called the offset and l is the length of the
+common occurrence. The backreference is encoded as (d, l) where d and l are encoded as binary strings.
+A backreference is only added if the length l is at least 3 and the offset is not too far away - it must be within a constant
+WINDOW SIZE of the index at which the backreference will be placed. For example, the string ababbabab will be encoded as
+abab(3, 3)ab.
+Complete the file lz77.cpp to implement LZ77 encoding. You may use a special character, say char(-1) to represent
+the ’(’ and ’)’ characters in the backreference. Note that you will have to change part (b) to parse the string with these special
+characters correctly. Optimizations to the encoding of the backreferences are welcome.
+Some more details: The offset is encoded as a 15 (default, can change) bit binary string, and is untouched by the Huffman
+parsing. The length is similarly encoded as an 8 bit string and is also untouched.
+
+4 Putting it all together
+----------------------
+The DEFLATE algorithm, used in zip, in essence runs LZ77 after which the remaining characters are encoded with Huffman
+coding. The Huffman tree is derived by looking at the frequencies of each character (exclude the backreferences) and con-
+structing the Huffman tree. Note also that the special character used to code the start of the backreference is given a frequency
+of ∞to give it the highest priority in the Huffman tree. The lengths and offsets encoded as binary strings are not Huffman
+encoded again.
+The code in main.cpp already implements this for you (with an additional bonus of using the run-length encoding on
+top of the Huffman result).
+
+5 Running instructions
+------------------------
+1. For Part 1, run make rle to (loosely) check your code.
+2. For Part 2, run make huffman to (loosely) check your code.
+3. For Part 3, run make to (loosely) check your code.
+4. To manually test/debug your code, compile main.cpp to executable main and run it like so: ./main <input-file>
+<part> where <part> is 1, 2 or 3.
+
+6 Bonus
+-----------
+Mix and match the algorithms to get the best compression ratio for [this tiny book](https://sherlock-holm.es/stories/plain-text/houn.txt).
