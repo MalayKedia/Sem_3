@@ -1,0 +1,25 @@
+1. In Q2b, I apologise for the bad choice of words. Instead of "underfit/overfit/just-right fit", it should be "undersmoothed/ oversmoothed/ just right"
+2. A 3D plot of PDF is expected in Q2.2
+3. After proving part (a) and (b) of Q1.1, no need to separately mention the proof of the final expression, as it is just the addition of the two terms with some manipulation.
+4. In Q1, X_i does not stand for random variable, but for the data-point sampled from the distribution.
+5. The description of evaluate(self, x) function reads "Compute the KDE density estimate for a set of points x" - it should be "Compute KDE for a single point x"
+
+Some updates regarding Q3, Q4 in assignment 3 and clarifications based on doubts so far:
+
+Update:
+Based on ongoing feedback and further reflection, we have replaced Q3.1 part (a), (b) with Q3.1 and Q3.2.
+Q3.1 c), d), e) have been renamed to Q3.3 a), b), c).
+Please make sure to download updated copy and review the updated questions before submission.
+
+Clarifications:
+1. In Q3.3 (a) [previously 3.1 (c)] you have to implement linear regression from scratch such that it generalises to k (>=1) features where each feature maybe a higher degree polynomial m (>=1). For the data provided in that part, k=1, so it suffices to generalise implementation to degree m only but in Q5 you have to use same implementation where you may want to implement regression with multiple variables (k>1) and explore higher degree polynomial(m>1). You don't have to derive closed form equations for any part, just implement in code which is easily scalable in terms of k and m.
+
+2. In Q4.4 1) When calculating risk using k-fold cross validation method. Try to make k-folds approximately equal if exact is not possible.
+Suppose n = 214, k =10, then keep 21 samples in 10 folds then add 1 to any 4 folds, for remaining 4 samples resulting in 4 folds of size 22 and 6 of 21.
+
+3. In Q4.4 3) updated language of question to better convey requirements. Here, you have to compare different kernel functions and provide similarities and differences with respect to choice of kernel. Decide what might be relevant points to consider.
+Some points you can consider:
+i. Can you show choice of bandwidth is more important than kernel selection for all kernels?
+ii. How is optimal bandwidth dependent on kernel and data?
+iii. Does choice of kernel significantly affect performance, if so by what margin?
+and so on.
