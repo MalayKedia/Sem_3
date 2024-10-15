@@ -1,0 +1,95 @@
+---Dinero IV cache simulator, version XXX
+---Written by Jan Edler and Mark D. Hill
+---Copyright (C) 1997 NEC Research Institute, Inc. and Mark D. Hill.
+---All rights reserved.
+---Copyright (C) 1985, 1989 Mark D. Hill.  All rights reserved.
+---See -copyright option for details
+
+---Summary of options (-help option gives usage information).
+
+-l1-isize 8192
+-l1-dsize 8192
+-l1-ibsize 64
+-l1-dbsize 64
+-l1-isbsize 16
+-l1-dsbsize 16
+-l1-iassoc 1
+-l1-dassoc 1
+-l1-irepl l
+-l1-drepl l
+-l1-ifetch l
+-l1-dfetch l
+-l1-ipfdist 1
+-l1-dpfdist 1
+-l1-dwalloc a
+-l1-dwback a
+-l1-iccc
+-l1-dccc
+-skipcount 0
+-flushcount 0
+-maxcount 0
+-stat-interval 0
+-informat P
+-on-trigger 0x0
+-off-trigger 0x0
+-stat-idcombine
+
+---Simulation begins.
+---Simulation complete.
+l1-I/Dcaches
+ Metrics		      Total	      Instrn	       Data	       Read	      Write	       Misc
+ -----------------	      ------	      ------	      ------	      ------	      ------	      ------
+ Demand Fetches		      266310	      189397	       76913	       70449	        6456	           8
+  Fraction of total	      1.0000	      0.7112	      0.2888	      0.2645	      0.0242	      0.0000
+ Prefetch Fetches	      193776	      141489	       52287	       52287	           0	           0
+  Fraction		      1.0000	      0.7302	      0.2698	      0.2698	      0.0000	      0.0000
+ Total Fetches		      460086	      330886	      129200	      122736	        6456	           8
+  Fraction		      1.0000	      0.7192	      0.2808	      0.2668	      0.0140	      0.0000
+
+ Demand Misses		       51851	         229	       51622	       48571	        3048	           3
+  Demand miss rate	      0.1947	      0.0012	      0.6712	      0.6894	      0.4721	      0.3750
+   Compulsory misses	        1890	         225	        1665	          57	        1605	           3
+   Capacity misses	       10297	           1	       10296	        9784	         512	           0
+   Conflict misses	       39664	           3	       39661	       38730	         931	           0
+   Compulsory fraction	      0.0365	      0.9825	      0.0323	      0.0012	      0.5266	      1.0000
+   Capacity fraction	      0.1986	      0.0044	      0.1994	      0.2014	      0.1680	      0.0000
+   Conflict fraction	      0.7650	      0.0131	      0.7683	      0.7974	      0.3054	      0.0000
+ Prefetch Misses	       37650	         439	       37211	       37211	           0	           0
+  PF miss rate		      0.1943	      0.0031	      0.7117	      0.7117	      0.0000	      0.0000
+   PF compulsory misses	         613	         434	         179	         179	           0	           0
+   PF capacity misses	        9061	           1	        9060	        9060	           0	           0
+   PF conflict misses	       27976	           4	       27972	       27972	           0	           0
+   PF compulsory fract	      0.0163	      0.9886	      0.0048	      0.0048	      0.0000	      0.0000
+   PF capacity fract	      0.2407	      0.0023	      0.2435	      0.2435	      0.0000	      0.0000
+   PF conflict fract	      0.7431	      0.0091	      0.7517	      0.7517	      0.0000	      0.0000
+ Total Misses		       89501	         668	       88833	       85782	        3048	           3
+  Total miss rate	      0.1945	      0.0020	      0.6876	      0.6989	      0.4721	      0.3750
+
+ Demand Block Misses	       43870	         209	       43661	       40657	        3001	           3
+  DB miss rate		      0.1647	      0.0011	      0.5677	      0.5771	      0.4648	      0.3750
+   DB compulsory misses	         763	         204	         559	          50	         506	           3
+   DB capacity misses	        5722	           1	        5721	        5561	         160	           0
+   DB conflict misses	       37385	           4	       37381	       35046	        2335	           0
+   DB compulsory fract	      0.0174	      0.9761	      0.0128	      0.0012	      0.1686	      3.0000
+   DB capacity fract	      0.1304	      0.0048	      0.1310	      0.1368	      0.0533	      0.0000
+   DB conflict fract	      0.8522	      0.0191	      0.8562	      0.8620	      0.7781	      0.0000
+ Prefetch Block Misses	           0	           0	           0	           0	           0	           0
+  PFB miss rate		      0.0000	      0.0000	      0.0000	      0.0000	      0.0000	      0.0000
+   PFB comp misses	           0	           0	           0	           0	           0	           0
+   PFB cap misses	           0	           0	           0	           0	           0	           0
+   PFB conf misses	           0	           0	           0	           0	           0	           0
+   PFB comp fract	      0.0000	      0.0000	      0.0000	      0.0000	      0.0000	      0.0000
+   PFB cap fract	      0.0000	      0.0000	      0.0000	      0.0000	      0.0000	      0.0000
+   PFB conf fract	      0.0000	      0.0000	      0.0000	      0.0000	      0.0000	      0.0000
+ Total Block Misses	       43870	         209	       43661	       40657	        3001	           3
+  Tot blk miss rate	      0.0954	      0.0006	      0.3379	      0.3313	      0.4648	      0.3750
+
+ Multi-block refs                 0
+ Bytes From Memory	     1432016
+ ( / Demand Fetches)	      5.3773
+ Bytes To Memory	       67952
+ ( / Demand Writes)	     10.5254
+ Total Bytes r/w Mem	     1499968
+ ( / Demand Fetches)	      5.6324
+
+---Execution complete.

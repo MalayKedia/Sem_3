@@ -1,0 +1,69 @@
+---Dinero IV cache simulator, version XXX
+---Written by Jan Edler and Mark D. Hill
+---Copyright (C) 1997 NEC Research Institute, Inc. and Mark D. Hill.
+---All rights reserved.
+---Copyright (C) 1985, 1989 Mark D. Hill.  All rights reserved.
+---See -copyright option for details
+
+---Summary of options (-help option gives usage information).
+
+-l1-isize 8192
+-l1-dsize 8192
+-l1-ibsize 64
+-l1-dbsize 64
+-l1-isbsize 16
+-l1-dsbsize 16
+-l1-iassoc 1
+-l1-dassoc 1
+-l1-irepl l
+-l1-drepl l
+-l1-ifetch m
+-l1-dfetch m
+-l1-ipfdist 1
+-l1-dpfdist 1
+-l1-dwalloc a
+-l1-dwback a
+-skipcount 0
+-flushcount 0
+-maxcount 0
+-stat-interval 0
+-informat D
+-on-trigger 0x0
+-off-trigger 0x0
+-stat-idcombine
+
+---Simulation begins.
+---Simulation complete.
+l1-I/Dcaches
+ Metrics		      Total	      Instrn	       Data	       Read	      Write	       Misc
+ -----------------	      ------	      ------	      ------	      ------	      ------	      ------
+ Demand Fetches		      265775	      188971	       76804	       70370	        6426	           8
+  Fraction of total	      1.0000	      0.7110	      0.2890	      0.2648	      0.0242	      0.0000
+ Prefetch Fetches	       49693	         313	       49380	       49380	           0	           0
+  Fraction		      1.0000	      0.0063	      0.9937	      0.9937	      0.0000	      0.0000
+ Total Fetches		      315468	      189284	      126184	      119750	        6426	           8
+  Fraction		      1.0000	      0.6000	      0.4000	      0.3796	      0.0204	      0.0000
+
+ Demand Misses		       52726	         313	       52413	       49380	        3030	           3
+  Demand miss rate	      0.1984	      0.0017	      0.6824	      0.7017	      0.4715	      0.3750
+ Prefetch Misses	       41184	         306	       40878	       40878	           0	           0
+  PF miss rate		      0.8288	      0.9776	      0.8278	      0.8278	      0.0000	      0.0000
+ Total Misses		       93910	         619	       93291	       90258	        3030	           3
+  Total miss rate	      0.2977	      0.0033	      0.7393	      0.7537	      0.4715	      0.3750
+
+ Demand Block Misses	       43126	         135	       42991	       40555	        2433	           3
+  DB miss rate		      0.1623	      0.0007	      0.5597	      0.5763	      0.3786	      0.3750
+ Prefetch Block Misses	        7617	          76	        7541	        7541	           0	           0
+  PFB miss rate		      0.1533	      0.2428	      0.1527	      0.1527	      0.0000	      0.0000
+ Total Block Misses	       50743	         211	       50532	       48096	        2433	           3
+  Tot blk miss rate	      0.1608	      0.0011	      0.4005	      0.4016	      0.3786	      0.3750
+
+ Multi-block refs                 0
+ Bytes From Memory	     1502560
+ ( / Demand Fetches)	      5.6535
+ Bytes To Memory	       68816
+ ( / Demand Writes)	     10.7090
+ Total Bytes r/w Mem	     1571376
+ ( / Demand Fetches)	      5.9124
+
+---Execution complete.

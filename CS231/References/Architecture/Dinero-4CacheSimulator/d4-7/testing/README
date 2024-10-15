@@ -1,0 +1,16 @@
+This directory contains some test inputs and a script to
+do very crude regression testing for dineroIV.
+The test inputs are in the files mm.32 and mm.64; these are traces
+from a simple 32x32 matrix multiply program.  The mm.32 file
+was produced by pixie -idtrace on an IRIX 6.1 system, and the mm.64 file
+was produced by pixie -idtrace_ext on the same system.
+Additionally, the program p2d is a simple converter from 32-bit pixie
+trace format to din format.  Likewise, the program p2b converts from
+32-bit pixie trace format to dineroIV's binary format.  The supplied
+Makefile will compile p2d and p2b.
+
+Testing is driven by the testscript file, which is a bourne shell script.
+The tests to run are specified in the file test-parms, which
+has some additional comments.
+
+Presumed correct outputs are in the files mm.*.good.*.

@@ -1,0 +1,571 @@
+.TH DINEROIV 3
+.UC 4
+.SH NAME
+dineroIV \- fourth generation cache simulator library
+.SH SYNOPSIS
+.B "#include <d4.h>"
+.br
+.BR "typedef struct { " ". . ." " } d4cache"
+.br
+.BR "typedef " ". . ." " d4addr"
+.br
+.BR "typedef " ". . ." " d4memref"
+.sp
+.BI "d4cache *d4new (d4cache *" larger ")"
+.br
+.BI "int d4setup(void)"
+.br
+.BI "void d4ref (d4cache *" c ", d4memref " m ")"
+.SH DESCRIPTION
+The Dinero IV library offers an easy-to-use subroutine interface
+for a flexible simulator of multilevel cache memories.
+The simulator reads memory reference information from standard input,
+and writes statistical data
+about the simulated cache performance to standard output.
+Dinero IV is not a timing or functional simulator,
+therefore neither temporal information nor
+simulated memory contents are relevant.
+.PP
+The header file,
+.BR d4.h ,
+defines several types and functions,
+with the ones indicated in the SYNOPSIS, above,
+being the most significant.
+.PP
+Basic usage is simple:
+.IP 1. 4n
+Using
+.BR "d4new(NULL)" ,
+create a degenerate form of simulated ``cache'' to represent memory,
+the bottom level of a simulated memory hierarchy.
+The return value must be saved, to use as the argument to another call to
+.BR d4new .
+Each call to
+.B "d4new(NULL)"
+creates the base of a new, independent, simulated memory hierarchy.
+.IP 2. 4n
+Using one or more calls to
+.BI "d4new(" larger )\c
+\&, where
+.I larger
+is the return value from an earlier call to
+.BR d4new ,
+create additional cache levels in a ``bottom up'' fashion,
+starting close to the memory and ending close to the processor.
+.IP 3. 4n
+Specify simulation parameters for each cache by directly assigning
+values to various fields within each
+.B d4cache
+structure.
+See
+.BR "D4CACHE PARAMETER FIELDS" ,
+below, for a description of the various fields
+and how they can be used.
+.IP 4. 4n
+Complete initialization of the simulator by calling
+.BR d4setup() .
+The return value is nonzero if there are problems with the simulated cache
+configuration.
+After calling
+.BR d4setup() ,
+further direct modification of
+.B d4cache
+contents is generally erroneous.
+.IP 5. 4n
+Simulate each memory reference by calling
+.BI d4ref( c , m )\c
+\&,
+where
+.I c
+is a pointer to a top-level cache and
+.I m
+describes the memory reference
+(see
+.BR "MEMORY REFERENCES" ,
+below, for a description of
+.B d4memref
+structures).
+The reference is propagated to other caches automatically, as needed,
+in accordance with specified cache properties.
+.IP 6. 4n
+Extract cache performance statistics by directly accessing
+.B d4cache
+structures.
+The fields to use are described below, in
+.BR "D4CACHE RESULT FIELDS" .
+.SH "MEMORY REFERENCES"
+A memory reference is described by a
+.B d4memref
+structure, which contains three integral fields:
+.IP \f3address\fP 12n
+the address referenced.
+The type of this field is
+.BR d4addr .
+.IP \f3size\fP 12n
+the number of bytes affected.
+.IP \f3accesstype\fP 12n
+one of the following values:
+.RS
+.IP \f3D4XREAD\fP 14n
+a data load.
+.IP \f3D4XWRITE\fP 14n
+a data store.
+.IP \f3D4XINSTRN\fP 14n
+an instruction fetch.
+.IP \f3D4XMISC\fP 14n
+a miscellaneous reference, treated as a data load
+but without the possibility of generating any prefetch references.
+.IP \f3D4XCOPYB\fP 14n
+not a real memory reference, but a command to the cache
+to copy back dirty cache block(s), as applicable.
+The operation refers to the whole cache if
+.B size
+is 0.
+This operation does not imply invalidation of cache block(s), however.
+.IP \f3D4XINVAL\fP 14n
+not a real memory reference, but a command to the cache
+to invalidate cache block(s), as applicable.
+The operation refers to the whole cache if
+.B size
+is 0.
+This operation does not imply copying back dirty data, however.
+.RE
+.PP
+There are no internal restrictions on what constitutes a valid address,
+except that the type and size of an address is platform-dependent
+(generally 32 bits or more).
+Dinero IV imposes no size or alignment restrictions on memory references;
+they may span multiple sub-blocks or blocks.
+.SH "D4CACHE PARAMETER FIELDS"
+The following fields within each
+.B d4cache
+structure must generally be directly initialized
+by users of the Dinero IV library
+before calling
+.BR d4setup .
+Initialization is not required for fields of ``memory'' cache structures
+(those created by calling
+.BR d4new(NULL) ).
+.IP \f3name\fP 15n
+The user may set this to point to a string
+used to identify the cache for certain error messages.
+A default value will be set automatically if
+.B name
+is
+.B NULL
+when
+.B d4setup
+is called.
+.IP \f3flags\fP 15n
+This integer field contains bits that can be used to specify optional
+behavior for Dinero IV.
+The currently defined user-settable flags are
+.RS
+.IP \f3D4F_CCC\fP 10n
+Causes misses to be categorized as compulsory, capacity, conflict misses.
+The computed results are available in the fields
+.BR comp_miss ,
+.BR comp_blockmiss ,
+.BR cap_miss ,
+.BR cap_blockmiss ,
+.BR conf_miss ,
+and
+.BR conf_blockmiss ,
+described more fully in
+.BR "D4CACHE RESULT FIELDS" ,
+below.
+.IP \f3D4F_RO\fP 10n
+States that the cache is read-only, e.g., an instruction cache.
+This assertion is checked if Dinero IV is configured with debugging enabled.
+In a customized version, a read-only cache is slightly more efficient
+than another cache without the
+.B D4F_RO
+flag, because certain run-time checks for writes can be avoided.
+.PP
+Other flag values may be defined in future revisions of Dinero IV.
+User-written policy functions may also use flags in this field;
+the value
+.B D4F_USERFLAG1
+is the smallest such flag:
+it and all larger ones are available for use for any purpose.
+.RE
+.IP \f3lg2blocksize\fP 15n
+Must be set to the log of the block size for the cache.
+.IP \f3lg2subblocksize\fP 15n
+Must be set to the log of the sub-block size for the cache.
+If sub-blocks are not to be used,
+this field should be given the same value as
+.BR lg2blocksize .
+.IP \f3lg2size\fP 15n
+Must be set to the log of the total size of the cache.
+.IP \f3assoc\fP 15n
+Must be set to the associativity of the cache.
+.IP \f3replacementf\fP 15n
+This is a function pointer to define the replacement policy for the cache.
+Any suitable user-written function may be used,
+or one of several standard functions provided by Dinero IV (and declared in
+.BR d4.h )
+may be used:
+.RS
+.IP \f3d4rep_lru\fP 15n
+The Least Recently Used policy.
+.IP \f3d4rep_fifo\fP 15n
+The First In/First Out policy.
+.IP \f3d4rep_random\fP 15n
+The random replacement policy.
+.RE
+.IP \f3prefetchf\fP 15n
+This is a function pointer to define the prefetch policy for the cache.
+Any suitable user-written function may be used,
+or one of several standard functions provided by Dinero IV (and declared in
+.BR d4.h )
+may be used:
+.RS
+.IP \f3d4prefetch_none\fP 20n
+No prefetching at all.
+.IP \f3d4prefetch_always\fP 20n
+Always initiate a prefetch after every non-prefetch reference,
+except for access type
+.BR D4XMISC .
+.IP \f3d4prefetch_loadforw\fP 20n
+The ``load forward'' prefetch policy:
+don't prefetch into the next cache block.
+.IP \f3d4prefetch_subblock\fP 20n
+The ``sub-block'' prefetch policy:
+don't prefetch into the next cache block,
+wrap around within the referenced block instead.
+.IP \f3d4prefetch_miss\fP 20n
+The ``miss'' prefetch policy:
+prefetch only on cache misses.
+.IP \f3d4prefetch_tagged\fP 20n
+The ``tagged'' prefetch policy:
+initiate a prefetch on the first demand reference to a (sub)-block.
+Thus, a prefetch is initiated on a demand miss or the first demand
+reference to a (sub)-block that was brought into the cache by a prefetch.
+.PP
+The standard prefetch policy functions (except for
+.BR d4prefetch_none )
+also make use of the following two fields:
+.RE
+.IP \f3prefetch_distance\fP 15n
+The prefetch distance in sub-blocks.
+A value of 1 means that the next sequential sub-block is
+the potential target of a prefetch.
+.IP \f3prefetch_abortpercent\fP 15n
+The percentage of prefetches that are aborted.
+This can be used to examine the effects of data references
+blocking prefetch references from reaching a shared cache.
+.IP \f3wallocf\fP 15n
+This is a function pointer to define the write allocate policy for the cache.
+The write allocate policy determines
+whether a (sub-)block is allocated on a write miss.
+Any suitable user-written function may be used,
+or one of several standard functions provided by Dinero IV (and declared in
+.BR d4.h )
+may be used:
+.RS
+.IP \f3d4walloc_always\fP 20n
+Allocate on every write miss.
+.IP \f3d4walloc_never\fP 20n
+Never allocate on any write miss (i.e., this is a non-write-allocate policy).
+.IP \f3d4walloc_nofetch\fP 20n
+Allocate on a write miss as long as no fetch is required.
+A fetch would be required
+if the write was not for an integral number of sub-blocks.
+.IP \f3d4walloc_impossible\fP 20n
+This ``policy'' prints an error message and terminates the program;
+it is for use only on read-only caches (e.g., instruction caches).
+.RE
+.IP \f3wbackf\fP 15n
+This is a function pointer to define the write back policy for the cache.
+The write back policy determines
+when the (sub-)block is allowed to have dirty data.
+Any suitable user-written function may be used,
+or one of several standard functions provided by Dinero IV (and declared in
+.BR d4.h )
+may be used:
+.RS
+.IP \f3wback_always\fP 20n
+Dirty data is always held in the cache, to be written back towards memory later.
+.IP \f3wback_never\fP 20n
+Dirty data is never held in the cache, i.e., this is a write-through policy.
+.IP \f3wback_nofetch\fP 20n
+Dirty data is held in the cache as long as no fetch is required.
+A fetch would be required on a (sub-)block miss
+if the write was not for an integral number of sub-blocks.
+.IP \f3d4wback_impossible\fP 20n
+This ``policy'' prints an error message and terminates the program;
+it is for use only on read-only caches (e.g., instruction caches).
+.RE
+.IP \f3name_replacement\fP 15n
+A pointer to a string describing the replacement policy.
+This is for programmer use when printing results;
+Dinero IV does nothing with it except require that it be
+.RB non- NULL
+when
+.B d4setup
+is called.
+.IP \f3name_prefetch\fP 15n
+A pointer to a string describing the prefetch policy.
+This is for programmer use when printing results;
+Dinero IV does nothing with it except require that it be
+.RB non- NULL
+when
+.B d4setup
+is called.
+.IP \f3name_walloc\fP 15n
+A pointer to a string describing the write allocate policy.
+This is for programmer use when printing results;
+Dinero IV does nothing with it except require that it be
+.RB non- NULL
+when
+.B d4setup
+is called.
+.IP \f3name_wback\fP 15n
+A pointer to a string describing the write back policy.
+This is for programmer use when printing results;
+Dinero IV does nothing with it except require that it be
+.RB non- NULL
+when
+.B d4setup
+is called.
+.SH "D4CACHE RESULT FIELDS"
+The result fields of each
+.B d4cache
+structure accumulate statistics, and are of primary interest
+at the conclusion of simulation or after substantial amounts of simulation.
+They are all of type
+.BR double ,
+because that has more precision than either integer or long
+on most 32 bit machines.
+They are all initialized to zero by
+.BR d4new ,
+and may be read or reset to zero by the user at any time.
+.IP \f3multiblock\fP 18n
+This field accumulates the total number of times
+a reference affected more than one cache block.
+Such references are split into two,
+and this is done recursively as necessary,
+so an original reference touching
+.I n
+cache blocks will ultimately cause
+.B multiblock
+to be incremented
+.IR n \(mi1
+times.
+.IP \f3bytes_read\fP 18n
+This field accumulates the total number of bytes read from downstream
+(memory or the next larger cache).
+.IP \f3bytes_written\fP 18n
+This field accumulates the total number of bytes written downstream
+(to memory or the next larger cache).
+.PP
+The following result fields are all arrays,
+indexed by access type
+(as described above, in
+.BR "MEMORY REFERENCES" )
+or an access type \(pl
+.BR D4PREFETCH .
+For example, to get the total number of misses,
+one would add
+.RS 18n
+.sp \n(psu
+.B miss[D4XREAD]
+.br
+\(pl
+.B miss[D4XWRITE]
+.br
+\(pl
+.B miss[D4XINSTRN]
+.br
+\(pl
+.B miss[D4XMISC]
+.br
+\(pl
+.B miss[D4XREAD\(plD4PREFETCH]
+.br
+\(pl
+.B miss[D4XWRITE\(plD4PREFETCH]
+.br
+\(pl
+.B miss[D4XINSTRN\(plD4PREFETCH]
+.br
+\(pl
+.BR miss[D4XMISC\(plD4PREFETCH] .
+.RE
+.IP \f3fetch\fP 18n
+These array values count the references processed for the cache.
+.IP \f3miss\fP 18n
+These array values count the cache misses.
+.IP \f3blockmiss\fP 18n
+These array values count the full cache block misses.
+The difference between this array and the
+.B miss
+array is that
+.B miss
+also counts misses where only the sub-block actually referenced was
+missing, while some other sub-blocks of the same block were valid in the cache.
+.IP \f3comp_miss\fP 18n
+These array values count the compulsory misses.
+Compulsory misses are those that would occur even if the cache had infinite size.
+The values in this array are not computed unless the
+.B D4F_CCC
+flag is set in
+.BR flags .
+.IP \f3comp_blockmiss\fP 18n
+These array values count the compulsory full block misses.
+Compulsory misses are those that would occur even if the cache had infinite size.
+The values in this array are not computed unless the
+.B D4F_CCC
+flag is set in
+.BR flags .
+.IP \f3cap_miss\fP 18n
+These array values count the capacity misses.
+Capacity misses are those that would not occur if the cache had infinite size,
+but would still occur if the cache was fully associative.
+The values in this array are not computed unless the
+.B D4F_CCC
+flag is set in
+.BR flags .
+.IP \f3cap_blockmiss\fP 18n
+These array values count the capacity full block misses.
+Capacity misses are those that would not occur if the cache had infinite size,
+but would still occur if the cache was fully associative.
+The values in this array are not computed unless the
+.B D4F_CCC
+flag is set in
+.BR flags .
+.IP \f3conf_miss\fP 18n
+These array values count the conflict misses.
+Conflict misses are those that would not occur if the cache was fully associative.
+The values in this array are not computed unless the
+.B D4F_CCC
+flag is set in
+.BR flags .
+.IP \f3conf_blockmiss\fP 18n
+These array values count the conflict full block misses.
+Conflict misses are those that would not occur if the cache was fully associative.
+.B D4F_CCC
+flag is set in
+.BR flags .
+.SH CUSTOMIZATION
+Customization is a feature of Dinero IV that can offer significant
+speedups for lengthy simulations.
+It works by providing an easy way to recompile
+the time critical cache simulation functions,
+along the way replacing key
+.B d4cache
+structure field references by constants.
+This allows partial evaluation and other optimizations
+within the compiler to reduce time critical code path lengths.
+The benefit varies according to cache configuration and simulated workload.
+.PP
+You use customization in the following way:
+.IP 1. 4n
+Your program performs initialization by calling
+.B d4new
+and
+.BR d4setup ,
+and directly modifying
+.B d4cache
+fields as explained in
+.B DESCRIPTION
+and
+.BR "D4CACHE PARAMETER FIELDS" ,
+above.
+.IP 2. 4n
+If the external constant integer
+.B d4custom
+is 0,
+then call the function
+.BI d4customize( F )\c
+\&, where
+.I F
+is a
+.IR stdio (3)
+output stream open for writing.
+The output file
+will be written with C code containing customized functions
+for the entire simulated memory hierarchy.
+This code should be compiled and linked with the rest of the application
+and the Dinero IV library to produce a new, customized, executable.
+During compilation, the macro
+.B D4CUSTOM
+must be defined to 1 (typically by using the C compiler's
+.B \-DD4CUSTOM
+option).
+.IP 3. 4n
+The customized executable must start by performing exactly the
+same initialization steps as the non-customized executable.
+The external constant integer
+.B d4custom
+is 1.
+.SH LIMITATIONS
+The current version has no support for cache consistency,
+and thus is of limited value for multiprocessor simulations.
+.SH FILES
+.B d4.h
+\- header file.
+.br
+.B libd4.a
+\- library.
+.PP
+While the Dinero IV header file and library may be installed anywhere,
+we recommend keeping them with the Dinero IV source.
+This means you will generally need to specify their location to the compiler.
+The Dinero IV command implements customization by using the
+.B D4_SRC
+environment variable to locate the sources,
+and we encourage use of the same convention in other programs.
+.SH "SEE ALSO"
+dineroIV (1).
+.SH AUTHOR
+Jan Edler and Mark D. Hill
+(edler@research.nj.nec.com and markhill@cs.wisc.edu, respectively).
+.PP
+The latest version of Dinero IV can be obtained from
+.br
+ftp://ftp.nj.nec.com/pub/edler/d4-\f2X\fP.tgz
+.br
+where \f2X\fP is the latest version number.
+.SH COPYRIGHT
+.PP
+Copyright (C) 1997 NEC Research Institute, Inc. and Mark D. Hill.
+.br
+All rights reserved.
+.br
+Copyright (C) 1985, 1989 Mark D. Hill.  All rights reserved.
+.PP
+Permission to use, copy, modify, and distribute this software and
+its associated documentation for non-commercial purposes is hereby
+granted (for commercial purposes see below), provided that the above
+copyright notice appears in all copies, derivative works or modified
+versions of the software and any portions thereof, and that both the
+copyright notice and this permission notice appear in the documentation.
+NEC Research Institute Inc. and Mark D. Hill shall be given a copy of
+any such derivative work or modified version of the software and NEC
+Research Institute Inc.  and any of its affiliated companies (collectively
+referred to as NECI) and Mark D. Hill shall be granted permission to use,
+copy, modify, and distribute the software for internal use and research.
+The name of NEC Research Institute Inc. and its affiliated companies
+shall not be used in advertising or publicity related to the distribution
+of the software, without the prior written consent of NECI.  All copies,
+derivative works, or modified versions of the software shall be exported
+or reexported in accordance with applicable laws and regulations relating
+to export control.  This software is experimental.  NECI and Mark D. Hill
+make no representations regarding the suitability of this software for
+any purpose and neither NECI nor Mark D. Hill will support the software.
+.PP
+Use of this software for commercial purposes is also possible, but only
+if, in addition to the above requirements for non-commercial use, written
+permission for such use is obtained by the commercial user from NECI or
+Mark D. Hill prior to the fabrication and distribution of the software.
+.PP
+THE SOFTWARE IS PROVIDED AS IS.  NECI AND MARK D. HILL DO NOT MAKE
+ANY WARRANTEES EITHER EXPRESS OR IMPLIED WITH REGARD TO THE SOFTWARE.
+NECI AND MARK D. HILL ALSO DISCLAIM ANY WARRANTY THAT THE SOFTWARE IS
+FREE OF INFRINGEMENT OF ANY INTELLECTUAL PROPERTY RIGHTS OF OTHERS.
+NO OTHER LICENSE EXPRESS OR IMPLIED IS HEREBY GRANTED.  NECI AND MARK
+D. HILL SHALL NOT BE LIABLE FOR ANY DAMAGES, INCLUDING GENERAL, SPECIAL,
+INCIDENTAL, OR CONSEQUENTIAL DAMAGES, ARISING OUT OF THE USE OR INABILITY
+TO USE THE SOFTWARE.

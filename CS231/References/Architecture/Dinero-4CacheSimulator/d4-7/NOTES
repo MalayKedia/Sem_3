@@ -1,0 +1,123 @@
+Various notes about Dinero IV
+
+
+DIFFERENCES BETWEEN DINERO III AND DINERO IV
+
+The command line arguments are quite different; see the -help
+and -dineroIII options for some guidance in converting Dinero III
+command lines to Dinero IV.
+
+The default input format for Dinero IV is extended; the "label"
+is now a single character (r/w/i/m/v/c), and a third field gives
+the size.  See the man page for more details.  Use the -informat d
+option to specify the traditional Dinero III format.
+
+Dinero IV keeps track of the size of each access, along with address and
+access type.  Dinero III did not do this, and the size is not available
+in the traditional din format.  When reading din format, Dinero IV forces
+all accesses to be 4-byte aligned and assumes a size of 4.  This produces
+results that are as close as possible to Dinero III, but still not always
+the same.  In particular, for write-back caches, the reported count of
+words read from memory may differ because Dinero III always fetched the
+sub-block on a write miss, while Dinero IV knows that sometimes the fetch
+isn't necessary (i.e., if the whole sub-block is being written).  There
+may be other situations where statistics differ somewhat between
+Dinero III and Dinero IV because of the access size issue.
+
+For similar reasons, the same trace read by Dinero IV in din format may
+produce different results than if read directly in a richer format,
+e.g., extended din or one of the pixie formats.  The richer formats
+should have correct size information, while Dinero IV must guess the
+size in the din format (always 4 bytes).
+
+The prefetch abort percent option works a bit differently in Dinero
+IV than in Dinero III.  Previously, it killed a percentage of prefetch
+references BEFORE applying the prefetch policy.  Now we apply the policy
+decision first, then kill a percentage of the resulting prefetches.
+The difference is that some prefetch policies don't always generate
+prefetch accesses (e.g., the new "nofetch" policy).  The new method of
+calculating abort percentages makes more sense; in addition, it makes
+writing prefetch policy routines simpler, and may speed execution slightly
+by avoiding some calls to random().
+
+The -maxcount and -flushcount options work a bit differently than in
+Dinero III.  Previously, these counts were applied to all trace records,
+including those generated as a result of prefetch activity.  In Dinero
+IV, these counts relate only to the actual input trace records.  Note,
+however, that some input formats feature substantial compression, e.g.,
+they may supply only a starting address and a count for a sequential
+series of instruction fetches.  The expansion implied by such features
+is carried out transparently, i.e, before counting records for the
+-maxcount and -flushcount options.
+
+
+
+
+OPERATIONAL NOTES
+
+There are a few assertions that can be turned on for a bit of
+additional run-time checking.  Configure with --with-debug to enable this.
+
+
+
+
+PROGRAMMING NOTES
+
+A note on naming:
+ - names with d4_ or D4_ are internal, not normally needed by user
+ - other names with d4 or D4 are part of the user interface
+
+Dinero IV always has sub-blocks, with the degenerate case of sub-block
+size == block size.  This contrasts to Dinero III, where the
+"no sub-block" case was handled specially.
+
+References can cross block or sub-block boundaries.
+A multi-block reference is handled by doing the first block
+and defering the rest, as a separate reference.
+The number of times this is done is reported in the d4cache
+multiblock field.
+
+The number of bytes in a sub-block must be <= the largest possible value
+of an unsigned short.  This is checked at startup time.
+(This limit can probably be raised by changing the type of the field
+d4memref.size in d4.h).
+
+The number of sub-blocks in a block must be <= the number of bits in an int
+This is checked at startup time.
+(This limit can probably be raised somewhat by changing the type of the fields
+d4stacknode.{valid,referenced,dirty} in d4.h).
+
+We don't allow per-cache user extension of stacknodes.
+All stacknodes must be the same, and we have common routines to
+deal with them, and a common freelist.
+
+Command line option handling:
+The chosen scheme is quite complex because of the -lN-T prefix stuff.
+Perhaps it could be redesigned to be simpler.
+
+That said, here's some overview info on how it works and why some
+of it is as wierd as it is.
+
+- Each option is described by a structure in a table (struct arglist, args[]).
+- Each structure gives the fixed part of the option string, along with
+  strings for help, summary, and customization purposes.
+  Function pointers are provided to specify how the option is matched,
+  how the value is extracted, and how help, summary, and customization
+  is handled.
+- The division of things into the files cmdmain.c, cmdargs.[ch],
+  and other places (tracein.[ch], ...) is intended to make it
+  easy to add new options without having to change much else.
+  Thus most of the functions are in cmdmain.c, because they're
+  supposed to be generic.
+
+Input trace format handling:
+This is broken up so as to make it easy to add a new
+function for handling a new input format without changing much
+else.  Generally, you need to do 4 things:
+
+- add a new file with the primary trace input function, 
+- add a declaration for the function in tracein.h, and
+- modify tracein.c to add a case in verify_trace_format
+  and add help info to help_trace_format,
+- modify Makefile.in to add the file to CMD_OBJ_LIST
+  and add the necessary dependencies.

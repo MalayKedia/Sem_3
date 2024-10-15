@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 7.3.7.2 (Linux)"/>
+	<meta name="author" content="Bhaskaran Raman"/>
+	<meta name="created" content="2009-08-15T00:00:00.017260600"/>
+	<meta name="changedby" content="Bhaskaran Raman"/>
+	<meta name="changed" content="2024-09-30T11:09:25.744375680"/>
+	<style type="text/css">
+		h3.cjk { font-family: "Droid Sans Fallback" }
+		h3.ctl { font-family: "Lohit Hindi" }
+	</style>
+</head>
+<body lang="en-IN" dir="ltr"><h1><font color="#800000">CS231, DLDCA
+Lab, Lab 07</font></h1>
+<h3 class="western"><font color="#0000ff">Goals</font></h3>
+<ol>
+	<li><p style="font-variant: normal; font-style: normal">Learn to use
+	the WinMIPS64 pipeline simulator for the MIPS64 architecture</p>
+	<li><p style="font-variant: normal; font-style: normal">Understanding
+	various kinds of hazards and stalls</p>
+	<li><p style="font-variant: normal; font-style: normal">Understanding
+	data forwarding</p>
+</ol>
+<h3 class="western" style="page-break-after: avoid"><font color="#0000ff">Instructions</font></h3>
+<ol>
+	<li><p>These exercises are to be done individually.</p>
+	<li><p>While you are encouraged to discuss with your colleagues, do
+	not cross the fine line between discussion <i>to understand</i>
+	versus discussion as a <i>short-cut</i> to complete your lab without
+	really understanding.</p>
+	<li><p>Create a directory called &lt;rollno&gt;-&lt;labno&gt;. Store
+	all relevant files to this lab in that directory.</p>
+	<ol type="a">
+		<li><p>In the exercises, you will be asked various questions. Note
+		down the answers to these in a file called “answers.txt”.</p>
+		<li><p>In some parts of the exercises, you will have to show a demo
+		to a TA; these are marked as such. The evaluation for each lab will
+		be in the subsequent lab, or during a time-slot agreed upon with
+		the TAs. For this evaluation, you need to upload your code as well.</p>
+	</ol>
+	<li><p>Before leaving the lab, ensure the following:</p>
+	<ol type="a">
+		<li><p>You have marked attendance on SAFE</p>
+		<li><p>You have uploaded your submission on BodhiTree, and
+		downloaded and checked if the submissions is right</p>
+	</ol>
+	<li><p>Things to ensure during TA evaluation of a particular lab
+	submission:</p>
+	<ol type="a">
+		<li><p>The TA has looked at your text file with the answers to
+		various questions</p>
+		<li><p>The TA has given you marks out of 10, and has entered it in
+		the marks sheet</p>
+	</ol>
+	<li><p>You have to use the MIPS conventions, unless mentioned
+	otherwise.</p>
+</ol>
+<h3 class="western" style="page-break-after: avoid"><font color="#0000ff">Using
+the WinMIPS64 simulator</font></h3>
+<ul>
+	<li><p style="font-variant: normal; font-style: normal">The
+	WinMIPS64 simulator is a MIPS64 pipeline simulator. The MIPS64
+	architecture is the 64-bit version of the MIPS architecture. The
+	MIPS64 5-stage pipeline is similar to the MIPS/DLX 5-stage pipeline.
+	The MIPS64 instruction set reference is given to you, please refer
+	to it to write MIPS64 assembly code.</p>
+	<li><p style="font-variant: normal; font-style: normal">winmips64 is
+	a windows program, but it can run on Linux using “wine
+	/path/to/winmips64.exe”, on the lab machines; “wine” is
+	windows emulator. Refer to the winmips64 tutorial for a brief
+	introduction to winmips64.</p>
+	<li><p style="font-variant: normal; font-style: normal">The
+	winmips64 simulator uses a simple “memory-mapped I/O” scheme for
+	input/output, in case you need it. You can look at the testio.s to
+	understand. Such I/O should not be required for the exercises in
+	this lab, but you may need it to understand pre-written code (e.g.
+	if you try to step through factorial.s).</p>
+	<li><p style="font-variant: normal; font-style: normal"><b>Demo to
+	TA [1 mark]:</b> load and run the “factorial.s” program.
+	Remember, you will find that at some point it is asking for terminal
+	input, so be sure to open the “terminal” sub-window in
+	winmips64.</p>
+	<li><p style="font-variant: normal; font-style: normal"><b>Question
+	[0.5 marks]:</b> What branch prediction technique does the simulator
+	use? Substantiate your answer. You can use any program other than
+	factorial.s for this, if convenient.</p>
+	<li><p style="font-variant: normal; font-style: normal"><b>Question
+	[0.5 marks]:</b> In which stage does the branch instruction require
+	its inputs? Substantiate your answer.</p>
+</ul>
+<h3 class="western" style="font-variant: normal; font-style: normal; page-break-after: avoid">
+<font color="#0000ff">Identifying data forwarding, stalls</font></h3>
+<ul>
+	<li><p style="font-variant: normal; font-style: normal">You can now
+	use simpler DLX code, like the one in “winmips64-lab.s”. In most
+	of these cases, you have to show the corresponding cycle diagram (in
+	the “clock cycle diagram” window in winmips64).</p>
+	<li><p style="font-variant: normal; font-style: normal">In the
+	“pipeline” diagram (in one of the WinDLX windows), you can see
+	that apart from the EX, there are three other functional units:
+	multiplier, FP adder, DIV.</p>
+</ul>
+<p style="font-variant: normal; font-style: normal"><br/>
+<br/>
+
+</p>
+<ol type="a">
+	<li><p style="font-variant: normal; font-style: normal">Write DLX
+	assembly code which causes (a) one or more data stalls, and (b) one
+	or more control stalls.</p>
+	<li><p style="font-variant: normal; font-style: normal">Add to the
+	above code such that there is now a stall in the ID stage of a
+	branch instruction.</p>
+	<li><p style="font-variant: normal; font-style: normal">Add to the
+	above code such that there is data forwarding from the EX stage to
+	the ID stage for some pair of instructions.</p>
+	<li><p style="font-variant: normal; font-style: normal">Add to the
+	above code such that there is data forwarding from the MEM stage to
+	the ID stage for some pair of instructions.</p>
+	<li><p style="font-variant: normal; font-style: normal">Add to the
+	above code to cause the maximum possible stall between a pair of
+	instructions.</p>
+	<li><p style="font-variant: normal; font-style: normal">Add to the
+	above code to cause data forwarding between two instructions that
+	are as far apart as possible.</p>
+	<li><p style="font-variant: normal; font-style: normal">Add to the
+	above code to cause a WAW stall.</p>
+	<li><p><span style="font-variant: normal"><span style="font-style: normal">Add
+	to the above code to cause a structural stall.</span></span></p>
+</ol>
+<p><span style="font-variant: normal"><span style="font-style: normal"><b>Demo
+to TA [1 x 8 = 8 marks]:</b></span></span> <span style="font-variant: normal"><span style="font-style: normal">Show
+all the above code and show the “clock cycle diagram” and
+indicate the above mentioned features. Also show the “statistics”
+window.</span></span></p>
+<p><br/>
+<br/>
+
+</p>
+</body>
+</html>

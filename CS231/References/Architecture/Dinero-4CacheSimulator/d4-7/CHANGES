@@ -1,0 +1,82 @@
+version 7	6 Feb 1998
+	added code to make -skipcount work
+
+version 6	16 Jan 1998
+	COPYRIGHT included as separate file in distribution
+	updated -contact information
+
+version 5	10 Jan 1998
+	added -contact and -copyright options
+	fixed bug in -flushcount and -stat-interval
+	 (they were totally inoperative!)
+	d4_invinfcache: new function to fix problem with
+	 invalidation and CCC calculations
+	 (the fully assoc & infinite caches weren't invalidated)
+	fixed problem with CCC calculations and sub-blocks
+	 (infinite cache didn't report enough block misses
+	  and didn't handle multi-subblock references)
+	fixed problem with multi-subblock references
+	 (misses were not recognized if some sub-blocks hit)
+	fixed stats output problem for demand block misses
+	 and prefetch misses
+	d4cache structure: added multiblock field
+	 to count multiblock refs
+	added output count of multi-block references
+	fixed pixie32fmt.c, pixie64fmt.c, testing/p2b.c, and testing/p2d.c
+	 to handle SWR/SWL properly (they were producing
+	 bogus multi-block references)
+	d4_splitm(): new function to handle multi-block references
+	d4ref(): always check for D4F_RO violation now
+	 call d4_splitm to handle multi-block references
+	verify_options(): check D4_BITMAP_RSIZE
+	xdinfmt.c: include <string.h>, better error messages
+	extended din input format is now the default
+
+version 4	8 Dec 1997
+	new copyright notice
+	main(): do not copy-back icache at end of run or -flushcount.
+	 (This avoids a surprising double copy-back in level 2 caches.)
+	Added D4F_RO flag for read-only caches.
+	changes to stack organization:
+		stacks are now always circular & doubly linked
+		new structure, d4stackhead, introduced to point at top of stack
+		d4stacknode fields lru/mru replace with down/up
+		each stack always has exactly a+1 nodes, where a=associativity
+		d4makenode(), d4push(), d4_putonfreelist(),
+		 d4_trimstack(): eliminated
+		d4hash(): new function
+		d4movetotop(), d4movetobot(), d4unhash(), d4_find,
+		 d4findnth(): re-engineered
+		d4setup(): stack initialization changed accordingly
+	replacement policy function args simplified
+	replacement policy functions are always called now
+	 (previously they were not called for hit at top of stack; this
+	 change allows various arbitrary non-stack-oriented policy functions.)
+	d4_wbline() changed to d4_wbblock()
+	d4_invline() changed to d4_invblock(), args changed
+	d4rep_lru(), d4rep_fifo(), d4rep_random(): tuned for better speed
+	d4ref(): tuned for better speed, new d4_find usage
+	xdinfmt.c: new file, extended din input format
+	tracein.c, tracein.h, Makefile.in: support for -informat D, xdin format
+	cmdmain.c: improvements to -dineroIII help
+	d4.1: documentation for new extended din format, other minor cleanups
+	ref.c: check for multi-block references
+	testing/Makefile, testing/mm.??: pixie sample input files are
+	 no longer kept in uuencoded format
+	testing/p2d.c: added -4 option to generate extended din format
+	testing/testscript:
+		complain if programs or files not found
+		automatically decide when to run p2d -4
+
+version 3	17 Nov 1997
+	Most options now have default values.
+	More verbose output for usage errors.
+	Option -dineroIII added.
+	size field of d4memref changed from unsigned char to unsigned short.
+	Binary input format changed from 6 bytes to 8 bytes.
+	
+version 2	10 Nov 1997
+	More testing, a few bug fixes, man pages added.
+
+version 1	2 Sept 1997
+	Initial version.

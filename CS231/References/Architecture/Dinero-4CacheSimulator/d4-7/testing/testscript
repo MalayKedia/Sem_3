@@ -1,0 +1,134 @@
+#!/bin/sh
+# run dineroIV tests
+# Written by Jan Edler
+#
+# tests are specified by a $PARAM_FILE
+# each test can be named by a tag, which is the first field of the line in $PARAM_FILE
+#
+# Args:
+#	-r	replace presumed-good output files (default is to diff them)
+#	-c	run with -custom
+#	-ttag	specify tag
+#	-iinp	specify test input
+
+PARAM_FILE=test-parms
+INPUT_FILES="mm.32 mm.64"
+
+usage="Usage: `basename $0` [-r] [-t param_tags] [-i input_files]"
+tag_patterns='.*'	# default: match any tag
+action=diff
+docustom=no
+
+if [ ! -x ./p2b ]; then
+	echo `basename $0`: ./p2b not found 1>&2
+	exit 1
+fi
+if [ ! -x ./p2d ]; then
+	echo `basename $0`: ./p2d not found 1>&2
+	exit 1
+fi
+
+while [ $# -gt 0 ]; do
+	case $1 in
+	-t)	if [ $# -lt 2 ]; then
+			echo $usage 1>&2
+			exit 1
+		fi
+		tag_patterns="$2"
+		shift
+		shift
+		;;
+	-t*)	tag_patterns=`expr "x$1" : 'x-t\(.*\)'`
+		shift
+		;;
+	-i)	if [ $# -lt 2 ]; then
+			echo $usage 1>&2
+			exit 1
+		fi
+		INPUT_FILES="$2"
+		shift
+		shift
+		;;
+	-i*)	INPUTFILES=`expr "x$1" : 'x-i\(.*\)'`
+		shift
+		;;
+	-r)	action=replace
+		shift
+		;;
+	-c)	docustom=yes
+		shift
+		;;
+	*)	echo $usage 1>&2
+		exit 1
+		;;
+	esac
+done
+
+for i in $INPUT_FILES; do
+	if [ ! -r "$i" ]; then
+		echo `basename $0`: "$i" not found 1>&2
+		exit 2
+	fi
+done
+
+custfile=
+if [ $docustom = yes ]; then
+	custfile=/tmp/d4cust$$
+	trap "rm -f $custfile; exit 1" 1 3 15
+fi
+
+# try each test input with a bunch of test parameters
+for tp in "$tag_patterns"; do
+	grep "^$tp[ 	]" $PARAM_FILE
+done | while read tag parms; do
+	if [ $docustom = yes ]; then
+		parms="-custom $custfile $parms"
+	fi
+	for i in $INPUT_FILES; do
+		p2d=./p2d
+		oktodo=yes
+		case "$tag" in
+		'#'|'')	# comment and blank lines
+			oktodo=no;;
+		*p)	# 32-bit pixie input format
+			case $i in
+			*.64)	oktodo=no;;	# skip this input file
+			esac
+			p2d=cat;;
+		*P)	# 64-bit pixie input format
+			case $i in
+			*.32)	oktodo=no;;	# skip this input file
+			esac
+			p2d=cat;;
+		*b)	# convert to binary format
+			case $i in
+			*.64)	oktodo=no;;	# skip this input file
+			esac
+			p2d=./p2b;;
+		*D)	# convert to extended din format
+			case $i in
+			*.64)	oktodo=no;;	# skip this input file
+			esac
+			p2d="./p2d -4";;
+		*)	# original ascii dinero input format
+			case $i in
+			*.64)	oktodo=no;;	# skip this input file
+			esac;;
+		esac
+
+		if [ $oktodo = yes ]; then
+		 $p2d <$i | dineroIV $parms | sed 's/version [0-9]*$/version XXX/' |
+		  if [ $action = diff -a -s $i.good.$tag ]; then
+			echo ================== `date` ==== diff with $i.good.$tag for $parms
+			diff -b $i.good.$tag -
+		  else
+			echo ================== `date` ==== creating $i.good.$tag for $parms
+			cat >$i.good.$tag
+		  fi
+		fi
+		if [ -n "$custfile" ]; then
+			rm -f $custfile
+		fi
+	done
+done
+echo ====================== done `date`

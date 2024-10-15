@@ -1,0 +1,363 @@
+.TH DINEROIV 1
+.UC 4
+.SH NAME
+dineroIV \- fourth generation cache simulator
+.SH SYNOPSIS
+.B dineroIV
+[options]
+.SH DESCRIPTION
+The
+.I dineroIV
+command is a trace-driven cache simulator based on the
+.I dineroIV
+library, documented separately.
+.PP
+The basic operation is to read memory reference trace records
+from the standard input,
+process them through one or more simulated caches forming a memory hierarchy,
+and write statistics on the standard output.
+.SH OPTIONS
+Some options control overall operation,
+while others specify the basic parameters and arrangement
+of the caches to be simulated.
+In the following list of options,
+.I F
+is a string,
+.I U
+is an unsigned decimal integer,
+.I C
+is a single character,
+.I A
+is a hexadecimal address, and
+.I S
+is like
+.IR U ,
+but with an optional scaling suffix character (one of
+.BR kKmMgG ,
+for multiplication by 0x400, 0x100000, or 0x40000000).
+.I P
+is like
+.IR S ,
+but must be a power of 2,
+.I N
+is a cache level (1 \(<=
+.IR N ),
+where level 1 is closest to the processor, and
+.I T
+is a cache type (\f3u\fP\(equnified, \f3i\fP\(eqinstruction, \f3d\fP\(eqdata).
+.PP
+Some global options take 0 or 1 argument,
+while options that specify characteristics of a particular cache
+typically involve 2 or 3 arguments, with the cache level and type
+being incorporated into the option name as indicated.
+.TP 18n
+.B \-help
+Print a synopsis of all the options and defaults.
+No simulation is done.
+.TP 18n
+.B \-copyright
+Describe copyright terms for
+.IR dineroIV .
+.TP 18n
+.B \-contact
+Tell how to get the latest version of Dinero IV
+and how to contact the authors.
+This information is also available below, in
+.B AUTHORS
+and
+.BR COPYRIGHT .
+.TP 18n
+.B \-dineroIII
+Show what
+.I dineroIV
+command line arguments corespond to each
+.I dineroIII
+argument.
+.IP "\f3\-custom\fP \f2F\fP" 18n
+Generate and run a customized version of the simulator,
+with the resulting executable named
+.IR F .
+Most cache parameters are fixed and made into constants,
+with a resulting performance boost that is somewhat variable,
+but generally recommended for lengthy simulations.
+The fixed options are unsettable in the customized program;
+run
+.I F
+with the
+.B \-help
+option to see exactly which options are still available.
+.I F
+is not removed following simulation,
+so it can be used for more than one run.
+The
+.I dineroIV
+source code must be available and properly configured for
+.B \-custom
+to work, with the
+.B D4_SRC
+environment variable naming the directory.
+.IP "\f3\-skipcount\fP \f2U\fP" 18n
+Disregard the initial
+.I U
+memory references from the standard input.
+.IP "\f3\-flushcount\fP \f2U\fP" 18n
+Flush the cache after processing every
+.I U
+references read from the standard input.
+.IP "\f3\-maxcount\fP \f2U\fP" 18n
+Stop the simulation after processing
+.I U
+references read from the standard input.
+.IP "\f3\-stat\-interval\fP \f2U\fP" 18n
+Show statistics after processing every
+.I U
+references read from the standard input.
+This is in addition to the statistics produced
+at the end of the full simulation.
+.IP "\f3\-informat\fP \f2C\fP" 18n
+Select the input trace format as indicated by
+.I C
+(\f3D\fP\(eqextended din, \f3d\fP\(eqtraditional din, \f3p\fP\(eqpixie32, \f3P\fP\(eqpixie64, \f3b\fP\(eqbinary).
+The exact current list of choices is given by the
+.B \-help
+option.
+The default input format is
+.BR D .
+See
+.BR "TRACE RECORDS" ,
+below,
+for more information.
+.IP "\f3\-on\-trigger\fP \f2A\fP" 18n
+Disregard trace records until one with address
+.I A
+is seen.
+.IP "\f3\-off\-trigger\fP \f2A\fP" 18n
+Disregard trace records after seeing one with address
+.IR A .
+.TP 18n
+.B \-stat\-idcombine
+Combine the statistics for separate instruction and data caches.
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3bsize\fP \f2P\fP" 18n
+Set the block size of the specified level
+.I N
+cache to
+.I P
+bytes.
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3sbsize\fP \f2P\fP" 18n
+Set the sub-block size of the specified level
+.I N
+cache to
+.I P
+bytes.
+If not specified, sub-blocks are not used
+(i.e., sub-block size \(eq block size).
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3size\fP \f2P\fP" 18n
+Set the cache size of the specified level
+.I N
+cache to
+.I P
+bytes.
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3assoc\fP \f2U\fP" 18n
+Set the associativity of the specified level
+.I N
+cache to
+.IR U .
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3repl\fP \f2C\fP" 18n
+Set the replacement policy of the specified level
+.I N
+cache to
+.I C
+(\f3l\fP\(eqLRU, \f3f\fP\(eqFIFO, \f3r\fP\(eqrandom).
+The exact current list of choices is given by the
+.B \-help
+option.
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3fetch\fP \f2C\fP" 18n
+Set the fetch policy of the specified level
+.I N
+cache to
+.I C
+(\f3d\fP\(eqdemand, \f3a\fP\(eqalways, \f3m\fP\(eqmiss,
+\f3t\fP\(eqtagged, \f3l\fP\(eqload forward, \f3s\fP\(eqsub-block).
+The exact current list of choices is given by the
+.B \-help
+option.
+Further information on fetch policies is given in
+.IR dineroIV (3).
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3pfdist\fP \f2U\fP" 18n
+Set the prefetch distance of the specified level
+.I N
+cache to
+.I U
+sub-blocks.
+The default is 1.
+This option is not valid for the
+.B d
+fetch policy, where no prefetching will happen.
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3pfabort\fP \f2U\fP" 18n
+Set the prefetch abort percentage of the specified level
+.I N
+cache to
+.I U
+(0\-100).
+The default is 0.
+The specified percentage of prefetch requests will be randomly chosen
+to be aborted, i.e., not happen.
+This option is not valid for the
+.B d
+fetch policy, where no prefetching will happen.
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3walloc\fP \f2C\fP" 18n
+Set the write allocate policy of the specified level
+.I N
+cache to
+.I C
+(\f3a\fP\(eqalways, \f3n\fP\(eqnever, \f3f\fP\(eqnofetch).
+The exact current list of choices is given by the
+.B \-help
+option.
+Further information on write allocate policies is given in
+.IR dineroIV (3).
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3wback\fP \f2C\fP" 18n
+Set the write back policy of the specified level
+.I N
+cache to
+.I C
+(\f3a\fP\(eqalways, \f3n\fP\(eqnever, \f3f\fP\(eqnofetch).
+The exact current list of choices is given by the
+.B \-help
+option.
+Further information on write back policies is given in
+.IR dineroIV (3).
+.IP "\f3\-l\fP\f2N\fP\f3\-\fP\f2T\fP\f3ccc\fP" 18n
+Compute Compulsory/Capacity/Conflict miss rates for the specified level
+.I N
+cache.
+.SH "TRACE RECORDS"
+A
+.I dineroIV
+trace record, as processed internally,
+consists of three things: an access type, an address, and a size.
+The following access types are supported:
+.IP \(bu 3n
+Read.
+.IP \(bu 3n
+Write.
+.IP \(bu 3n
+Instruction fetch.
+.IP \(bu 3n
+Miscellaneous.
+These references are treated like reads,
+but they never generate prefetches.
+.IP \(bu 3n
+Copy-back dirty (sub-)block(s), with no invalidation implied.
+This affects the whole cache if the indicated size is 0.
+.IP \(bu 3n
+Invalidate block(s), with no copy-back implied.
+This affects the whole cache if the indicated size is 0.
+.PP
+There are no internal restrictions on what constitutes a valid address,
+except that the size of an address is platform-dependent
+(generally 32 bits or more).
+The size value of a trace record indicates the number of bytes affected.
+Dinero IV imposes no size or alignment restrictions on memory references;
+they may span multiple sub-blocks or blocks.
+.PP
+The following input formats are supported by the
+.B \-informat
+option:
+.TP 4n
+.B d
+The traditional ``din'' format of Dinero III.
+Two fields are examined per line: access type and address.
+The access type is numeric:
+0 for read, 1 for write, 2 for instruction fetch, 3 for miscellaneous,
+4 for copy-back, and 5 for invalidate.
+The address is hexadecimal, beginning with an optional ``0x'' or ``0X''.
+Fields are separated by white space (space or tab),
+and everything following the first two fields of a line is ignored.
+To approximate the behavior of Dinero III,
+addresses are silently rounded down to a multiple of 4 bytes,
+and the data size for reads and writes is always assumed to be 4 bytes.
+.TP 4n
+.B D
+An extended version of the traditional Dinero III input format,
+where each line contains three significant fields.
+The first field, specifying the access type, is a single letter
+.RB ( rwimcv )
+to indicate one of the access types described above.
+The second field is the hexadecimal address,
+and the third field is the hexadecimal size.
+A leading ``0x'' or ``0X'' is ignored at the beginning of each hexadecimal field.
+Fields are separated by white space (space or tab),
+and everything following the first three fields of a line is ignored.
+.TP 4n
+.B p
+The format produced by
+.B "pixie \-idtrace"
+on SGI IRIX systems.
+.TP 4n
+.B P
+The format produced by
+.B "pixie \-idtrace_ext"
+on SGI IRIX systems.
+.TP 4n
+.B b
+A binary format, consisting of a four byte little-endian address,
+a 2-byte little-endian size, a 1-byte access type, and a byte of padding.
+.SH FILES
+For the
+.B \-custom
+option, the location of the Dinero IV source files is given by the
+.B D4_SRC
+environment variable.
+.SH "SEE ALSO"
+dineroIV (3).
+.SH AUTHOR
+Jan Edler and Mark D. Hill
+(edler@research.nj.nec.com and markhill@cs.wisc.edu, respectively).
+.PP
+The latest version of Dinero IV can be obtained from
+.br
+ftp://ftp.nj.nec.com/pub/edler/d4-\f2X\fP.tgz
+.br
+where \f2X\fP is the latest version number.
+.SH COPYRIGHT
+.PP
+Copyright (C) 1997 NEC Research Institute, Inc. and Mark D. Hill.
+.br
+All rights reserved.
+.br
+Copyright (C) 1985, 1989 Mark D. Hill.  All rights reserved.
+.PP
+Permission to use, copy, modify, and distribute this software and
+its associated documentation for non-commercial purposes is hereby
+granted (for commercial purposes see below), provided that the above
+copyright notice appears in all copies, derivative works or modified
+versions of the software and any portions thereof, and that both the
+copyright notice and this permission notice appear in the documentation.
+NEC Research Institute Inc. and Mark D. Hill shall be given a copy of
+any such derivative work or modified version of the software and NEC
+Research Institute Inc.  and any of its affiliated companies (collectively
+referred to as NECI) and Mark D. Hill shall be granted permission to use,
+copy, modify, and distribute the software for internal use and research.
+The name of NEC Research Institute Inc. and its affiliated companies
+shall not be used in advertising or publicity related to the distribution
+of the software, without the prior written consent of NECI.  All copies,
+derivative works, or modified versions of the software shall be exported
+or reexported in accordance with applicable laws and regulations relating
+to export control.  This software is experimental.  NECI and Mark D. Hill
+make no representations regarding the suitability of this software for
+any purpose and neither NECI nor Mark D. Hill will support the software.
+.PP
+Use of this software for commercial purposes is also possible, but only
+if, in addition to the above requirements for non-commercial use, written
+permission for such use is obtained by the commercial user from NECI or
+Mark D. Hill prior to the fabrication and distribution of the software.
+.PP
+THE SOFTWARE IS PROVIDED AS IS.  NECI AND MARK D. HILL DO NOT MAKE
+ANY WARRANTEES EITHER EXPRESS OR IMPLIED WITH REGARD TO THE SOFTWARE.
+NECI AND MARK D. HILL ALSO DISCLAIM ANY WARRANTY THAT THE SOFTWARE IS
+FREE OF INFRINGEMENT OF ANY INTELLECTUAL PROPERTY RIGHTS OF OTHERS.
+NO OTHER LICENSE EXPRESS OR IMPLIED IS HEREBY GRANTED.  NECI AND MARK
+D. HILL SHALL NOT BE LIABLE FOR ANY DAMAGES, INCLUDING GENERAL, SPECIAL,
+INCIDENTAL, OR CONSEQUENTIAL DAMAGES, ARISING OUT OF THE USE OR INABILITY
+TO USE THE SOFTWARE.

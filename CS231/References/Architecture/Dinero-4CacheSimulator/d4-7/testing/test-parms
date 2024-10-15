@@ -1,0 +1,112 @@
+# this file is read by the testing script to drive test runs of dineroIV
+# each line has a tag and parameters
+# the tag is used to label the output
+# the special tag "#" makes the line into a comment
+# a blank line is also ignored
+# As another hack, if the tag ends in p, P, or D, we assume that means the
+# options include -informat p, -informat P, or -informat D, respectively,
+# and external format conversion is done or not done accordingly.
+
+u8b4a1D			-l1-usize 8k   -l1-ubsize 4                -l1-uassoc 1   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat D
+u8b8a1S4D		-l1-usize 8k   -l1-ubsize 8  -l1-usbsize 4 -l1-uassoc 1   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat D
+
+u8b16a4			-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat d
+u8b16a512		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 512 -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat d
+u0b16a8			-l1-usize 8m   -l1-ubsize 16 -l1-uassoc 8   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat d
+u8b16a4c		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -l1-uccc -stat-idcombine -informat d
+
+u8b16a4p		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat p -stat-idcombine
+u8b16a512p		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 512 -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat p -stat-idcombine
+u0b16a8p		-l1-usize 8m   -l1-ubsize 16 -l1-uassoc 8   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat p -stat-idcombine
+u8b16a4cp		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -l1-uccc -informat p -stat-idcombine
+
+u8b16a4D		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat D -stat-idcombine
+u8b16a512D		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 512 -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat D -stat-idcombine
+u0b16a8D		-l1-usize 8m   -l1-ubsize 16 -l1-uassoc 8   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat D -stat-idcombine
+u8b16a4cD		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -l1-uccc -informat D -stat-idcombine
+
+u8b16a4b		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat b -stat-idcombine
+u8b16a512b		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 512 -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat b -stat-idcombine
+u0b16a8b		-l1-usize 8m   -l1-ubsize 16 -l1-uassoc 8   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat b -stat-idcombine
+u8b16a4cb		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -l1-uccc -informat b -stat-idcombine
+
+u8b16a4P		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat P -stat-idcombine
+u8b16a512P		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 512 -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat P -stat-idcombine
+u0b16a8P		-l1-usize 8m   -l1-ubsize 16 -l1-uassoc 8   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -informat P -stat-idcombine
+u8b16a4cP		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback a -l1-uccc -informat P -stat-idcombine
+
+u256b8a4fap2		-l1-usize 256k -l1-ubsize 8                 -l1-uassoc 4   -l1-urepl l -l1-ufetch a -l1-uwalloc a -l1-uwback a -l1-upfdist 2 -stat-idcombine -informat d
+u256b8a4fmp2		-l1-usize 256k -l1-ubsize 8                 -l1-uassoc 4   -l1-urepl l -l1-ufetch m -l1-uwalloc a -l1-uwback a -l1-upfdist 2 -stat-idcombine -informat d
+u256b8a4ftp2		-l1-usize 256k -l1-ubsize 8                 -l1-uassoc 4   -l1-urepl l -l1-ufetch t -l1-uwalloc a -l1-uwback a -l1-upfdist 2 -stat-idcombine -informat d
+u256b8S4a4flp1		-l1-usize 256k -l1-ubsize 8  -l1-usbsize 4  -l1-uassoc 4   -l1-urepl l -l1-ufetch l -l1-uwalloc a -l1-uwback a -l1-upfdist 2 -stat-idcombine -informat d
+u256b8S4a4fsp2		-l1-usize 256k -l1-ubsize 8  -l1-usbsize 4  -l1-uassoc 4   -l1-urepl l -l1-ufetch s -l1-uwalloc a -l1-uwback a -l1-upfdist 2 -stat-idcombine -informat d
+
+u8b16a4ww		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc a -l1-uwback n -stat-idcombine -informat d
+u8b16a4An		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc n -l1-uwback a -stat-idcombine -informat d
+u8b16a4wwAn		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc n -l1-uwback n -stat-idcombine -informat d
+u8b16a4wwAnc		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl l -l1-ufetch d -l1-uwalloc n -l1-uwback n -l1-uccc -stat-idcombine -informat d
+
+u8b16a4rr		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl r -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat d
+u8b16a512rr		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 512 -l1-urepl r -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat d
+u0b16a8rr		-l1-usize 8m   -l1-ubsize 16 -l1-uassoc 8   -l1-urepl r -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat d
+u8b16a4rrc		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl r -l1-ufetch d -l1-uwalloc a -l1-uwback a -l1-uccc -stat-idcombine -informat d
+
+u8b16a4rf		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl f -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat d
+u8b16a512rf		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 512 -l1-urepl f -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat d
+u0b16a8rf		-l1-usize 8m   -l1-ubsize 16 -l1-uassoc 8   -l1-urepl f -l1-ufetch d -l1-uwalloc a -l1-uwback a -stat-idcombine -informat d
+u8b16a4rfc		-l1-usize 8k   -l1-ubsize 16 -l1-uassoc 4   -l1-urepl f -l1-ufetch d -l1-uwalloc a -l1-uwback a -l1-uccc -stat-idcombine -informat d
+
+i8d8b64S16ft		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch t -l1-dfetch t -l1-dwalloc a -l1-dwback a -stat-idcombine -informat d
+i8d8b64S16ftc		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch t -l1-dfetch t -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -stat-idcombine -informat d
+i8d8b64S16ftp		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch t -l1-dfetch t -l1-dwalloc a -l1-dwback a -informat p -stat-idcombine
+i8d8b64S16ftD		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch t -l1-dfetch t -l1-dwalloc a -l1-dwback a -informat D -stat-idcombine
+i8d8b64S16ftb		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch t -l1-dfetch t -l1-dwalloc a -l1-dwback a -informat b -stat-idcombine
+i8d8b64S16ftcp		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch t -l1-dfetch t -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -informat p -stat-idcombine
+i8d8b64S16ftcD		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch t -l1-dfetch t -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -informat D -stat-idcombine
+i8d8b64S16ftcb		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch t -l1-dfetch t -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -informat b -stat-idcombine
+i8d8b64S16ftP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch t -l1-dfetch t -l1-dwalloc a -l1-dwback a -informat P -stat-idcombine
+i8d8b64S16ftcP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch t -l1-dfetch t -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -informat P -stat-idcombine
+
+i8d8b64S16fa		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch a -l1-dfetch a -l1-dwalloc a -l1-dwback a -stat-idcombine -informat d
+i8d8b64S16fap		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch a -l1-dfetch a -l1-dwalloc a -l1-dwback a -informat p -stat-idcombine
+i8d8b64S16faD		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch a -l1-dfetch a -l1-dwalloc a -l1-dwback a -informat D -stat-idcombine
+i8d8b64S16fab		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch a -l1-dfetch a -l1-dwalloc a -l1-dwback a -informat b -stat-idcombine
+i8d8b64S16faP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch a -l1-dfetch a -l1-dwalloc a -l1-dwback a -informat P -stat-idcombine
+i8d8b64S16facP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch a -l1-dfetch a -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -informat P -stat-idcombine
+
+i8d8b64S16fm		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch m -l1-dfetch m -l1-dwalloc a -l1-dwback a -stat-idcombine -informat d
+i8d8b64S16fmp		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch m -l1-dfetch m -l1-dwalloc a -l1-dwback a -informat p -stat-idcombine
+i8d8b64S16fmD		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch m -l1-dfetch m -l1-dwalloc a -l1-dwback a -informat D -stat-idcombine
+i8d8b64S16fmb		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch m -l1-dfetch m -l1-dwalloc a -l1-dwback a -informat b -stat-idcombine
+i8d8b64S16fmP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch m -l1-dfetch m -l1-dwalloc a -l1-dwback a -informat P -stat-idcombine
+i8d8b64S16fmcP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch m -l1-dfetch m -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -informat P -stat-idcombine
+
+i8d8b64S16fl		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch l -l1-dfetch l -l1-dwalloc a -l1-dwback a -stat-idcombine -informat d
+i8d8b64S16flp		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch l -l1-dfetch l -l1-dwalloc a -l1-dwback a -informat p -stat-idcombine
+i8d8b64S16flD		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch l -l1-dfetch l -l1-dwalloc a -l1-dwback a -informat D -stat-idcombine
+i8d8b64S16flb		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch l -l1-dfetch l -l1-dwalloc a -l1-dwback a -informat b -stat-idcombine
+i8d8b64S16flP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch l -l1-dfetch l -l1-dwalloc a -l1-dwback a -informat P -stat-idcombine
+i8d8b64S16flcP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch l -l1-dfetch l -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -informat P -stat-idcombine
+
+i8d8b64S16fs		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -stat-idcombine -informat d
+i8d8b64S16fsp		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -informat p -stat-idcombine
+i8d8b64S16fsD		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -informat D -stat-idcombine
+i8d8b64S16fsb		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -informat b -stat-idcombine
+i8d8b64S16fsP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -informat P -stat-idcombine
+i8d8b64S16fscP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -informat P -stat-idcombine
+
+i8d8b64S16fsP50		-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -l1-ipfabort 50 -l1-dpfabort 50 -stat-idcombine -informat d
+i8d8b64S16fsP50p	-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -l1-ipfabort 50 -l1-dpfabort 50 -informat p -stat-idcombine
+i8d8b64S16fsP50D	-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -l1-ipfabort 50 -l1-dpfabort 50 -informat D -stat-idcombine
+i8d8b64S16fsP50b	-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -l1-ipfabort 50 -l1-dpfabort 50 -informat b -stat-idcombine
+i8d8b64S16fsP50P	-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -l1-ipfabort 50 -l1-dpfabort 50 -informat P -stat-idcombine
+i8d8b64S16fsP50cP	-l1-isize 8k -l1-dsize 8k -l1-ibsize 64 -l1-dbsize 64 -l1-isbsize 16 -l1-dsbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl l -l1-drepl l -l1-ifetch s -l1-dfetch s -l1-dwalloc a -l1-dwback a -l1-ipfabort 50 -l1-dpfabort 50 -l1-iccc -l1-dccc -informat P -stat-idcombine
+
+i8d8b16a2Q10		-l1-isize 8k -l1-dsize 8k -l1-ibsize 16 -l1-dbsize 16 -l1-iassoc 2 -l1-dassoc 2 -l1-irepl l -l1-drepl l -l1-ifetch d -l1-dfetch d -l1-dwalloc a -l1-dwback a -flushcount 10k -stat-idcombine -informat d
+i8d8b16a2Q10cP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 16 -l1-dbsize 16 -l1-iassoc 2 -l1-dassoc 2 -l1-irepl l -l1-drepl l -l1-ifetch d -l1-dfetch d -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -flushcount 10k -informat P -stat-idcombine
+i8d8b16a2cP		-l1-isize 8k -l1-dsize 8k -l1-ibsize 16 -l1-dbsize 16 -l1-iassoc 2 -l1-dassoc 2 -l1-irepl l -l1-drepl l -l1-ifetch d -l1-dfetch d -l1-dwalloc a -l1-dwback a -l1-iccc -l1-dccc -informat P -stat-idcombine
+
+id8b16a1_u1b64a4	-l1-isize 8k -l1-dsize 16k -l1-ibsize 16 -l1-dbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl r -l1-drepl r -l1-ifetch a -l1-dfetch a -l1-dwalloc f -l1-dwback f -l2-usize 1m -l2-ubsize 64 -l2-usbsize 16 -l2-uassoc 4 -l2-urepl l -l2-ufetch s -l2-uwalloc a -l2-uwback a -informat d
+id8b16a1_u1b64a4p	-l1-isize 8k -l1-dsize 16k -l1-ibsize 16 -l1-dbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl r -l1-drepl r -l1-ifetch a -l1-dfetch a -l1-dwalloc f -l1-dwback f -l2-usize 1m -l2-ubsize 64 -l2-usbsize 16 -l2-uassoc 4 -l2-urepl l -l2-ufetch s -l2-uwalloc a -l2-uwback a -informat p
+id8b16a1_u1b64a4D	-l1-isize 8k -l1-dsize 16k -l1-ibsize 16 -l1-dbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl r -l1-drepl r -l1-ifetch a -l1-dfetch a -l1-dwalloc f -l1-dwback f -l2-usize 1m -l2-ubsize 64 -l2-usbsize 16 -l2-uassoc 4 -l2-urepl l -l2-ufetch s -l2-uwalloc a -l2-uwback a -informat D
+id8b16a1_u1b64a4b	-l1-isize 8k -l1-dsize 16k -l1-ibsize 16 -l1-dbsize 16 -l1-iassoc 1 -l1-dassoc 1 -l1-irepl r -l1-drepl r -l1-ifetch a -l1-dfetch a -l1-dwalloc f -l1-dwback f -l2-usize 1m -l2-ubsize 64 -l2-usbsize 16 -l2-uassoc 4 -l2-urepl l -l2-ufetch s -l2-uwalloc a -l2-uwback a -informat b

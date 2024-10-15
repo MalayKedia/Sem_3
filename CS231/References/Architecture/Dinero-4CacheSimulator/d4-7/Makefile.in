@@ -1,0 +1,106 @@
+# Makefile template for Dinero IV
+# Written by Jan Edler
+#
+# Copyright (C) 1997 NEC Research Institute, Inc. and Mark D. Hill.
+# All rights reserved.
+# Copyright (C) 1985, 1989 Mark D. Hill.  All rights reserved.
+# 
+# Permission to use, copy, modify, and distribute this software and
+# its associated documentation for non-commercial purposes is hereby
+# granted (for commercial purposes see below), provided that the above
+# copyright notice appears in all copies, derivative works or modified
+# versions of the software and any portions thereof, and that both the
+# copyright notice and this permission notice appear in the documentation.
+# NEC Research Institute Inc. and Mark D. Hill shall be given a copy of
+# any such derivative work or modified version of the software and NEC
+# Research Institute Inc.  and any of its affiliated companies (collectively
+# referred to as NECI) and Mark D. Hill shall be granted permission to use,
+# copy, modify, and distribute the software for internal use and research.
+# The name of NEC Research Institute Inc. and its affiliated companies
+# shall not be used in advertising or publicity related to the distribution
+# of the software, without the prior written consent of NECI.  All copies,
+# derivative works, or modified versions of the software shall be exported
+# or reexported in accordance with applicable laws and regulations relating
+# to export control.  This software is experimental.  NECI and Mark D. Hill
+# make no representations regarding the suitability of this software for
+# any purpose and neither NECI nor Mark D. Hill will support the software.
+# 
+# Use of this software for commercial purposes is also possible, but only
+# if, in addition to the above requirements for non-commercial use, written
+# permission for such use is obtained by the commercial user from NECI or
+# Mark D. Hill prior to the fabrication and distribution of the software.
+# 
+# THE SOFTWARE IS PROVIDED AS IS.  NECI AND MARK D. HILL DO NOT MAKE
+# ANY WARRANTEES EITHER EXPRESS OR IMPLIED WITH REGARD TO THE SOFTWARE.
+# NECI AND MARK D. HILL ALSO DISCLAIM ANY WARRANTY THAT THE SOFTWARE IS
+# FREE OF INFRINGEMENT OF ANY INTELLECTUAL PROPERTY RIGHTS OF OTHERS.
+# NO OTHER LICENSE EXPRESS OR IMPLIED IS HEREBY GRANTED.  NECI AND MARK
+# D. HILL SHALL NOT BE LIABLE FOR ANY DAMAGES, INCLUDING GENERAL, SPECIAL,
+# INCIDENTAL, OR CONSEQUENTIAL DAMAGES, ARISING OUT OF THE USE OR INABILITY
+# TO USE THE SOFTWARE.
+#
+# $Header: /home/edler/dinero/d4/RCS/Makefile.in,v 1.5 1997/12/08 19:35:24 edler Exp $
+
+# when building a custom version of dineroIV, invoke like this:
+#	make -f $D4_SRC/Makefile custom_exe CUSTOM_NAME=custom_exe \
+#		CUSTOM_C=custom.c D4_SRC=$D4_SRC D4_LIB=$D4_SRC/libd4.a
+
+srcdir = @srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+
+SHELL = /bin/sh
+@SET_MAKE@
+
+LIB_OBJ_LIST = ref.o misc.o
+CMD_OBJ_LIST = cmdmain.o cmdargs.o tracein.o \
+	xdinfmt.o dinfmt.o binaryfmt.o pixie32fmt.o pixie64fmt.o
+
+D4_SRC = $(srcdir)
+D4_LIB = $(D4_SRC)/libd4.a
+CMD_SRC_LIST = $(D4_SRC)/cmdmain.c $(D4_SRC)/cmdargs.c $(D4_SRC)/tracein.c \
+	$(D4_SRC)/xdinfmt.c $(D4_SRC)/dinfmt.c $(D4_SRC)/binaryfmt.c \
+	$(D4_SRC)/pixie32fmt.c $(D4_SRC)/pixie64fmt.c
+CUSTOM_NAME = d4custom # this is really just a placeholder
+
+CC = @CC@
+DEBUG=@D4_DEBUG_FLAGS@
+CFLAGS = @CFLAGS@ $(DEBUG) -I$(D4_SRC)
+LDFLAGS = @LDFLAGS@
+LIBS = @LIBS@
+RANLIB = @RANLIB@
+
+all: libd4.a dineroIV
+
+clean:
+	rm -f $(LIB_OBJ_LIST) $(CMD_OBJ_LIST)
+
+clobber: clean
+	rm -f libd4.a dineroIV d4custom
+
+distclean: clobber
+	rm -f config.status config.cache config.log Makefile config.h core
+
+libd4.a: $(LIB_OBJ_LIST)
+	rm -f libd4.a
+	$(AR) cq libd4.a $(LIB_OBJ_LIST)
+	$(RANLIB) libd4.a
+
+dineroIV: $(CMD_OBJ_LIST) libd4.a d4.h
+	$(CC) $(CFLAGS) -o dineroIV $(CMD_OBJ_LIST) libd4.a $(LIBS)
+
+# don't include $(D4_LIB) on next line; a custom make should not rebuild it
+$(CUSTOM_NAME): $(CUSTOM_C) $(CMD_SRC_LIST) $(D4_SRC)/d4.h $(D4_SRC)/config.h
+	$(CC) $(CFLAGS) -DD4CUSTOM -o $(CUSTOM_NAME) \
+		$(CUSTOM_C) $(CMD_SRC_LIST) $(D4_LIB) $(LIBS)
+
+ref.o: ref.c d4.h config.h
+misc.o: misc.c d4.h config.h
+cmdmain.o: cmdmain.c d4.h cmdd4.h cmdargs.h tracein.h config.h
+cmdargs.o: cmdargs.c d4.h cmdd4.h cmdargs.h config.h
+tracein.o: tracein.c d4.h tracein.h config.h
+xdinfmt.o: xdinfmt.c d4.h cmdd4.h tracein.h config.h
+dinfmt.o: dinfmt.c d4.h cmdd4.h tracein.h config.h
+binaryfmt.o: binaryfmt.c d4.h cmdd4.h tracein.h config.h
+pixie32fmt.o: pixie32fmt.c d4.h cmdd4.h tracein.h config.h
+pixie64fmt.o: pixie64fmt.c d4.h cmdd4.h tracein.h config.h
