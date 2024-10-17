@@ -17,10 +17,10 @@
 
 - [**TIMETABLE**](#timetable)
 - [**Course Policies**](#course-policies)
-  - [**CS 228 : Logic for Computer Science**](#cs-228--logic-for-computer-science)
-  - [**CS 215 : Data Analysis and Interpretation**](#cs-215--data-analysis-and-interpretation)
-  - [**CS 213 / CS 293 : Data Structures and Algorithms**](#cs-213--cs-293--data-structures-and-algorithms)
-  - [**CS 230 / CS 231 : Digital Logic Design and Computer Architecture**](#cs-230--cs-231--digital-logic-design-and-computer-architecture)
+  - [**CS 228: Logic for Computer Science**](#cs-228--logic-for-computer-science)
+  - [**CS 215: Data Analysis and Interpretation**](#cs-215--data-analysis-and-interpretation)
+  - [**CS 213 / CS 293: Data Structures and Algorithms**](#cs-213--cs-293--data-structures-and-algorithms)
+  - [**CS 230 / CS 231: Digital Logic Design and Computer Architecture**](#cs-230--cs-231--digital-logic-design-and-computer-architecture)
 - [**Popular Electives**](#popular-electives)
 
 ## TIMETABLE
@@ -29,7 +29,7 @@
 
 > [!NOTE]
 >
-> You will not be referring to this, hopefully and will not blame any of the contributors for missing your extra course
+> You will not be referring to this, hopefully, and will not blame any of the contributors for missing your extra course
 
 | Day       | 8:30 - 9:25 | 9:30 - 10:25 | 10:35 - 10:55 | 11:05 - 11:30 | 11:35 - 12:30 | Lunch | 2:00 - 3:25   | 3:30 - 4:55   |
 | --------- | ----------- | ------------ | ------------- | ------------- | ------------- | ----- | ------------- | ------------- |
@@ -41,11 +41,11 @@
 
 ## Course Policies
 
-### [CS 228 : Logic for Computer Science](CS228)
+### [CS 228: Logic for Computer Science](CS228)
 
 **Venue**: LA 002
 
-**Tutorial**: Monday 9:30 PM to 10:30 PM
+**Tutorial**: Monday 9:00 PM to 10:00 PM
 
 **Grading**:
 
@@ -53,18 +53,18 @@
 - Midsem: 30% (2 hours)
 - Endsem: 40% (3 hours)
 
-**Quiz Dates (As of now)**:
+**Quiz Dates**:
 
 - Quiz 1: Wednesday Aug 21 08:30 AM
 - Quiz 2: Wednesday Oct 16 08:30 AM
-- Quiz 3: Wednesday Nov 6 08:30 AM
-- Midsem : Thursday Sep 19 01:30 PM - 3:30 PM
+- Quiz 3: Wednesday Oct 30 08:30 AM
+- Midsem: Thursday Sep 19 01:30 PM - 3:30 PM
 
 **Course Website(s)**:
 
 - [**Piazza**](https://piazza.com/iit_bombay/fall2024/cs228)
 
-### [CS 215 : Data Analysis and Interpretation](CS215)
+### [CS 215: Data Analysis and Interpretation](CS215)
 
 **Venue**: LA 001
 
@@ -75,21 +75,20 @@
 - In-class quizzes: 15%
 - Midsem: 25%
 - Endsem: 35%
-- Programming and written homeworks: 25%
+- Programming and written homework: 25%
 - Attendance mandatory (**DX GRADE below 80%**)
 - Contact : cs215-ta@googlegroups.com or **Moodle**
 
 **Quiz Dates**:
 
-- Quiz 1 : Thursday Aug 8 8:30 AM (20 min)
-- Midsem : Wednesday Sep 18 1:30 PM - 3:30 PM
+- Midsem: Wednesday Sep 18 1:30 PM - 3:30 PM
 
 **Course Website(s)**:
 
 - [**Course webpage**](https://docs.google.com/document/d/1hJsh_aPXoxw60PqZGtcri7NGXg4RPfQXIgstBEEuYc4)
 - [**Moodle**](https://moodle.iitb.ac.in/course/view.php?id=3946) - All materials will be uploaded on **Moodle**, announcements via **Moodle**.
 
-### [CS 213](CS213) / [CS 293](CS293) : Data Structures and Algorithms
+### [CS 213](CS213) / [CS 293](CS293): Data Structures and Algorithms
 
 **Venue**: LA 001
 
@@ -108,13 +107,13 @@
 
 **Quiz Dates (As of now)**:
 
-- Quiz 1 : Wednesday Aug 28 08.30 am
-- Quiz 2 : Wednesday Oct 23 08.30am
-- Lab exam 1: 2024-08-23 (Week 4)
+- Quiz 1: Wednesday Aug 28 08.30 AM
+- Quiz 2: Wednesday Oct 23 08.30 AM
+- Lab exam 1: 2024-08-23
 - Lab exam 2: 2024-09-15 4:00 PM - 7:00 PM  
-- Lab exam 3: 2024-10-18 (Week 11)
-- Lab exam 4: 2024-11-08 (Week 14)
-- Theory Midsem : Saturday Sep 21 1:30 PM - 3:30 PM
+- Lab exam 3: 2024-10-18
+- Lab exam 4: 2024-11-08
+- Theory Midsem: Saturday Sep 21 1:30 PM - 3:30 PM
 - Project description declared: 2024-10-13 (Week 12)
 - Project submission deadline: 2024-11-10 (Week 14)
 
@@ -124,14 +123,14 @@
 
 [**Link for all you need to know (Trust me, presently it is better than this repo for this course)**](https://www.cse.iitb.ac.in/~akg/courses/2024-ds/)
 
-### [CS 230](CS230) / [CS 231](CS231) : Digital Logic Design and Computer Architecture
+### [CS 230](CS230) / [CS 231](CS231): Digital Logic Design and Computer Architecture
 
 **Venue**: LH 102
 
 **Grading**: **CS 230**
 
 - SAFE quizzes: every lecture/tutorial, 15%
-- Quizzes: (best 3 of 4) x 5% = 15% . Note: This is for actual quizzes (not safe attendance quizzes)
+- Quizzes: (best 3 of 4) x 5% = 15%. Note: This is for actual quizzes (not safe attendance quizzes)
 - Midsem: 30%
 - Endsem: 40%
 - Negative marks for not being regular in watching videos, tutorials
@@ -144,10 +143,12 @@
 
 **Quiz Dates**:
 
-- Quiz 1 ( Digital Logic ) : Friday Aug 16 8:30 AM - 9:30 AM
-- Quiz 2 (Computer Architecture) : Thursday Sep 12 11:30 AM
-- Theory Midsem : Tuesday Sep 17 1:30 PM - 3:30 PM
-- Lab Midsem : Tuesday Sep 24 2:00 PM - 5:00 PM 
+- Quiz 1 ( Digital Logic ): Friday Aug 16 8:30 AM - 9:30 AM
+- Quiz 2 (Computer Architecture): Thursday Sep 12 11:30 AM
+- Quiz 3 (Computer Architecture): Friday Oct 12 8:30 AM
+- Quiz 4 (Computer Architecture): Friday Nov 8 8:30 AM
+- Theory Midsem: Tuesday Sep 17 1:30 PM - 3:30 PM
+- Lab Midsem: Tuesday Sep 24 2:00 PM - 5:00 PM 
 
 **Course Website(s)**:
 
