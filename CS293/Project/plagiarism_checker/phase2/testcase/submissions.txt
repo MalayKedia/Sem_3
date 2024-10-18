@@ -1,0 +1,7 @@
+1.0 100 HermioneGranger AlbusDumbledore apparation
+1.1 103 RonWeasley MinervaMcgonagall vanishing
+3.2 109 DracoMalfoy SeverusSnape polymorph
+3.8 110 SaemusFinnigan SeverusSnape babbling
+3.9 111 NevilleLongbottom MinervaMcgonagall brooms
+5.1 131 HarryPotter MinervaMcgonagall conjuring
+5.2 132 PadmaPatil SeverusSnape confuse
