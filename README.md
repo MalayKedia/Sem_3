@@ -25,7 +25,7 @@
 
 ## TIMETABLE
 
-[Only core courses mentioned]
+Only core courses are mentioned.
 
 > [!NOTE]
 >
@@ -45,7 +45,7 @@
 
 **Venue**: LA 002
 
-**Tutorial**: Monday 9:00 PM to 10:00 PM
+**Tutorial**: Monday, 9:00 PM to 10:00 PM
 
 **Grading**:
 
@@ -55,10 +55,11 @@
 
 **Quiz Dates**:
 
-- Quiz 1: Wednesday Aug 21 08:30 AM
-- Quiz 2: Wednesday Oct 16 08:30 AM
-- Quiz 3: Wednesday Oct 30 08:30 AM
-- Midsem: Thursday Sep 19 01:30 PM - 3:30 PM
+- Quiz 1: Wednesday, Aug 21, 08:30 AM
+- Quiz 2: Wednesday, Oct 16, 08:30 AM
+- Quiz 3: Wednesday, Oct 30, 08:30 AM
+- Midsem: Thursday, Sep 19, 01:30 PM - 03:30 PM
+- Endsem: Saturday, Nov 16, 01:30 PM - 04:30 PM
 
 **Course Website(s)**:
 
@@ -81,7 +82,8 @@
 
 **Quiz Dates**:
 
-- Midsem: Wednesday Sep 18 1:30 PM - 3:30 PM
+- Midsem: Wednesday, Sep 18, 01:30 PM - 03:30 PM
+- Endsem: Thursday, Nov 14, 01:30 PM - 04:30 PM
 
 **Course Website(s)**:
 
@@ -107,13 +109,14 @@
 
 **Quiz Dates (As of now)**:
 
-- Quiz 1: Wednesday Aug 28 08.30 AM
-- Quiz 2: Wednesday Oct 23 08.30 AM
+- Quiz 1: Wednesday, Aug 28, 08:30 AM
+- Quiz 2: Wednesday, Oct 23, 08:30 AM
 - Lab exam 1: 2024-08-23
-- Lab exam 2: 2024-09-15 4:00 PM - 7:00 PM  
+- Lab exam 2: 2024-09-15 04:00 PM - 07:00 PM  
 - Lab exam 3: 2024-10-18
 - Lab exam 4: 2024-11-08
-- Theory Midsem: Saturday Sep 21 1:30 PM - 3:30 PM
+- Theory Midsem: Saturday, Sep 21, 01:30 PM - 03:30 PM
+- Theory Endsem: Friday, Nov 22, 08:30 AM - 11:30 AM
 - Project description declared: 2024-10-13 (Week 12)
 - Project submission deadline: 2024-11-10 (Week 14)
 
@@ -143,12 +146,14 @@
 
 **Quiz Dates**:
 
-- Quiz 1 ( Digital Logic ): Friday Aug 16 8:30 AM - 9:30 AM
-- Quiz 2 (Computer Architecture): Thursday Sep 12 11:30 AM
-- Quiz 3 (Computer Architecture): Friday Oct 12 8:30 AM
-- Quiz 4 (Computer Architecture): Friday Nov 8 8:30 AM
-- Theory Midsem: Tuesday Sep 17 1:30 PM - 3:30 PM
-- Lab Midsem: Tuesday Sep 24 2:00 PM - 5:00 PM 
+- Quiz 1 ( Digital Logic ): Friday, Aug 16, 08:30 AM - 09:30 AM
+- Quiz 2 (Computer Architecture): Thursday, Sep 12, 11:30 AM
+- Quiz 3 (Computer Architecture): Friday, Oct 12, 08:30 AM
+- Quiz 4 (Computer Architecture): Friday, Nov 8, 08:30 AM
+- Theory Midsem: Tuesday, Sep 17, 01:30 PM - 03:30 PM
+- Theory Endsem: Tuesday, Nov 12, 01:30 PM - 04:30 PM
+- Lab Midsem: Tuesday, Sep 24, 02:00 PM - 05:00 PM
+- Lab Endsem: Tuesday, Nov 5, 02:00 PM - 05:00 PM
 
 **Course Website(s)**:
 
