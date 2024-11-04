@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 7.3.7.2 (Linux)"/>
+	<meta name="author" content="Bhaskaran Raman"/>
+	<meta name="created" content="2024-10-31T11:50:21.202369395"/>
+	<meta name="changedby" content="Bhaskaran Raman"/>
+	<meta name="changed" content="2024-10-31T13:10:09.254529550"/>
+	<style type="text/css">
+		h1 { color: #801900 }
+		h1.western { font-family: "Liberation Serif", serif }
+		h2 { color: #0000cc }
+		h2.cjk { font-family: "Noto Serif CJK SC" }
+		h2.ctl { font-family: "Lohit Devanagari" }
+	</style>
+</head>
+<body lang="en-IN" dir="ltr"><h1 class="western"><font face="Liberation Serif, serif">CS231
+Lite EndSem – 30 marks</font></h1>
+<h2 class="western">Instructions</h2>
+<ul>
+	<li><p>You are given an outline of the problems a few days ahead of
+	time</p>
+	<li><p>You can seek help to solve these problems, but you have to
+	solve them yourself during the exam duration</p>
+	<li><p>Open one-A4-sheet handwritten notes: during the exam, you can
+	carry one A4 sheet of handwritten notes, which you have to submit to
+	the instructor after the exam</p>
+	<li><p>These notes should NOT include the solution to the exam
+	problem itself, but can contain any other notes</p>
+</ul>
+<h2 class="western">Mutual Recursion in MIPS ISA – 10 marks</h2>
+<ul>
+	<li><p>You are given C code in file <b>mutual-recursion.c</b></p>
+	<li><p>Convert this to MIPS32 assembly code in file
+	<b>mutual-recursion.s</b> – specifically, write code for functions
+	f, h, g, and main</p>
+	<li><p>You MUST follow the MIPS32 register and calling conventions</p>
+	<li><p>In the actual exam, you may be given a slightly <i>different
+	</i><span style="font-style: normal">g and main function, and asked
+	specific questions based on the code you write</span></p>
+</ul>
+<h2 class="western">Pipelining, Loop Unrolling – 20 marks</h2>
+<ul>
+	<li><p><span style="font-style: normal">You are given C code in file
+	</span><span style="font-style: normal"><b>product.c</b></span></p>
+	<li><p><span style="font-style: normal">Convert this to MIPS64
+	assembly code in </span><span style="font-style: normal"><b>product.s</b></span><span style="font-style: normal">
+	, to be run in winmips64 – you do not have to do the final
+	printing of the product in the assembly code</span></p>
+	<li><p><span style="font-style: normal">Try to write your code such
+	that it has only one branch instruction executed per loop, in the
+	main loop</span></p>
+	<li><p><span style="font-style: normal">Check the correctness of
+	your MIPS64 code by compiling and running the C code</span></p>
+	<li><p><span style="font-style: normal">Identify various stalls as
+	you run the MIPS64 code – structural, data hazard stalls, control
+	stalls</span></p>
+	<li><p><span style="font-style: normal">Also identify various
+	instances of data forwarding</span></p>
+	<li><p><span style="font-style: normal">Now, unroll the loop so that
+	the loop variable increments by 2 in each iteration – in file
+	</span><span style="font-style: normal"><b>product2.s</b></span></p>
+	<li><p><span style="font-style: normal">Identify instances of
+	anti-dependence after unrolling, and remove these anti-dependences
+	by using additional registers as necessary</span></p>
+	<li><p><span style="font-style: normal">In the main exam, you will
+	be asked various questions on:</span></p>
+	<ul>
+		<li><p><span style="font-style: normal">the pipelined execution</span></p>
+		<li><p><span style="font-style: normal">the different kinds of
+		stalls while executing product.s and product2.s</span></p>
+		<li><p><span style="font-style: normal">performance comparison of
+		with vs without loop unrolling</span></p>
+		<li><p><span style="font-style: normal">possible code scheduling
+		opportunities after unrolling</span></p>
+	</ul>
+</ul>
+<p><br/>
+<br/>
+
+</p>
+</body>
+</html>
