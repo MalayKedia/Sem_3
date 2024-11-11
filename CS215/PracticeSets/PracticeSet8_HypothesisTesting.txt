@@ -1,3 +1,0 @@
-Solve questions 14, 15, 17, 20, 23, 31, 32 from Chapter 8 of Ross Textbook.
-
-You can also refer to the examples and other questions for further practice.
