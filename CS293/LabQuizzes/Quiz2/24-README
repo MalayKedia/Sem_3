@@ -1,0 +1,30 @@
+This exam contains three problems
+
+1. kth    6 marks
+   READ: k-smallest/README.txt
+2. leftist       9 marks
+   READ: leftist/README.md 
+3. cyclic-shift 10 marks
+   READ: cyclic-shift/README.md
+
+
+-- You cannot include any new header file in your solution!
+-- You are expected to give an efficient implementation.
+   Inefficient implementations will loose marks.
+
+instructions for debugger:
+Here are the step-by-step instructions:
+
+Starting the Debugger:
+   Begin by opening the file main.cpp in your code editor or IDE.
+Command Line Arguments:
+   When the debugger prompts you to provide command line arguments, follow these steps:
+   If the program requires command line arguments, enter the required arguments at this step.
+   If the program does not use command line arguments, simply leave the field blank and press Enter.
+Make Target:
+   The debugger will next ask for a make target. Since you don't need to specify one, leave this field empty and press Enter.
+Start Debugging:
+   Once the debugger is set up, proceed to start the debugging session with main.cpp opened.
+
+
+cpp reference manual: /LabExam02/cpp_reference/reference/en/Main_Page.html
