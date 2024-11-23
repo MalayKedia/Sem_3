@@ -1,0 +1,18 @@
+This exam has three problems.
+
+
+1. swap-pairs             [6 marks]
+ Read: swap-pairs/swap-pairs.cpp
+
+2. min-max-queue          [8 marks]
+ Read: min-max-queue/min-max-queue.cpp
+
+3. balanced-parenthesis   [11 marks]
+ Read: balanced-parenthesis/balanced.cpp
+
+
+NOTE:
+-- NO OTHER "#include"s are allowed
+-- Only modify the above cpp files
+-- Please do not move or rename files
+-- Submit via a command
