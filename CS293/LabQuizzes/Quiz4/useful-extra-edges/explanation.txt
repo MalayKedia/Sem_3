@@ -1,0 +1,32 @@
+Testcase 1:
+Taking the extra edge between nodes 1 and 3 with weight 1.
+The min weight of path from 1 to 4 is 3.
+Path is 1->3->4. Hence weight of the path = 1 + 2 = 3.
+
+Testcase 2:
+Taking the extra edge between nodes 1 and 5 with weight 10000.
+The min weight of path from 2 to 5 is 10002.
+Path is 2->1->5. Hence weight of the path = 2 + 10000 = 10002.
+Note that without this extra edge, 2 and 5 were disconnected.
+
+Testcase 3:
+Taking the extra edge between nodes 100 and 1000 with weight 100.
+The min weight of path from 1 to 100000 is 297397.
+Path is 1->...->100->1000->...->100000.
+Weights for 1->...->100 = (100-1)*3 = 297
+Weight for 100->1000 = 100
+Weights for 1000->...->100000 = (100000-1000)*3 = 297000
+Hence weight of the path = 297 + 100 + 297000 = 297397.
+
+Testcase 6:
+src == dest. Hence distance = 0.
+
+Testcase 7:
+Same as Testcase 3 but with big edge weights.
+
+Testcase 9:
+The only possible path is:- 1->3->6->12->24->48->97->195->390->781->1562->3125->6250->12500->25000->50000->100000
+Weight of this path = 3 + 6 + 12 + 24 + 48 + 97 + 195 + 390 + 781 + 1562 + 3125 + 6250 + 12500 + 25000 + 50000 + 100000
+                    = 199993
+
+Rest testcases have src and dest disconnected.

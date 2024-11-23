@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Draw graph</title>
+    <link rel="stylesheet" href="css/foundation.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <head profile="http://www.w3.org/2005/10/profile">
+    <script src="js/vendor/modernizr.js"></script>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/shortcut.js"></script>
+  </head>
+  <body>
+    <div class="row">
+      <div class="large-3 small-5 columns">
+        <h2 class="text-center subheader"><a href="/draw-graph">Draw graph</a></h2>
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-6 meduim-6 small-6 columns">
+        <h4 class="subheader">Input</h4>
+        <form>
+          <select id="graph_type">
+            <option value="graph">Graph</option>
+            <option value="digraph">Directed graph</option>
+          </select>
+          <div class="row">
+            <div class="large-8 columns">
+              <input id="first_line_checkbox" type="checkbox">
+              <label for="first_line_checkbox">
+                Ignore the first line
+              </label>
+
+              <input id="use_labels_checkbox" type="checkbox" checked>
+              <label for="use_labels_checkbox">
+                Edge labels
+              </label>
+            </div>
+          </div>
+          <a class="hollow button tiny" id="copy_button">Copy</a>
+          <div class="row">
+            <div class="large-12 columns">
+              <textarea id="data_area" placeholder="Here goes the graph data..." rows="12"></textarea>
+              <small id="error_message"></small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="large-12 columns">
+              <a id="show_button" href="#" class="success hollow button expanded radius">Draw</a>
+              <!-- Start of StatCounter Code -->
+              <script type="text/javascript">
+//<![CDATA[
+              var sc_project=11040872;
+              var sc_invisible=1;
+              var sc_security="20a44725";
+              var sc_text=5;
+              var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+              document.write("<sc"+"ript type='text/javascript' src='" + scJsHost+ "statcounter.com/counter/counter_xhtml.js'></"+"script>");
+              //]]>
+              </script>
+              <noscript><div class="statcounter"><a title="blogspot stats" href="http://statcounter.com/blogger/" class="statcounter"><img class="statcounter" src="//c.statcounter.com/11040872/0/20a44725/0/" alt="blogspot stats" /></a></div></noscript>
+              <!-- End of StatCounter Code -->
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="large-6 medium-6 small-6 columns">
+        <h4 class="subheader">Output</h4>
+        <img id="output" alt="Nothing to show"></img>
+      </div>
+    </div>
+    <footer>
+      <p class="subheader text-center">© 2015 - 2020 <a href="https://github.com/mxwell">Murat Khairulin</a></p>
+    </footer>
+    <script src="js/main.js"></script>
+  </body>
+</html>

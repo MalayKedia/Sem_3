@@ -1,0 +1,13 @@
+This exam contains three problems
+
+1. server-requests        7  marks
+   READ: server-requests/server_requests.h
+2. useful-extra-edges     8  marks
+   READ: useful-extra-edges/useful-extra-edges.h
+         useful-extra-edges/explanation.txt
+3. check-if-tree          10 marks
+   READ: check-if-tree/README.md
+
+-- You cannot include any new header file in your solution!
+-- You are expected to give an efficient implementation.
+   Inefficient implementations will loose marks.
