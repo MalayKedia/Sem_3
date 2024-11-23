@@ -1,0 +1,12 @@
+ax == a
+a == b
+c == d
+f == g
+f == h
+f != iii
+n == p
+f != a
+ax != fd
+nn == fd
+n == nn
+b == p

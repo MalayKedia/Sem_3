@@ -1,0 +1,12 @@
+This exam contains three problems
+
+1. num-min-path        8 marks
+   READ: num-min-path/num-min-path.cpp
+2. clash-of-paths      8 marks
+   READ: clash-of-paths/clash-of-paths.h 
+3. satisfiability      9 marks
+   READ: satisfiability/satisfiability.cpp
+
+-- You cannot include any new header file in your solution!
+-- You are expected to give an efficient implementation.
+   Inefficient implementations will loose marks.
