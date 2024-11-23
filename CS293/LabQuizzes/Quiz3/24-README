@@ -1,0 +1,12 @@
+This exam contains three problems
+
+1. max-fish        8 marks
+   READ: max-fish/README.md
+2. huffman-image   8 marks
+   READ: huffman-image/README.md 
+3. all-topological 9 marks
+   READ: all-topological/README.md
+
+-- You cannot include any new header file in your solution!
+-- You are expected to give an efficient implementation.
+   Inefficient implementations will loose marks.
