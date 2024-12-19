@@ -19,6 +19,8 @@
 - Endsem: 50%
 - Attendance mandatory (**DX GRADE below 80%**)
 
+The course was pretty chill, the quizzes were easy with mostly easy Probability problems. The Midsem and Endsem though required you to state the theorems. Except for that, would totally recommend this course if it's available to you.
+
 ### [CS 405 : Game Theory and Algorithmic Mechanism Design](CS405)
 
 **Venue**: LA 002
